@@ -88,6 +88,10 @@ def test_newlabels():
     template = next(mwparserfromhell.parse("{{lb|es|Latin American Spanish}}").ifilter_templates())
     assert expand_template(template, "test") == "(Latin America)"
 
+    # Spacing
+    template = next(mwparserfromhell.parse("{{lb|es|Argentina| & |Uruguay|Rio de la Plata|lunfardo}}").ifilter_templates())
+    assert expand_template(template, "test") == "([[w:Argentina|Argentina]] and [[w:Uruguay|Uruguay]], Rio de la Plata, lunfardo)"
+
 
 def test_indtr():
 

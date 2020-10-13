@@ -125,7 +125,7 @@ class Template():
 
     @staticmethod
     def label(t, title):
-        labels = [ str(p.value) for p in t.params if str(p.name).isdigit() and p.name != "1" ]
+        labels = [ str(p.value).strip() for p in t.params if str(p.name).isdigit() and p.name != "1" ]
         res = Template._joinlabels(labels)
         if not res.strip():
             return ""
