@@ -28,6 +28,11 @@ class Template():
 
     @staticmethod
     def _default(t, title):
+        #print(f"{title} uses unknown template: {t}")
+        return ""
+
+    def a(t, title):
+        #print(f"{title} uses bad template: {t}")
         return ""
 
     @staticmethod
@@ -37,6 +42,22 @@ class Template():
         if t.has(2):
             return f"{t.get(1)}/{t.get(2)}"
         return f"1/{t.get(1)}"
+
+    @staticmethod
+    def form_of(t, title):
+        return f"{t.get(2)} form of {t.get(3)}"
+
+    @staticmethod
+    def es_compound_of(t,title):
+        if t.has(5):
+            return f"compound form of {t.get(1)}{t.get(2)}+{t.get(4)}+{t.get(5)}"
+        if t.has(4):
+            return f"compound form of {t.get(1)}{t.get(2)}+{t.get(4)}"
+
+        if t.has(2):
+            return f"compound form of {t.get(1)}{t.get(2)}"
+
+        return ""
 
     @staticmethod
     def g(t, title):
@@ -248,13 +269,33 @@ class Template():
         return " ― ".join(res)
     eg = uxi = usex = ux
 
-ignore = {}
+ignore = {
+    ",",
+    "attention",
+    "attn",
+    "C",
+    "c",
+    "categorize",
+    "catlangname",
+    "catlangcode",
+    "cite",
+    "cite-web",
+    "cite news",
+    "cln",
+    "DEFAULTSORT",
+    "ISBN",
+    "rfclarify",
+    "rfex",
+    "top",
+    "topics",
+}
 
 # Templates that just return the first paramater
 p1 = {
     "def",
     "def-date",
     "defdt",
+    "defdate",
     "en-phrase",
     "glink",
     "glossary",
@@ -282,6 +323,7 @@ p1 = {
     "sub",
     "swp",
     "taxlink",
+    "taxlink2",
     "taxlinknew",
     "unsupported",
     "upright",
@@ -303,12 +345,17 @@ prefix1 = {
     "native or resident of"
 }
 
+prefix1_with = {
+    "es-verb form of": "inflection of",
+}
+
 # Templates that wrap the second paramater with text other than the template name
 prefix2_with = {
     "abb": "abbreviation of",
     "abbreviation": "abbreviation of",
     "abbreviation-old": "old abbreviation of",
     "abbr of": "abbreviation of",
+    "adj form of": "adjective form of",
     "altcaps": "alternative letter-case form of",
     "alt case": "alternative case form of",
     "altcase": "alternative letter-case form of",
@@ -355,9 +402,11 @@ prefix2_with = {
     "fr-post-1990": "post-1990 spelling of",
     "honor alt case": "honorific alternative case of",
     "indeclinable": "indecl",
+    "infl of": "inflection of",
     "init of": "initialism of",
     "io": "initialism of",
     "la-praenominal abbreviation of": "praenominal abbreviation of",
+    "missp": "misspelling of",
     "obs form": "obsolete form of",
     "obs sp": "obsolete spelling of",
     "obs-sp": "obsolete spelling of",
@@ -459,6 +508,7 @@ prefix2 = {
     "frequentative of",
     "imperfective form of",
     "indefinite plural of",
+    "inflection of",
     "informal form of",
     "informal spelling of",
     "initialism of",
@@ -466,9 +516,11 @@ prefix2 = {
     "late form of",
     "masculine noun of",
     "masculine of",
+    "masculine plural of",
     "masculine singular past participle of",
     "medieval spelling of",
     "misconstruction of",
+    "misspelling of",
     "misspelling form of",
     "negative of",
     "neuter of",
@@ -490,6 +542,7 @@ prefix2 = {
     "perfect participle of",
     "plural of",
     "present active participle of",
+    "present participle of",
     "present of",
     "present tense of",
     "pronunciation respelling of",
@@ -519,13 +572,19 @@ prefix2 = {
     "verbal noun of",
 }
 
+replace_with = {
+    "es-demonstrative-accent-usage": "The unaccented form can function as a pronoun if it can be unambiguously deduced as such from context."
+}
+
 def expand_template(t, title):
     name = str(t.name).strip() #.lower()
 
     if name == "1":
         return str(t.get(1)).capitalize().strip()
-    if name in ignore:
+    if name in ignore or name.startswith("R:"):
         return ""
+    if name in replace_with:
+        return replace_with[name]
     if name in p1:
         return str(t.get(1)).strip()
     if name in p2:
@@ -534,13 +593,18 @@ def expand_template(t, title):
     if name in prefix1:
         return name + " " + str(t.get(1)).strip()
 
-    if name in prefix2_with:
-        text = prefix2_with[name]
-        return text + " " + str(t.get(2)).strip()
-        #return Template._wrapper(text, t, title)
+    if name in prefix1_with:
+        text = prefix1_with[name]
+        return text + " " + str(t.get(1)).strip()
+
     if name in prefix2:
         return name + " " + str(t.get(2)).strip()
-        #return Template._wrapper(name, t, title)
+
+    if name in prefix2_with:
+        text = prefix2_with[name]
+        if not t.has(2):
+            raise ValueError(t)
+        return text + " " + str(t.get(2)).strip()
 
     if name == "&lit":
         res = []
