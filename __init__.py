@@ -345,12 +345,12 @@ prefix1 = {
     "native or resident of"
 }
 
-prefix1_with = {
+quote1_with = {
     "es-verb form of": "inflection of",
 }
 
 # Templates that wrap the second paramater with text other than the template name
-prefix2_with = {
+quote2_with = {
     "abb": "abbreviation of",
     "abbreviation": "abbreviation of",
     "abbreviation-old": "old abbreviation of",
@@ -401,7 +401,6 @@ prefix2_with = {
     "en-third-person singular of": "third-person singular of",
     "fr-post-1990": "post-1990 spelling of",
     "honor alt case": "honorific alternative case of",
-    "indeclinable": "indecl",
     "infl of": "inflection of",
     "init of": "initialism of",
     "io": "initialism of",
@@ -414,11 +413,9 @@ prefix2_with = {
     "only-in": "only in",
     "onlyin": "only used in",
     "past participle": "past participle of",
-    "pf.": "pf",
     "phrasal verb": "A component in at least one phrasal verb:",
     "pinof": "pinyin reading of",
     "pinread": "pinyin reading of",
-    "plural": "p",
     "pronunciation spelling": "pronunciation spelling of",
     "pt-apocopic-verb": "apocopic (used preceding the pronouns lo, la, los or las) form of",
     "pt-verb-form-of": "verb form of",
@@ -452,7 +449,7 @@ prefix2_with = {
 }
 
 # Templates that return template_name + second parameter
-prefix2 = {
+quote2 = {
     "abbreviation of",
     "acronym of",
     "agent noun of",
@@ -593,18 +590,18 @@ def expand_template(t, title):
     if name in prefix1:
         return name + " " + str(t.get(1)).strip()
 
-    if name in prefix1_with:
-        text = prefix1_with[name]
-        return text + " " + str(t.get(1)).strip()
+    if name in quote1_with:
+        text = quote1_with[name]
+        return text + ' "' + str(t.get(1)).strip() + '"'
 
-    if name in prefix2:
-        return name + " " + str(t.get(2)).strip()
+    if name in quote2:
+        return name + ' "' + str(t.get(2)).strip() + '"'
 
-    if name in prefix2_with:
-        text = prefix2_with[name]
+    if name in quote2_with:
+        text = quote2_with[name]
         if not t.has(2):
             raise ValueError(t)
-        return text + " " + str(t.get(2)).strip()
+        return text + ' "' + str(t.get(2)).strip() + '"'
 
     if name == "&lit":
         res = []
