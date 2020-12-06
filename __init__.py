@@ -50,12 +50,12 @@ class Template():
     @staticmethod
     def es_compound_of(t,title):
         if t.has(5):
-            return f"compound form of {t.get(1)}{t.get(2)}+{t.get(4)}+{t.get(5)}"
+            return f'compound form of "{t.get(1)}{t.get(2)}"+"{t.get(4)}"+"{t.get(5)}"'
         if t.has(4):
-            return f"compound form of {t.get(1)}{t.get(2)}+{t.get(4)}"
+            return f'compound form of "{t.get(1)}{t.get(2)}"+"{t.get(4)}"'
 
         if t.has(2):
-            return f"compound form of {t.get(1)}{t.get(2)}"
+            return f'compound form of "{t.get(1)}{t.get(2)}"'
 
         return ""
 
@@ -569,6 +569,10 @@ quote2 = {
     "verbal noun of",
 }
 
+quote3 = {
+    "form of"
+}
+
 replace_with = {
     "es-demonstrative-accent-usage": "The unaccented form can function as a pronoun if it can be unambiguously deduced as such from context."
 }
@@ -602,6 +606,9 @@ def expand_template(t, title):
         if not t.has(2):
             raise ValueError(t)
         return text + ' "' + str(t.get(2)).strip() + '"'
+
+    if name in quote3:
+        return name + ' "' + str(t.get(3)).strip() + '"'
 
     if name == "&lit":
         res = []

@@ -39,10 +39,10 @@ def test_expand_template():
     assert expand_template(template, "test") == "(test1, test2, test3)"
 
     template = next(mwparserfromhell.parse("{{ellipsis of |es|Antigua Guatemala|nocap=1}}").ifilter_templates())
-    assert expand_template(template, "test") == "ellipsis of Antigua Guatemala"
+    assert expand_template(template, "test") == 'ellipsis of "Antigua Guatemala"'
 
-    template = next(mwparserfromhell.parse("{{ellipsis of |es|Antigua Guatemala|nocap=1}}").ifilter_templates())
-    assert expand_template(template, "test") == "ellipsis of Antigua Guatemala"
+    template = next(mwparserfromhell.parse("# {{es-compound of|adelgaz|ar|adelgazar|las|mood=inf}}").ifilter_templates())
+    assert expand_template(template, "test") == 'compound form of "adelgazar"+"las"'
 
 #def test_indtr():
 #    template = next(mwparserfromhell.parse("{{indtr|es|en|.also|.figurative}}").ifilter_templates())
