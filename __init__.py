@@ -20,11 +20,15 @@ A "just enough" implementation of en.wiktionary.org templates to convert
 templates to meaningful wikidata
 """
 
+import mwparserfromhell
 import re
 
 from .labeldata import data as labeldata
+from .get_template_params import get_template_params
 
 class Template():
+
+    from .es import es_compound_of, es_conj_ar, es_conj_er, es_conj_ir, es_conj_ír, es_noun, es_adj, es_adj_sup
 
     @staticmethod
     def _default(t, title):
@@ -46,18 +50,6 @@ class Template():
     @staticmethod
     def form_of(t, title):
         return f"{t.get(2)} form of {t.get(3)}"
-
-    @staticmethod
-    def es_compound_of(t,title):
-        if t.has(5):
-            return f'compound form of "{t.get(1)}{t.get(2)}"+"{t.get(4)}"+"{t.get(5)}"'
-        if t.has(4):
-            return f'compound form of "{t.get(1)}{t.get(2)}"+"{t.get(4)}"'
-
-        if t.has(2):
-            return f'compound form of "{t.get(1)}{t.get(2)}"'
-
-        return ""
 
     @staticmethod
     def g(t, title):
@@ -290,7 +282,7 @@ ignore = {
     "topics",
 }
 
-# Templates that just return the first paramater
+# Templates that just return the first parameter
 p1 = {
     "def",
     "def-date",
@@ -334,6 +326,7 @@ p1 = {
     "zh-m",
 }
 
+# Templates that just return the second parameter
 p2 = {
 #    "lang",
     "cog",
@@ -349,7 +342,7 @@ quote1_with = {
     "es-verb form of": "inflection of",
 }
 
-# Templates that wrap the second paramater with text other than the template name
+# Templates that wrap the second parameter with text other than the template name
 quote2_with = {
     "abb": "abbreviation of",
     "abbreviation": "abbreviation of",
@@ -644,3 +637,7 @@ def expand_templates(wikt, title):
 #        print("old", t)
 #        print("new", new)
         wikt.replace(t, new)
+
+
+def iter_templates(text):
+    yield from mwparserfromhell.parse(text).ifilter_templates()
