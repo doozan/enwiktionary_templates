@@ -20,11 +20,19 @@ Data and utilities for processing Spanish sections of enwiktionary
 
 from ..get_template_params import get_template_params
 from .module_es_headword import do_noun
+import sys
 
 def es_noun(t, title):
     args = get_template_params(t)
 
     fix_forms = {'p': 'pl'}
+    form_types = {
+        "masculine": "m",
+        "feminine": "f",
+        "plural": "pl",
+        "masculine plural": "mpl",
+        "feminine plural": "fpl",
+    }
 
     data = {}
     do_noun(title, args, data)
@@ -33,21 +41,16 @@ def es_noun(t, title):
 
     for item in data.get("inflections",[]):
         for form in item.get('',[]):
+            formtype = form_types.get(item["label"])
+            if not formtype:
+                continue
 
             # items can be a list of strings
             if hasattr(form, 'casefold'):
-                formtype = item["accel"]["form"]
-                formtype = fix_forms.get(formtype, formtype)
                 results.append(formtype + "=" + form)
 
             # or a list of dicts with accelerators
             else:
-                formtype = form["accel"]["form"]
-                formtype = fix_forms.get(formtype, formtype)
-                if formtype == 'pl' and item["label"] == "feminine plural":
-                    formtype = "fpl"
-                if formtype == 'pl' and item["label"] == "masculine plural":
-                    formtype = "mpl"
                 results.append(formtype + "=" + form["term"])
 
     return '; '.join(results)

@@ -22,6 +22,7 @@ Revision 62271320, 21:09, 28 March 2021
 """
 
 import re
+import sys
 
 pos_functions = {}
 
@@ -41,6 +42,12 @@ suffix_categories = (
     "nouns",
     "verbs"
 )
+
+def get_args_list(args, item):
+    retval = args.get(item, [])
+    if hasattr(retval, 'casefold'):
+        retval = [retval]
+    return retval
 
 def rfind(string, pattern):
     return re.search(pattern, string)
@@ -172,7 +179,7 @@ def handle_multiword(form, special, inflect):
         if len(terms) < 2:
             raise ValueError("Special indicator 'each' can only be used with a multiword term: " + form)
 
-        for i, term in terms.items():
+        for i, term in enumerate(terms):
             terms[i] = inflect(term)
             if i > 1:
                 terms[i] = add_endings(" ", terms[i])
@@ -215,7 +222,6 @@ def handle_multiword(form, special, inflect):
 
 def make_plural(form, special=None):
 
-    print("make plural", form, special)
     retval = handle_multiword(form, special, make_plural)
     if retval:
         return retval
@@ -265,7 +271,7 @@ def make_plural(form, special=None):
                     syllables[-2] = syllables[-2].replace("e", "é")
                     syllables[-2] = syllables[-2].replace("o", "ó")
                 else:
-                    syllables[(syllables) - 1] = rsub(syllables[len(syllables) - 1], "^(.*)([iu])",
+                    syllables[-1] = rsub(syllables[-1], "^(.*)([iu])",
                         lambda m: m.group(1) + add_stress[m.group(2)])
             return ["".join(syllables) + "es"]
 
@@ -283,13 +289,15 @@ def make_plural(form, special=None):
     if rfind(form, "[aeiou][^aeioulrndzjsx]$"):
         return [form + "s"]
 
+    return []
+
 
 def make_feminine(form, special=None):
     retval = handle_multiword(form, special, make_feminine)
     if retval:
         if len(retval) != 1:
             raise ValueError("Internal error: Should have one return value for make_feminine: ", retval)
-        return retval[1]
+        return retval[0]
 
     if form.endswith("o"):
         retval = form[:-1] + "a"
@@ -316,7 +324,7 @@ def make_masculine(form, special=None):
     if retval:
         if len(retval) != 1:
             raise ValueError("Internal error: Should have one return value for make_masculine: ", retval)
-        return retval[1]
+        return retval[0]
 
     if form.endswith("dora"):
         retval = form[:-1]
@@ -352,10 +360,8 @@ def do_adjective(pagename, args={}, data={}, tracking_categories=[], is_superlat
     masculine_plurals = []
     feminine_plurals = []
 
-    if args.get("sp") and not allowed_special_indicators[args["sp"]]:
+    if args.get("sp") and args["sp"] not in allowed_special_indicators:
         raise ValueError("bad special inflection indictaor", args["sp"])
-
-    print(data)
 
     if args.get("inv"):
         # invariable adjective
@@ -366,7 +372,7 @@ def do_adjective(pagename, args={}, data={}, tracking_categories=[], is_superlat
         lemma = remove_links(data["heads"][0]) if len(data.get("heads",[])) else pagename
 
         # Gather feminines.
-        argsf = args.get("f", [])
+        argsf = get_args_list(args, "f")
         if len(argsf) == 0:
             argsf = ["+"]
 
@@ -378,9 +384,9 @@ def do_adjective(pagename, args={}, data={}, tracking_categories=[], is_superlat
                 f = lemma
             feminines.append(f)
 
-        argspl = args.get("pl", [])
-        argsmpl = args.get("mpl", [])
-        argsfpl = args.get("fpl", [])
+        argspl = get_args_list(args, "pl")
+        argsmpl = get_args_list(args, "mpl")
+        argsfpl = get_args_list(args, "fpl")
         if len(argspl) > 0 and (len(argsmpl) > 0 or len(argsfpl) > 0):
             raise ValueError("Can't specify both pl= and mpl=/fpl=")
 
@@ -394,6 +400,7 @@ def do_adjective(pagename, args={}, data={}, tracking_categories=[], is_superlat
                 argsmpl = ["+"]
             if len(argsfpl) == 0:
                 argsfpl = ["+"]
+
 
         for pl in argspl:
             if pl == "+":
@@ -475,13 +482,11 @@ def do_adjective(pagename, args={}, data={}, tracking_categories=[], is_superlat
 
     if args.get("comp"):
         #check_all_missing(args.comp, "adjectives", tracking_categories)
-        args["comp"]["label"] = "comparative"
-        data["inflections"] = data.get("inflections", []) + [args.comp]
+        data["inflections"] = data.get("inflections", []) + [{"label": "comparative", "": [args["comp"]]}]
 
     if args.get("sup"):
         #check_all_missing(args.sup, "adjectives", tracking_categories)
-        args["sup"]["label"] = "superlative"
-        data["inflections"] = data.get("inflections", []) + [args.sup]
+        data["inflections"] = data.get("inflections", []) + [{"label": "superlative", "": [args["comp"]]}]
 
 #    if args.irreg and is_superlative then
 #        table.insert(data.categories, langname + " irregular superlative adjectives")
@@ -584,7 +589,8 @@ def do_noun(pagename, args, data, tracking_categories=[]):
     plurals_label = "plural"
 
     if args.get("1","").endswith("-p"):
-        data["inflections"] = {"label": "plural only"}
+        # TODO fixme
+        #data["inflections"] = {"label": "plural only"}
         if args.get("2"):
             raise ValueError("Can't specify plurals of a plurale tantum noun")
     else:
@@ -628,8 +634,10 @@ def do_noun(pagename, args, data, tracking_categories=[]):
             if len(plurals):
                 plurals_label = "plural not attested"
                 #table.insert(data.categories, langname + " countable nouns")
-            else:
-                data["inflections"] = {"label": "uncountable"}
+
+            # TODO fixme
+            #else:
+            #    data["inflections"] = {"label": "uncountable"}
         else:
             # Countable or mixed countable/uncountable
             if len(plurals) == 0:
@@ -666,21 +674,14 @@ def do_noun(pagename, args, data, tracking_categories=[]):
                     # that is generated has a definition that looks like
                     # # {{plural of|es|MFSING}}
                     default_plurals += [{"term": mfpl, "accel": {"form": "p", "lemma": mf}}]
-        print("mf", [mfs, "plurals:", default_plurals, retval])
         return retval
 
     feminine_plurals = []
-    fargs = args.get("f",[])
-    if hasattr(fargs, 'casefold'):
-        fargs = [fargs]
+    fargs = get_args_list(args, "f")
     feminines = handle_mf(fargs, make_feminine, feminine_plurals)
-    print("xy", feminine_plurals)
     masculine_plurals = []
-    margs = args.get("m",[])
-    if hasattr(margs, 'casefold'):
-        margs = [margs]
+    margs = get_args_list(args, "m")
     masculines = handle_mf(margs, make_masculine, masculine_plurals)
-    print("xx", masculine_plurals)
 
     def handle_mf_plural(mfpl, default_plurals, singulars):
         new_mfpls = {}
@@ -692,33 +693,28 @@ def do_noun(pagename, args, data, tracking_categories=[]):
                 # and use each corresponding singular as the lemma in the accelerator.
                 # The generated entry will have # {{plural of|es|SINGULAR}} as the
                 # definition.
-                accel = {"form": "p", "lemma": singulars[i]}
-            else:
-                accel = {}
+                accel = { "form": "p", "lemma": singulars[i] }
             if mfpl == "+":
-                for defpl in default_plurals:
-                    # defpl is already a table
-                    new_mfpls[""] = new_mfpl.get("", []) + [defpl]
+                new_mfpls[""] = new_mfpls.get("", []) + default_plurals
             elif mfpl == "#":
-                new_mfpls[""] = new_mfpl.get("", []) + [{"term": lemma, "accel": accel}]
-            elif "+" in mfpl:
+                new_mfpls[""] = new_mfpls.get("", []) + [{"term": lemma, "accel": accel}]
+            elif mfpl.startswith("+"):
                 mfpl = get_special_indicator(mfpl)
                 for mf in singulars:
                     default_mfpls = make_plural(mf, mfpl)
                     for defp in default_mfpls:
-                        new_mfpls[""] = new_mfpl.get("", []) + [{"term": defp, "accel": accel}]
+                        new_mfpls[""] = new_mfpls.get("", []) + [{"term": defp, "accel": accel}]
             else:
-                new_mfpls[""] = new_mfpl.get("", []) + [{"term": mfpl, "accel": accel}]
-        print("mf_plural", [mfpl, default_plurals, singulars, new_mfpls])
+                new_mfpls[""] = new_mfpls.get("", []) + [{"term": mfpl, "accel": accel}]
         return new_mfpls
 
     if len(args.get("fpl", [])) > 0:
         # Override any existing feminine plurals.
-        feminine_plurals = handle_mf_plural(args.fpl, feminine_plurals, feminines)
+        feminine_plurals = handle_mf_plural(get_args_list(args, "fpl"), feminine_plurals, feminines)
 
     if len(args.get("mpl", [])) > 0:
         # Override any existing masculine plurals.
-        masculine_plurals = handle_mf_plural(args.mpl, masculine_plurals, masculines)
+        masculine_plurals = handle_mf_plural(get_args_list(args, "mpl"), masculine_plurals, masculines)
 
     #check_all_missing(plurals, "nouns", tracking_categories)
     #check_all_missing(feminines, "nouns", tracking_categories)
@@ -735,7 +731,6 @@ def do_noun(pagename, args, data, tracking_categories=[]):
 #            track("noun-redundant-fpl")
 
 
-    print("XXXX", plurals)
     if len(plurals):
         item = {
             "label": "plural",
@@ -743,7 +738,6 @@ def do_noun(pagename, args, data, tracking_categories=[]):
             "": plurals
         }
         data["inflections"] = data.get("inflections", []) + [item]
-        print("XXXX", data)
 
     if len(feminines):
         item = {
