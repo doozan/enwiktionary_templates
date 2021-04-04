@@ -30,7 +30,7 @@ def es_noun(t, title):
         "masculine": "m",
         "feminine": "f",
         "plural": "pl",
-        "masculine plural": "mpl",
+        "masculine plural": "pl",
         "feminine plural": "fpl",
     }
 

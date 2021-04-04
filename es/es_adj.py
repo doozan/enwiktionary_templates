@@ -29,7 +29,7 @@ def es_adj(t, title):
         "masculine": "m",
         "feminine": "f",
         "plural": "pl",
-        "masculine plural": "mpl",
+        "masculine plural": "pl",
         "feminine plural": "fpl",
     }
 
