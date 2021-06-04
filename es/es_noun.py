@@ -19,7 +19,7 @@ Data and utilities for processing Spanish sections of enwiktionary
 """
 
 from ..get_template_params import get_template_params
-from .module_es_headword import do_noun
+from ..module.es_headword import do_noun
 import sys
 
 def es_noun(t, title):

@@ -16,9 +16,23 @@
 
 import re
 import sys
+import enwiktionary_templates.module.es_verb as M
+from ..get_template_params import get_template_params
 
-from .paradigms import paradigms
-from .combined import _data as combined
+def es_conj(t, title):
+    args = get_template_params(t)
+    # always generate all combined forms
+    args.pop("nocomb",None)
+    if 1 not in args:
+        args[1] = None
+    forms = M.do_generate_forms(args, False, {}, title)
+    joined = M.concat_forms(forms, {})
+    joined = joined.replace("[[", "").replace("]]", "")
+    return "; ".join(sorted(joined.split("|")))
+
+"""
+#from .paradigms import paradigms
+#from .combined import _data as combined
 
 _unstresstab = str.maketrans("áéíóú", "aeiou")
 def unstress(word):
@@ -107,7 +121,7 @@ stressed_vowels = {
     }
 
 def create_accented_form(form, ua_disyllabic=False):
-    """ create accented stem for reflexive verbs """
+    # create accented stem for reflexive verbs
     if not form:
         return form
 
@@ -218,14 +232,6 @@ def inflect_combined(forms, ending, pattern="", reflexive=False):
     if pattern is None:
         pattern = ""
 
-    if ending not in paradigms:
-        print("Bad verb ending", ending, pattern, file=sys.stderr)
-        return {}
-
-    if pattern and pattern not in paradigms[ending]:
-        print("Bad verb pattern", ending, pattern, file=sys.stderr)
-        return {}
-
     pattern_data = paradigms[ending][pattern]
     unstressed = pattern_data.get("unstressed", {})
 
@@ -298,4 +304,4 @@ def inflect_combined(forms, ending, pattern="", reflexive=False):
 
     return result
 
-
+"""

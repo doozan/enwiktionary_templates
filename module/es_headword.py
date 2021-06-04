@@ -17,6 +17,8 @@
 """
 Data and utilities for processing Spanish sections of enwiktionary
 
+Only partially implemented (lacks adverb/verb stuff)
+
 Based on https://en.wiktionary.org/wiki/Module%3Aes%2Dheadword
 Revision 62271320, 21:09, 28 March 2021
 """
@@ -24,17 +26,15 @@ Revision 62271320, 21:09, 28 March 2021
 import re
 import sys
 
+import enwiktionary_templates.module.es_common as com
+
 pos_functions = {}
 
+V = com.V # vowel regex class
+AV = com.AV # accented vowel regex class
+C = com.C # consonant regex class
 
-TEMPC1 = u'\uFFF1'
-TEMPC2 = u'\uFFF2'
-TEMPV1 = u'\uFFF3'
-vowel = "aeiouáéíóúý" + TEMPV1
-V = f"[{vowel}]"
-SV = "[áéíóúý]" # stressed vowel
-W = "[iyuw]" # glide
-C = f"[^{vowel}.]"
+rsub = com.rsub
 
 suffix_categories = (
     "adjectives",
@@ -55,29 +55,11 @@ def rfind(string, pattern):
 def rmatch(string, pattern):
     return re.match(pattern, string)
 
-def rsub(string, pattern, replacement):
-    return re.sub(pattern, replacement, string)
-
 def rsplit(string, pattern):
     return re.split(pattern, string)
 
-# apply rsub() repeatedly until no change
-def rsub_repeatedly(term, foo, bar):
-    while True:
-        new_term = rsub(term, foo, bar)
-        if new_term == term:
-            return term
-        term = new_term
-
 def is_stressed(word):
     return any(v for v in SV if v in word)
-
-remove_stress = {
-    "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ý": "y"
-}
-add_stress = {
-    "a": "á", "e": "é", "i": "í", "o": "ó", "u": "ú", "y": "ý"
-}
 
 allowed_special_indicators = (
     "first",
@@ -104,45 +86,6 @@ def get_special_indicator(form):
         if not form in allowed_special_indicators:
             raise ValueError("Special inflection indicator beginning with '+' can only be ", indicators.sorted(), ": +", form)
         return form
-
-# Syllabify a word. This implements the full syllabification algorithm, based on the corresponding code
-# in [[Module:es-pronunc]]. This is more than is needed for the purpose of this module, which doesn't
-# care so much about syllable boundaries, but won't hurt.
-def syllabify(word):
-
-    DIV = u'\uFFF4'
-
-    word = DIV + word + DIV
-    # gu/qu + front vowel; make sure we treat the u as a consonant; a following
-    # i should not be treated as a consonant ([[alguien]] would become ''álguienes''
-    # if pluralized)
-    word = rsub(word, "([gq])u([eiéí])", r"\1" + TEMPC2 + r"\2")
-    vowel_to_glide = { "i": TEMPC1, "u": TEMPC2 }
-    # i and u between vowels should behave like consonants ([[paranoia]], [[baiano]], [[abreuense]],
-    # [[alauita]], [[Malaui]], etc.)
-    word = rsub_repeatedly(word, "(" + V + ")([iu])(" + V + ")",
-        lambda m: m.group(1) + vowel_to_glide[m.group(2)] + m.group(3)
-    )
-    # y between consonants or after a consonant at the end of the word should behave like a vowel
-    # ([[ankylosaurio]], [[cryptomeria]], [[brandy]], [[cherry]], etc.)
-    word = rsub_repeatedly(word, "(" + C + ")y(" + C + ")",
-        rf"\1{TEMPV1}\2")
-
-    word = rsub_repeatedly(word, "(" + V + ")(" + C + W + "?" + V + ")", r"\1.\2")
-    word = rsub_repeatedly(word, "(" + V + C + ")(" + C + V + ")", r"\1.\2")
-    word = rsub_repeatedly(word, "(" + V + C + "+)(" + C + C + V + ")", r"\1.\2")
-    word = rsub(word, "([pbcktdg])%.([lr])", r".\1\2")
-    word = rsub_repeatedly(word, "(" + C + ")%.s(" + C + ")", r"\1s.\2")
-    # Any aeo, or stressed iu, should be syllabically divided from a following aeo or stressed iu.
-    word = rsub_repeatedly(word, "([aeoáéíóúý])([aeoáéíóúý])", r"\1.\2")
-    word = rsub_repeatedly(word, "([ií])([ií])", r"\1.\2")
-    word = rsub_repeatedly(word, "([uú])([uú])", r"\1.\2")
-    word = rsub(word, DIV, "")
-    word = rsub(word, TEMPC1, "i")
-    word = rsub(word, TEMPC2, "u")
-    word = rsub(word, TEMPV1, "y")
-    return word
-
 
 def add_endings(bases, endings):
     retval = []
@@ -242,37 +185,27 @@ def make_plural(form, special=None):
     if rfind(form, "tz$"):
         return [form]
 
-    syllables = rsplit(syllabify(form), r"\.")
+    syllables = com.syllabify(form)
 
     # ends in s or x with more than 1 syllable, last syllable unstressed
-    if len(syllables) > 1 and rfind(form, "[sx]$") and not rfind(syllables[-1], SV):
+    if len(syllables) > 1 and rfind(form, "[sx]$") and not rfind(syllables[-1], AV):
         return [form]
 
-    # ends in l, r, n, d, z, or j with 3 or more syllables, accented on third to last syllable
-    if len(syllables) > 2 and rfind(form, "[lrndzj]$") and rfind(syllables[-3], SV):
+    # ends in l, r, n, d, z, or j with 3 or more syllables, stressed on third to last syllable
+    if len(syllables) > 2 and rfind(form, "[lrndzj]$") and rfind(syllables[-3], AV):
         return [form]
 
-    # ends in a stressed vowel + consonant
-    if rfind(form, SV + C + "$"):
+    # ends in an accented vowel + consonant
+    if rfind(form, AV + C + "$"):
         # remove stress add + es
         return [ rsub(form, "(.)(.)$",
-            lambda m: remove_stress[m.group(1)] + m.group(2) + "es") ]
+            lambda m: com.remove_accent[m.group(1)] + m.group(2) + "es") ]
 
     # ends in a vowel + y, l, r, n, d, j, s, x
     if rfind(form, "[aeiou][ylrndjsx]$"):
         # two or more syllables: add stress mark to plural; e.g. joven -> jóvenes
         if len(syllables) > 1 and rfind(form, "n$"):
-            # don't do anything if syllable already stressed
-            if not rfind(syllables[-2], SV):
-                # prefer to accent an a/e/o in case of a diphthong or triphthong; otherwise, do the
-                # last i or u in case of a diphthong ui or iu
-                if rfind(syllables[-2], "[aeo]"):
-                    syllables[-2] = syllables[-2].replace("a", "á")
-                    syllables[-2] = syllables[-2].replace("e", "é")
-                    syllables[-2] = syllables[-2].replace("o", "ó")
-                else:
-                    syllables[-1] = rsub(syllables[-1], "^(.*)([iu])",
-                        lambda m: m.group(1) + add_stress[m.group(2)])
+            syllables[-2] = com.add_accent_to_syllable(syllables[-2])
             return ["".join(syllables) + "es"]
 
         return [form + "es"]
@@ -308,7 +241,7 @@ def make_feminine(form, special=None):
             form,
             "^(.+)(.)(.)$",
             lambda m:
-                m.group(1) + remove_stress.get(m.group(2), m.group(2)) + m.group(3))
+                m.group(1) + com.remove_accent.get(m.group(2), m.group(2)) + m.group(3))
 
     if rfind(form, "[áíó]n$") or rfind(form, "[éí]s$") or rfind(form, "[dtszxñ]or$") or rfind(form, "ol$"):
         # holgazán, comodín, bretón (not común); francés, kirguís (not mandamás);
@@ -501,7 +434,7 @@ pos_functions["adjectives"] = {
         "fpl": {"list": True}, #feminine plural override(s)
         "mpl": {"list": True}, #masculine plural override(s)
         "comp": {"list": True}, #comparative(s)
-        "sup": {"list": True}, #comparative(s)
+        "sup": {"list": True}, #superlative(s)
     },
     "func": lambda pagename, args, data, tracking_categories:
         do_adjective(pagename, args, data, tracking_categories, False)
@@ -534,6 +467,13 @@ pos_functions["superlative adjectives"] = {
         do_adjective(pagename, args, data, tracking_categories, True)
 }
 
+pos_functions["adjverbs"] = {
+    "params": {
+        "sup": {"list": True}, #superlative(s)
+    },
+    "func": "adverbs not implemented"
+}
+
 
 # Display information for a noun's gender
 # This is separate so that it can also be used for proper nouns
@@ -552,6 +492,14 @@ pos_functions["proper nouns"] = {
         noun_gender(args, data)
 }
 
+pos_functions["verbs"] = {
+    "params": {
+        "noautolinkverb": {"type": "boolean"},
+        "attn": {"type": "boolean"},
+        "new": {"type": "boolean"},
+    },
+    "func": "verbs not implemented"
+}
 
 
 def do_noun(pagename, args, data, tracking_categories=[]):
@@ -575,7 +523,8 @@ def do_noun(pagename, args, data, tracking_categories=[]):
 
     if args.get("1"):
         if args["1"] not in allowed_genders:
-            raise ValueError("Unrecognized gender: " + args["1"])
+            print(f"Unrecognized gender: '{args['1']}' in page '{pagename}'", file=sys.stderr)
+#            raise ValueError("Unrecognized gender: " + args["1"])
         data["genders"] = data.get("genders", []) + [ args["1"] ]
 
     if args.get("g2"):
@@ -782,70 +731,3 @@ pos_functions["nouns"] = {
     "func": lambda pagename, args, data, tracking_categories:
         do_noun(pagename, args, data)
 }
-
-
-
-
-'''
-
-import re
-import sys
-
-from .paradigms import paradigms
-from .combined import _data as combined
-
-from ..get_template_params import get_template_params
-
-def es_adj(t, title):
-    results = get_adjective_forms(t, title)
-
-    sources = {
-        "f": ["f", "f2", "f3"],
-        "pl": ["pl", "pl2", "pl3"],
-        "mpl": ["mpl", "mpl2", "mpl2"],
-        "fpl": ["fpl", "fpl2", "mpl3"]
-    }
-
-    overrides = {}
-    for k,params in sources.items():
-        for param in params:
-            if t.has(param):
-                overrides[k] = overrides.get(k, []) + [str(t.get(param).value)]
-
-    for k,v in overrides.items():
-        if k in results:
-            results[k] = v
-
-    return "; ".join([f"{k}={v}" for k,vs in sorted(results.items()) for v in vs])
-
-
-def es_adj_sup(t, title):
-    return es_adj(t, title)
-
-def get_adjective_forms(template, title):
-    if template is None:
-        return {}
-
-    if not title:
-        return {}
-
-    params = get_template_params(template)
-    for k in [ "f", "pl", "mpl", "fpl" ]:
-        if isinstance(params.get(k), str):
-            params[k] = [params[k]]
-
-    if "f" in params and "fpl" not in params:
-        if "pl" in params:
-            params["fpl"] = [ params["pl"][0] ]
-        else:
-            params["fpl"] = [ params["f"][0] + "s" ]
-
-    if "m" not in params and "mpl" in params and "pl" not in params:
-        params["pl"] = params.pop("mpl")
-
-    if "pl" not in params:
-        params["pl"] = [ title + "s" ]
-
-    return {k:params[k] for k in ["f", "pl","fpl"] if k in params}
-
-#'''

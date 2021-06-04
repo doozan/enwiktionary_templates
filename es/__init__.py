@@ -1,4 +1,4 @@
-from .es_conj import es_conj_ar, es_conj_er, es_conj_ir, es_conj_ír
+from .es_conj import es_conj
 from .es_noun import es_noun
 from .es_adj import es_adj, es_adj_sup
 
@@ -12,4 +12,20 @@ def es_compound_of(t,title):
     if t.has(2):
         return f'compound form of "{t.get(1)}{t.get(2)}"'
 
+    return ""
+
+@staticmethod
+def es_note_noun_common_gender_a(t,title):
+    return ""
+
+@staticmethod
+def es_note_noun_mf(t,title):
+    return ""
+
+@staticmethod
+def es_note_noun_f_starting_with_stressed_a(t,title):
+    return ""
+
+@staticmethod
+def es_proper_noun(t,title):
     return ""

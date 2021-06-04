@@ -1,5 +1,5 @@
-#from .module_es_headword import make_plural
-import enwiktionary_templates.es.module_es_headword as es_headword
+#from .es_headword import make_plural
+import enwiktionary_templates.module.es_headword as es_headword
 
 def test_add_endings():
     add_endings = es_headword.add_endings
@@ -8,20 +8,6 @@ def test_add_endings():
     assert add_endings("word", ["1", "2"]) == ["word1", "word2"]
     assert add_endings(["one", "two"], "x") == ["onex", "twox"]
     assert add_endings(["a", "b"], ["1", "2"]) == ["a1", "a2", "b1", "b2"]
-
-def test_syllabify():
-    syllabify = es_headword.syllabify
-
-    assert syllabify("alguien") == "al.guien"
-
-    assert syllabify("paranoia") == "pa.ra.no.ia"
-    assert syllabify("baiano") == "ba.ia.no"
-    assert syllabify("abreuense") == "ab.re.uen.se"
-
-    assert syllabify("ankylosaurio") == "an.ky.lo.sau.rio"
-    assert syllabify("cryptomeria") == "cryp.to.me.ria"
-    assert syllabify("brandy") == "bran.dy"
-    assert syllabify("cherry") == "cher.ry"
 
 def test_remove_links():
     remove_links = es_headword.remove_links

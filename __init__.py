@@ -28,7 +28,7 @@ from .get_template_params import get_template_params
 
 class Template():
 
-    from .es import es_compound_of, es_conj_ar, es_conj_er, es_conj_ir, es_conj_ír, es_noun, es_adj, es_adj_sup
+    from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup
 
     @staticmethod
     def _default(t, title):
