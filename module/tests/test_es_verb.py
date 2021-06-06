@@ -21,10 +21,8 @@ def test_generate_forms():
     from_headword = False
 
     def compare(wiki, full):
-        print(len(wiki), len(full), len(wiki.split("|")), len(full.split("|")))
         full = full.replace("[[", "").replace("]]", "")
         wiki = wiki.replace("[[", "").replace("]]", "")
-        print(len(wiki), len(full), len(wiki.split("|")), len(full.split("|")))
         full_idx = tuple(full.split("|"))
         for i in wiki.split("|"):
             if i not in full_idx:
@@ -33,7 +31,6 @@ def test_generate_forms():
                     k2,v2 = i2.split("=",2)
                     if k2 == k:
                         raise ValueError(f"'{i}' does not match '{k2}={v2}'")
-                print(full)
                 raise ValueError(i + " key not found in " + full)
 
     #assert "|".join(sorted(joined.split("|"))) == "|".join(sorted(baseline.split("|")))
@@ -67,6 +64,21 @@ def test_generate_forms():
     forms = M.do_generate_forms(args, from_headword, d, "adscribir")
     forms = M.do_generate_forms(args, from_headword, d, "advenir")
     forms = M.do_generate_forms(args, from_headword, d, "ir")
+
+
+    forms = M.do_generate_forms({1:"<no_pres_stressed>", "pagename": "aterirse"}, from_headword, d, "aterirse")
+
+    #joined = M.concat_forms(forms, d)
+    #print(joined)
+    #assert False
+
+    # https://en.wiktionary.org/w/api.php?action=expandtemplates&format=json&prop=wikitext&text=%7B%7BUser:JeffDoozan/es-verb-generate-forms|mostrar%7D%7D
+    #baseline = "infinitive=mostrar|infinitive_linked=mostrar|gerund=mostrando|pp_ms=mostrado|pp_fs=mostrada|pp_mp=mostrados|pp_fp=mostradas|pres_1s=mostro|pres_2s=mostras|pres_2sv=mostrás|pres_3s=mostra|pres_1p=mostramos|pres_2p=mostráis|pres_3p=mostran|impf_1s=mostraba|impf_2s=mostrabas|impf_3s=mostraba|impf_1p=mostrábamos|impf_2p=mostrabais|impf_3p=mostraban|pret_1s=mostré|pret_2s=mostraste|pret_3s=mostró|pret_1p=mostramos|pret_2p=mostrasteis|pret_3p=mostraron|fut_1s=mostraré|fut_2s=mostrarás|fut_3s=mostrará|fut_1p=mostraremos|fut_2p=mostraréis|fut_3p=mostrarán|cond_1s=mostraría|cond_2s=mostrarías|cond_3s=mostraría|cond_1p=mostraríamos|cond_2p=mostraríais|cond_3p=mostrarían|pres_sub_1s=mostre|pres_sub_2s=mostres|pres_sub_2sv=mostrés|pres_sub_3s=mostre|pres_sub_1p=mostremos|pres_sub_2p=mostréis|pres_sub_3p=mostren|impf_sub_ra_1s=mostrara|impf_sub_ra_2s=mostraras|impf_sub_ra_3s=mostrara|impf_sub_ra_1p=mostráramos|impf_sub_ra_2p=mostrarais|impf_sub_ra_3p=mostraran|impf_sub_se_1s=mostrase|impf_sub_se_2s=mostrases|impf_sub_se_3s=mostrase|impf_sub_se_1p=mostrásemos|impf_sub_se_2p=mostraseis|impf_sub_se_3p=mostrasen|fut_sub_1s=mostrare|fut_sub_2s=mostrares|fut_sub_3s=mostrare|fut_sub_1p=mostráremos|fut_sub_2p=mostrareis|fut_sub_3p=mostraren|imp_2s=mostra|imp_2sv=mostrá|imp_3s=mostre|imp_1p=mostremos|imp_2p=mostrad|imp_3p=mostren|neg_imp_2s=[[no]] [[mostres]]|neg_imp_3s=[[no]] [[mostre]]|neg_imp_1p=[[no]] [[mostremos]]|neg_imp_2p=[[no]] [[mostréis]]|neg_imp_3p=[[no]] [[mostren]]|infinitive_comb_me=mostrarme|infinitive_comb_te=mostrarte|infinitive_comb_se=mostrarse|infinitive_comb_nos=mostrarnos|infinitive_comb_os=mostraros|infinitive_comb_lo=mostrarlo|infinitive_comb_la=mostrarla|infinitive_comb_le=mostrarle|infinitive_comb_los=mostrarlos|infinitive_comb_las=mostrarlas|infinitive_comb_les=mostrarles|gerund_comb_me=mostrándome|gerund_comb_te=mostrándote|gerund_comb_se=mostrándose|gerund_comb_nos=mostrándonos|gerund_comb_os=mostrándoos|gerund_comb_lo=mostrándolo|gerund_comb_la=mostrándola|gerund_comb_le=mostrándole|gerund_comb_los=mostrándolos|gerund_comb_las=mostrándolas|gerund_comb_les=mostrándoles|imp_2s_comb_me=móstrame|imp_2s_comb_te=móstrate|imp_2s_comb_nos=móstranos|imp_2s_comb_lo=móstralo|imp_2s_comb_la=móstrala|imp_2s_comb_le=móstrale|imp_2s_comb_los=móstralos|imp_2s_comb_las=móstralas|imp_2s_comb_les=móstrales|imp_3s_comb_me=móstreme|imp_3s_comb_se=móstrese|imp_3s_comb_nos=móstrenos|imp_3s_comb_lo=móstrelo|imp_3s_comb_la=móstrela|imp_3s_comb_le=móstrele|imp_3s_comb_los=móstrelos|imp_3s_comb_las=móstrelas|imp_3s_comb_les=móstreles|imp_1p_comb_te=mostrémoste|imp_1p_comb_nos=mostrémonos|imp_1p_comb_os=mostrémoos|imp_1p_comb_lo=mostrémoslo|imp_1p_comb_la=mostrémosla|imp_1p_comb_le=mostrémosle|imp_1p_comb_los=mostrémoslos|imp_1p_comb_las=mostrémoslas|imp_1p_comb_les=mostrémosles|imp_2p_comb_me=mostradme|imp_2p_comb_nos=mostradnos|imp_2p_comb_os=mostraos|imp_2p_comb_lo=mostradlo|imp_2p_comb_la=mostradla|imp_2p_comb_le=mostradle|imp_2p_comb_los=mostradlos|imp_2p_comb_las=mostradlas|imp_2p_comb_les=mostradles|imp_3p_comb_me=móstrenme|imp_3p_comb_se=móstrense|imp_3p_comb_nos=móstrennos|imp_3p_comb_lo=móstrenlo|imp_3p_comb_la=móstrenla|imp_3p_comb_le=móstrenle|imp_3p_comb_los=móstrenlos|imp_3p_comb_las=móstrenlas|imp_3p_comb_les=móstrenles"
+    #forms = M.do_generate_forms(args, from_headword, d, "mostrar<ue>")
+    #joined = M.concat_forms(forms, d)
+    #compare(baseline, joined)
+    #print(joined)
+    #assert False
 
     # 'https://en.wiktionary.org/w/api.php?action=expandtemplates&format=json&prop=wikitext&text=%7B%7BUser%3AJeffDoozan%2Fes-verb-generate-forms%7Cacertar%3Cie%3E%20con%7D%7D'
     # {{es-conj|acertar<ie> con|nocomb=1}}

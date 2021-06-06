@@ -1187,7 +1187,8 @@ def copy_imperatives_to_reflexive_combined_forms(base):
     for _from, _to in copy_table.items():
         # Need to call map_forms() to clone the form objects because insert_forms() doesn't clone them, and may
         # side-effect them when inserting footnotes.
-        insert_forms(base, _to, iut.map_forms(base["forms"][_from], f))
+        if _from in base["forms"]:
+            insert_forms(base, _to, iut.map_forms(base["forms"][_from], f))
 
 def add_missing_links_to_forms(base):
     # Any forms without links should get them now. Redundant ones will be stripped later.
@@ -1255,10 +1256,8 @@ def parse_indicator_spec(angle_bracket_spec, lemma):
 
     def fetch_footnotes(separated_group):
         footnotes = []
-        # TODO: Verify 
-        #for j = 2, #separated_group - 1, 2 do
         for j in range(1, len(separated_group), 2):
-            if separated_group[j] != "":
+            if separated_group[j+1] != "":
                 parse_err("Extraneous text after bracketed footnotes: '" + separated_group + "'")
             footnotes.append(separated_group[j])
         return footnotes
@@ -1315,7 +1314,7 @@ def normalize_all_lemmas(alternant_multiword_spec):
 
     def f(base):
         if base.get("lemma", "") == "":
-            base["lemma"] = lua_or(alternant_multiword_spec["args"]["pagename"], alternant_multiword_spec.args.get("head",[None])[0])
+            base["lemma"] = lua_or(alternant_multiword_spec["args"]["pagename"], alternant_multiword_spec["args"].get("head",[None])[0])
             if not base["lemma"]:
                 #PAGENAME = mw.title.getCurrentTitle().text
                 base["lemma"] = PAGENAME

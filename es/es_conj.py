@@ -20,14 +20,25 @@ import enwiktionary_templates.module.es_verb as M
 from ..get_template_params import get_template_params
 
 def es_conj(t, title):
+    #print(title, t, file=sys.stderr)
     args = get_template_params(t)
     # always generate all combined forms
     args.pop("nocomb",None)
-    if 1 not in args:
-        args[1] = None
+    args[1] = args.pop('1', None)
+    args["pagename"] = title
+
     forms = M.do_generate_forms(args, False, {}, title)
     joined = M.concat_forms(forms, {})
     joined = joined.replace("[[", "").replace("]]", "")
+    items = []
+    for i in joined.split("|"):
+        if "," in i:
+            k = re.match(r"(.*?)=.*", i).group(1)
+            items.append(i)
+            for v in i.split(",")[1:]:
+                items.append(f"{k}={v}")
+        else:
+            items.append(i)
     return "; ".join(sorted(joined.split("|")))
 
 """
