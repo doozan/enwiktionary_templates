@@ -33,13 +33,15 @@ def es_conj(t, title):
     items = []
     for i in joined.split("|"):
         if "," in i:
-            k = re.match(r"(.*?)=.*", i).group(1)
-            items.append(i)
-            for v in i.split(",")[1:]:
-                items.append(f"{k}={v}")
+            for idx, v in enumerate(i.split(",")):
+                if idx == 0:
+                    k = re.match(r"(.*?)=.*", v).group(1)
+                    items.append(v)
+                else:
+                    items.append(f"{k}={v}")
         else:
             items.append(i)
-    return "; ".join(sorted(joined.split("|")))
+    return "; ".join(sorted(items))
 
 """
 #from .paradigms import paradigms

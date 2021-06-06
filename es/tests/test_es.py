@@ -19,9 +19,10 @@ def test_es_conj():
 
     template = next(mwparserfromhell.parse("{{es-conj|<ue>}}").ifilter_templates())
     value = expand_template(template, "mostrar")
-    #assert len(value.split("; ")) == 291
-    print(value)
-    assert False
+
+    template = next(mwparserfromhell.parse("{{es-conj}}").ifilter_templates())
+    value = expand_template(template, "ir")
+    assert "," not in value
 
 
 def test_es_noun():
