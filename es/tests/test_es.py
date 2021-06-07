@@ -47,6 +47,9 @@ def test_es_noun():
     template = next(mwparserfromhell.parse("{{es-noun|m|f=1}}").ifilter_templates())
     assert expand_template(template, "testo") == 'pl=testos; f=testa; fpl=testas'
 
+    template = next(mwparserfromhell.parse("{{es-noun|f|m=divo}}").ifilter_templates())
+    assert expand_template(template, "diva") == 'pl=divas; m=divo; pl=divos'
+
     template = next(mwparserfromhell.parse("{{es-noun|m}}").ifilter_templates())
     assert expand_template(template, "lapiz") == 'pl=lapices'
 

@@ -708,6 +708,7 @@ def do_noun(pagename, args, data, tracking_categories=[]):
             "label": "masculine",
             "": masculines
         }
+        data["inflections"] = data.get("inflections", []) + [item]
 
     if len(masculine_plurals):
         item = {
@@ -715,6 +716,7 @@ def do_noun(pagename, args, data, tracking_categories=[]):
             "": masculine_plurals
         }
         data["inflections"] = data.get("inflections", []) + [item]
+
 
 # Display additional inflection information for a noun
 pos_functions["nouns"] = {
