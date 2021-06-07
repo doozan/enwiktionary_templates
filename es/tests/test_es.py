@@ -56,6 +56,11 @@ def test_es_noun():
     template = next(mwparserfromhell.parse("{{es-noun|mf|webcamers|pl2=webcamer}}").ifilter_templates())
     assert expand_template(template, "webcamer") == 'pl=webcamers; pl=webcamer'
 
+    template = next(mwparserfromhell.parse("{{es-noun|m|f=cordera|fpl=corderas}}").ifilter_templates())
+    assert expand_template(template, "cordero") == 'pl=corderos; f=cordera; fpl=corderas'
+
+
+
 
 def test_es_adj():
     template = next(mwparserfromhell.parse("{{es-adj}}").ifilter_templates())

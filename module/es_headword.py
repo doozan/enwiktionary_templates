@@ -633,7 +633,7 @@ def do_noun(pagename, args, data, tracking_categories=[]):
     masculines = handle_mf(margs, make_masculine, masculine_plurals)
 
     def handle_mf_plural(mfpl, default_plurals, singulars):
-        new_mfpls = {}
+        new_mfpls = []
         for i, mfpl in enumerate(mfpl):
             accel = {}
             if len(mfpl) == len(singulars):
@@ -644,17 +644,17 @@ def do_noun(pagename, args, data, tracking_categories=[]):
                 # definition.
                 accel = { "form": "p", "lemma": singulars[i] }
             if mfpl == "+":
-                new_mfpls[""] = new_mfpls.get("", []) + default_plurals
+                new_mfpls.append(default_plurals)
             elif mfpl == "#":
-                new_mfpls[""] = new_mfpls.get("", []) + [{"term": lemma, "accel": accel}]
+                new_mfpls.append({"term": lemma, "accel": accel})
             elif mfpl.startswith("+"):
                 mfpl = get_special_indicator(mfpl)
                 for mf in singulars:
                     default_mfpls = make_plural(mf, mfpl)
                     for defp in default_mfpls:
-                        new_mfpls[""] = new_mfpls.get("", []) + [{"term": defp, "accel": accel}]
+                        new_mfpls.append({"term": defp, "accel": accel})
             else:
-                new_mfpls[""] = new_mfpls.get("", []) + [{"term": mfpl, "accel": accel}]
+                new_mfpls.append({"term": mfpl, "accel": accel})
         return new_mfpls
 
     if len(args.get("fpl", [])) > 0:
