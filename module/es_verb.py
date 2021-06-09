@@ -829,7 +829,7 @@ def combine_stem_ending(base, slot, stem, ending, is_combining_ending):
         # parecer -> parezco, conducir -> conduzco; use zqu to avoid triggering the following gsub();
         # the third line will replace zqu -> zc
         if slot != "pret_3s": # exclude hice -> hizo (not #hizco)
-            stem = rsub(stem, "(" + V + ")c$", "%1zqu")
+            stem = rsub(stem, "(" + V + ")c$", r"\1zqu")
         stem = rsub(stem, "sc$", "squ") # evanescer -> evanesco, fosforescer -> fosforesco
         stem = rsub(stem, "c$", "z") # ejercer -> ejerzo, uncir -> unzo
         stem = rsub(stem, "qu$", "c") # delinquir -> delinco, parecer -> parezqu- -> parezco
