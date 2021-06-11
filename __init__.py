@@ -22,22 +22,234 @@ templates to meaningful wikidata
 
 import mwparserfromhell
 import re
+import sys
 
+from enwiktionary_parser.languages.all_ids import languages as all_langs
+from .etydata import data as ety_langs
 from .labeldata import data as labeldata
 from .get_template_params import get_template_params
 
 class Template():
 
+    ##import enwiktionary_templates.es as _es
+    lang2 = {}
+    #lang2["es"] = _es
+
     from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup
 
     @staticmethod
     def _default(t, title):
-        #print(f"{title} uses unknown template: {t}")
-        return ""
+        print(f"{title} uses unknown template: {t}", file=sys.stderr)
+        return str(t)
+        #return ""
 
-    def a(t, title):
-        #print(f"{title} uses bad template: {t}")
-        return ""
+    @staticmethod
+    def _and_lit(t, template):
+        res = []
+        if t.has("qualifier"):
+            res.append(str(t.get("qualifier")))
+            res.append("Used other than with a figurative sense or idiom")
+        else:
+            res.append("used other than as an idiom")
+
+        x = 2
+        while t.has(x):
+            val = str(t.get(x))
+            alt = t.get("alt"+str(x-1)) if t.has("alt"+str(x-1)) else None
+            if alt:
+                res.append(f"[[{val}|{alt}]]")
+            else:
+                res.append(f"[[{val}]]")
+            x+=1
+
+        if t.has("nodot") and str(t.get("nodot")):
+            return " ".join(res)
+        else:
+            dot = str(t.get("dot").value) if t.has("dot") else "."
+            return " ".join(res) + dot
+
+    @staticmethod
+    def affix(t, title):
+        res = []
+        p = 2
+        while t.has(p) and str(t.get(p).value):
+            res.append(str(t.get(p).value))
+            p += 1
+
+        return " + ".join(res)
+
+    af = affix
+    compound = affix
+    com = affix
+    confix = affix
+    blend = affix
+
+    @staticmethod
+    def back_formation(t, title):
+        return Template.__etyl_misc_variant(t, title, "back formation of")
+
+    @staticmethod
+    def __lang2_etyl(t, title, pre_text=None):
+        source = Template.__get_lang(str(t.get(2).value))
+        display = next((str(t.get(p).value) for p in ["alt", "4", "3"] if t.has(p) and str(t.get(p).value)), None)
+        gloss = next((str(t.get(p).value) for p in ["t", "gloss", "5"] if t.has(p) and str(t.get(p).value)), None)
+
+        return Template.__format_etyl(t, pre_text, source, display, gloss)
+
+
+    @staticmethod
+    def borrowed(t, title):
+        return Template.__lang2_etyl(t, title)
+    bor = borrowed
+
+    @staticmethod
+    def semi_learned_borrowing(t, title):
+        return Template.__lang2_etyl(t, title, "semi-learned borrowing from")
+    slbor = semi_learned_borrowing
+
+    @staticmethod
+    def orthorgraphic_borrowing(t, title):
+        return Template.__lang2_etyl(t, title, "orthographic borrowing from")
+    obor = orthorgraphic_borrowing
+
+    @staticmethod
+    def semantic_loan(t, title):
+        return Template.__lang2_etyl(t, title, "semantic loan from")
+    sl = semantic_loan
+
+    @staticmethod
+    def unadapted_borrowing(t, title):
+        return Template.__lang2_etyl(t, title, "unadapted borrowing from")
+    ubor = unadapted_borrowing
+
+    @staticmethod
+    def calque(t, title):
+        return Template.__lang2_etyl(t, title, "calque of")
+
+    cal = calque
+    clq = calque
+
+    @staticmethod
+    def clipping(t, title):
+        return Template.__etyl_misc_variant(t, title, "clipping of")
+    clip = clipping
+    clipping_of = clipping
+
+    @staticmethod
+    def __get_lang(lang_id):
+        lang_id = lang_id.strip('\n .')
+        src_lang = all_langs.get(lang_id.lower())
+        if not src_lang:
+            src_lang = ety_langs.get(lang_id, {}).get("canonicalName")
+        if not src_lang:
+            src_lang = lang_id
+        return src_lang
+
+    @staticmethod
+    def derived(t, title):
+        return Template.__lang2_etyl(t, title)
+
+    der = derived
+    inh = derived
+
+    @staticmethod
+    def inherited(t, title):
+        return Template.__lang2_etyl(t, title)
+    inh = inherited
+
+    @staticmethod
+    def __etyl_misc_variant(t, title, pre_text):
+        display = next((str(t.get(p).value) for p in ["alt", "2", "3"] if t.has(p) and str(t.get(p).value)), title)
+        gloss = next((str(t.get(p).value) for p in ["gloss", "t", "4"] if t.has(p) and str(t.get(p).value)), None)
+        return Template.__format_etyl(t, pre_text, None, display, gloss)
+
+    @staticmethod
+    def __format_etyl(t, pre_text, lang, display, gloss):
+        res = []
+        if not t.has("notext") and pre_text:
+            if t.has("nocap"):
+                res.append(f"{pre_text}")
+            else:
+                res.append(f"{pre_text.capitalize()}")
+
+        if lang:
+            res.append(lang)
+
+        res.append(f"''{display}''")
+        if gloss:
+            res.append("(“" + str(gloss) + "”)")
+
+        return " ".join(res)
+
+    @staticmethod
+    def deverbal(t, title):
+        return Template.__etyl_misc_variant(t, title, "deverbal of")
+
+    @staticmethod
+    def doublet(t, title):
+        text = ""
+        if not t.has("notext"):
+            text = "Doublet of " if not t.has("nocap") else "doublet of "
+
+        p = 2
+        res = []
+        while t.has(p) and str(t.get(p).value):
+            res.append(str(t.get(p).value))
+            p += 1
+
+        return text + ", ".join(res)
+
+    @staticmethod
+    def ellipsis(t, title):
+        return Template.__etyl_misc_variant(t, title, "ellipsis of")
+    ellipsis_of = ellipsis
+
+    @staticmethod
+    def etyl(t, title):
+        src_lang_id = str(t.get(1)).strip('\n .')
+        src_lang = all_langs.get(src_lang_id.lower())
+        if not src_lang:
+            src_lang = ety_langs.get(src_lang_id, {}).get("canonicalName")
+        if not src_lang:
+            src_lang = src_lang_id
+
+        return src_lang
+
+    @staticmethod
+    def u_es_false_friend(t, title):
+        res = []
+        if t.has("nocap"):
+            res.append(title)
+        else:
+            res.append(title[0].upper() + title[1:])
+
+        res.append("is a false friend and does not mean")
+
+        if t.has("en"):
+            if t.has("gloss"):
+                res.append(str(t.get("en").value))
+                res.append(f"in the sense of ''{t.get('gloss').value}''.")
+            else:
+                res.append(f"{t.get('en').value}.")
+
+        elif t.has("gloss"):
+            res.append(f"''{t.get('gloss').value}''")
+            res.append("in Spanish.")
+        else:
+            res.append(f"the same as the English word for {title}.")
+
+        if t.has(1):
+            res.append("\nThe Spanish word for")
+            if t.has("en"):
+                res.append(str(t.get("en").value))
+                if t.has("gloss"):
+                    res.append(f"in that sense")
+            else:
+                res.append(title)
+
+            res.append(f"is ''{t.get(1).value}''.")
+
+        return " ".join(res)
 
     @staticmethod
     def frac(t, title):
@@ -212,19 +424,26 @@ class Template():
 
     @staticmethod
     def m(t, title):
-        display = ""
-        gloss = ""
+        res = []
+        display = None
         if t.has(3):
             display = str(t.get(3))
         if not display and t.has(2):
             display = str(t.get(2))
+
+        if display:
+            res.append("''" + display + "''")
+
+        gloss = None
         for p in ["gloss", "t", "4"]:
             if t.has(p):
                 gloss = str(t.get(p).value)
         if gloss:
-            gloss = " (" + str(gloss) + ")"
+            res.append("(“" + str(gloss) + "”)")
 
-        return display+gloss
+        return " ".join(res)
+    mention = m
+
 
     @staticmethod
     def non_gloss_definition(t, title):
@@ -238,10 +457,44 @@ class Template():
             return title + " (place)"
 
     @staticmethod
+    def pagename(t, title):
+        return title
+
+    @staticmethod
+    def prefix(t, title):
+        return f"{t.get(2)}- + {t.get(3)}"
+
+    pre = prefix
+
+    @staticmethod
+    def onomatopoeic(t, title):
+        if t.has("title"):
+            return str(t.get("title").value)
+        if t.has("notext"):
+            return ""
+        if t.has("nocap"):
+            return "onomatopoeic"
+        return "Onomatopoeic"
+
+    onom = onomatopoeic
+
+    @staticmethod
     def qualifier(t, title):
         params = [ str(p.value) for p in t.params if str(p.name).isdigit() ]
         return "(" + ", ".join(params) + ")"
     q = i = qual = qualifier
+
+    @staticmethod
+    def qf(t, title):
+        return "(" + str(t.get(1)) + ")"
+
+    @staticmethod
+    def rebracketing(t, title):
+        return Template.__etyl_misc_variant(t, title, "rebracketing of")
+
+    @staticmethod
+    def reduplication(t, title):
+        return Template.__etyl_misc_variant(t, title, "reduplication of")
 
     @staticmethod
     def sense(t, title):
@@ -249,8 +502,23 @@ class Template():
     s = sense
 
     @staticmethod
+    def suffix(t, title):
+        return f"{t.get(2)} + -{t.get(3)}"
+
+    suf = suffix
+
+    @staticmethod
     def surname(t, title):
         return "surname"
+
+    @staticmethod
+    def univerbation(t, title):
+        res = [f"Univerbation of {t.get(2)}"]
+        count = 3
+        while t.has(count):
+            res.append(str(t.get(count)))
+            count += 1
+        return " + ".join(res)
 
     @staticmethod
     def ux(t, title):
@@ -263,6 +531,8 @@ class Template():
 
 ignore = {
     ",",
+    "a",
+    "anchor",
     "attention",
     "attn",
     "C",
@@ -271,15 +541,69 @@ ignore = {
     "catlangname",
     "catlangcode",
     "cite",
+    "cite-book",
+    "Cite book",
+    "cite book",
     "cite-web",
+    "cite web",
     "cite news",
     "cln",
+    "colorbox",
+    "color-panel",
+    "color panel",
+    "colour panel",
+    "context",
     "DEFAULTSORT",
+    "dercat",
+    "elements",
+    "es-adj-form",
+    "es-adj form",
+    "es-adj form of",
+    "es-adj-inv",
+    "es-adv",
+    "es-adverb",
+    "es-conjunction",
+    "es-diacritical mark",
+    "es-int",
+    "es-intj",
+    "es-interj",
+    "es-interjection",
+    "es-letter",
+    "es-past participle",
+    "es-past-participle",
+    "es-phrase",
+    "es-prefix",
+    "es-prep",
+    "es-preposition",
+    "es-pronoun",
+    "es-proverb",
+    "es-prop",
+    "es-punctuation mark",
+    "es-suffix",
+    "es-verb",
+    "es-verb-form",
     "ISBN",
+    "nbsp",
+    "nonlemma",
     "rfclarify",
     "rfex",
+    "rfv-etym",
+    "rfc-sense",
+    "rfd-sense",
+    "rfd-redundant",
+    "rfm-sense",
+    "rfquotek",
+    "rfquote-sense",
+    "rfv-sense",
+    "tea room sense",
+    "t2i-Egyd",
     "top",
     "topics",
+    "U:es:relative pronouns",
+    "unk",
+    "Wikipedia",
+    "wikipedia",
+    "wp",
 }
 
 # Templates that just return the first parameter
@@ -306,8 +630,10 @@ p1 = {
     "non-gloss",
     "non gloss definition",
     "non-gloss definition",
+    "nowrap",
     "overline",
     "pedia",
+    "pedialite",
     "pedlink",
     "sc",
     "smallcaps",
@@ -328,8 +654,9 @@ p1 = {
 
 # Templates that just return the second parameter
 p2 = {
-#    "lang",
+    "lang",
     "cog",
+    "noncog",
 #    "quote",
 #    "w2",
 }
@@ -339,12 +666,26 @@ prefix1 = {
 }
 
 quote1_with = {
+    "en-archaic second-person singular of": "archaic second-person singular of",
+    "en-archaic second-person singular past of": "archaic second-person singular past of",
+    "en-archaic third-person singular of": "archaic third-person singular of",
+    "en-comparative of": "comparative form of",
+    "en-irregular plural of": "irregular plural of",
+    "en-past of": "simple past tense and past participle of",
+    "en-simple past of": "simple past of",
+    "en-superlative of": "superlative of",
+    "en-third person singular of": "third person singular of",
+    "en-third-person singular of": "third-person singular of",
     "es-verb form of": "inflection of",
+    "pt-verb-form-of": "inflection of",
+    "pt-apocopic-verb": "apocopic (used preceding the pronouns lo, la, los or las) form of",
 }
 
 # Templates that wrap the second parameter with text other than the template name
 quote2_with = {
+    "-a-o-e": "Gender-neutral e replaces the gendered endings/elements a and o.",
     "abb": "abbreviation of",
+    "abbrev of": "abbreviation of",
     "abbreviation": "abbreviation of",
     "abbreviation-old": "old abbreviation of",
     "abbr of": "abbreviation of",
@@ -355,6 +696,7 @@ quote2_with = {
     "alt form": "alternative form of",
     "alt-form": "alternative form of",
     "altform": "alternative form of",
+
     "alt form of": "alternative form of",
     "altname": "alternative name of",
     "alt sp": "alternative spelling of",
@@ -363,9 +705,6 @@ quote2_with = {
     "altspelling": "alternative spelling of",
     "ao": "abbreviation of",
     "back-form": "back formation from",
-    "clip": "clipping o",
-    "clip of": "clipping of",
-    "clipping": "clipping of",
     "cmn-erhua form of": "Mandarin erhua form of",
     "cretan dialect form of": "Cretan dialect form of",
     "cs-imperfective form of": "imperfective form of",
@@ -379,47 +718,40 @@ quote2_with = {
     "el-Cretan dialect form of": "Cretan dialect form of",
     "el-Cypriot dialect form of": "Cypriot dialect form of",
     "el-Italiot dialect form of": "Italiot dialect form of",
-    "ellipse of": "ellipsis of",
-    "ellipsis": "ellipsis of",
     "el-Maniot dialect form of": "Maniot dialect form of",
-    "en-archaic second-person singular of": "archaic second-person singular of",
-    "en-archaic second-person singular past of": "archaic second-person singular past of",
-    "en-archaic third-person singular of": "archaic third-person singular of",
-    "en-comparative of": "comparative form of",
-    "en-irregular plural of": "irregular plural of",
-    "en-past of": "simple past tense and past participle of",
-    "en-simple past of": "simple past of",
-    "en-superlative of": "superlative of",
-    "en-third person singular of": "third person singular of",
-    "en-third-person singular of": "third-person singular of",
+    "euphemism of": "euphemism of",
     "fr-post-1990": "post-1990 spelling of",
+    "gerund of": "gerund of",
     "honor alt case": "honorific alternative case of",
     "infl of": "inflection of",
     "init of": "initialism of",
     "io": "initialism of",
     "la-praenominal abbreviation of": "praenominal abbreviation of",
     "missp": "misspelling of",
+    "misspelling": "misspelling of",
+    "noun form of": "inflection of",
     "obs form": "obsolete form of",
     "obs sp": "obsolete spelling of",
     "obs-sp": "obsolete spelling of",
     "obssp": "obsolete spelling of",
     "only-in": "only in",
     "onlyin": "only used in",
+    "past participle of": "past participle of",
     "past participle": "past participle of",
     "phrasal verb": "A component in at least one phrasal verb:",
     "pinof": "pinyin reading of",
     "pinread": "pinyin reading of",
     "pronunciation spelling": "pronunciation spelling of",
-    "pt-apocopic-verb": "apocopic (used preceding the pronouns lo, la, los or las) form of",
-    "pt-verb-form-of": "verb form of",
     "rareform": "rare form of",
     "ru-abbrev of": "abbreviation of",
     "ru-acronym of": "acronym of",
     "ru-alt-ё": "alternative form of",
     "ru-initialism of": "initialism of",
     "ru-pre-reform": "pre-reform form of",
+    "singular of": "inflection of",
     "standspell": "standard spelling of",
     "stand sp": "standard spelling of",
+    "standard spelling of": "standard spelling of",
     "syn of": "synonym of",
     "syn-of": "synonym of",
     "synof": "synonym of",
@@ -465,7 +797,6 @@ quote2 = {
     "augmentative of",
     "blend of",
     "causative of",
-    "clipping of",
     "common misspelling of",
     "comparative form of",
     "comparative of",
@@ -480,7 +811,6 @@ quote2 = {
     "diminutive plural of",
     "early form of",
     "eggcorn of",
-    "ellipsis of",
     "elongated form of",
     "endearing form of",
     "euphemistic form of",
@@ -493,7 +823,9 @@ quote2 = {
     "feminine noun of",
     "feminine of",
     "feminine plural of",
+    "feminine plural past participle of",
     "feminine singular of",
+    "feminine singular past participle of",
     "former name of",
     "frequentative of",
     "imperfective form of",
@@ -508,6 +840,7 @@ quote2 = {
     "masculine of",
     "masculine plural of",
     "masculine singular past participle of",
+    "masculine plural past participle of",
     "medieval spelling of",
     "misconstruction of",
     "misspelling of",
@@ -563,11 +896,32 @@ quote2 = {
 }
 
 quote3 = {
-    "form of"
+    "form of",
 }
 
 replace_with = {
-    "es-demonstrative-accent-usage": "The unaccented form can function as a pronoun if it can be unambiguously deduced as such from context."
+    "...": "[…]",
+    "!": "|",
+    "=": "=",
+    "AD": "C.E.",
+    "A.D.": "C.E.",
+    "BC": "B.C.E.",
+    "B.C.": "B.C.E.",
+    "BCE": "B.C.E.",
+    "B.C.E.": "B.C.E.",
+    "CE": "C.E.",
+    "C.E.": "C.E.",
+    "es-note-noun-common-gender-a": "The noun {{PAGENAME}} is like several other Spanish nouns with a human referent and ending in a. The masculine articles and adjectives are used when the referent is known to be male, a group of males, a group of mixed or unknown gender, or an individual of unknown or unspecified gender. The feminine articles and adjectives are used if the referent is known to be female or a group of females.",
+    "es-note-noun-f-starting-with-stressed-a": "* The feminine noun {{PAGENAME}} is like other feminine nouns starting with a stressed ''a'' sound in that it takes the definite article {{m|es|el}} (normally reserved for masculine nouns) in the singular when there is no intervening adjective:\n:: ''[[el#Spanish|el]] {{PAGENAME}}''\n* However, if an adjective, even one that begins with a stressed ''a'' sound such as {{m|es|alta}} or {{m|es|ancha}}, intervenes between the article and the noun, the article reverts to {{m|es|la}}.",
+    "es-demonstrative-accent-usage": "The unaccented form can function as a pronoun if it can be unambiguously deduced as such from context.",
+    "es-note-noun-mf": "The noun {{PAGENAME}} is like most Spanish nouns with a human referent.  The masculine forms are used when the referent is known to be male, a group of males, a group of mixed or unknown gender, or an individual of unknown or unspecified gender.  The feminine forms are used if the referent is known to be female or a group of females.",
+    "sup": "^",
+}
+
+handlers = {
+    'U:es:false friend': Template.u_es_false_friend,
+    "&lit": Template._and_lit,
+    "m+": Template.m,
 }
 
 def expand_template(t, title):
@@ -597,45 +951,28 @@ def expand_template(t, title):
     if name in quote2_with:
         text = quote2_with[name]
         if not t.has(2):
-            raise ValueError(t)
+            raise ValueError("missing paramater 2", t)
         return text + ' "' + str(t.get(2)).strip() + '"'
 
     if name in quote3:
         return name + ' "' + str(t.get(3)).strip() + '"'
 
-    if name == "&lit":
-        res = []
-        if t.has("qualifier"):
-            res.append(str(t.get("qualifier")))
-            res.append("Used other than with a figurative sense or idiom")
-        else:
-            res.append("used other than as an idiom")
+    handler = None
+    if name in handlers:
+        handler = handlers[name]
+    else:
+        name = re.sub(r"[\s-]", "_", name.lower())
+        if len(name) > 2 and name[2] == "_" and name[:2] in Template.lang2:
+            lang_handler = getattr(Template.lang2[name[:2]], name)
+            if lang_handler:
+                return lang_handler(t, title)
 
-        x = 2
-        while t.has(x):
-            val = str(t.get(x))
-            alt = t.get("alt"+str(x-1)) if t.has("alt"+str(x-1)) else None
-            if alt:
-                res.append(f"[[{val}|{alt}]]")
-            else:
-                res.append(f"[[{val}]]")
-            x+=1
-
-        if t.has("nodot") and str(t.get("nodot")):
-            return " ".join(res)
-        else:
-            dot = str(t.get("dot").value) if t.has("dot") else "."
-            return " ".join(res) + dot
-
-    name = re.sub(r"[\s-]", "_", str(t.name)).lower()
-    handler = getattr(Template, name, getattr(Template, "_default"))
+        handler = getattr(Template, name, getattr(Template, "_default"))
     return handler(t, title)
 
 def expand_templates(wikt, title):
     for t in reversed(wikt.filter_templates()):
         new = expand_template(t, title)
-#        print("old", t)
-#        print("new", new)
         wikt.replace(t, new)
 
 
