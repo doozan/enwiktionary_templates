@@ -207,4 +207,7 @@ def test_deverbal():
 def test_calique():
     assert _expand("{{calque|es|nci|necuātl}}", "aguamiel") == "Calque of Classical Nahuatl ''necuātl''"
 
+def test_bor():
+    assert _expand("From the {{bor|es|ar|-}} suffix {{m|ar|ـِيّ}}.", "xxx") == "From the Arabic suffix ''ـِيّ''."
+
 

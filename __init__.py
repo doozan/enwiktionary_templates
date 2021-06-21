@@ -98,11 +98,6 @@ class Template():
 
 
     @staticmethod
-    def borrowed(t, title):
-        return Template.__lang2_etyl(t, title)
-    bor = borrowed
-
-    @staticmethod
     def semi_learned_borrowing(t, title):
         return Template.__lang2_etyl(t, title, "semi-learned borrowing from")
     slbor = semi_learned_borrowing
@@ -150,12 +145,10 @@ class Template():
         return Template.__lang2_etyl(t, title)
 
     der = derived
+    borrowed = derived
+    bor = borrowed
+    inherited = derived
     inh = derived
-
-    @staticmethod
-    def inherited(t, title):
-        return Template.__lang2_etyl(t, title)
-    inh = inherited
 
     @staticmethod
     def __etyl_misc_variant(t, title, pre_text):
@@ -175,8 +168,9 @@ class Template():
         if lang:
             res.append(lang)
 
-        res.append(f"''{display}''")
-        if gloss:
+        if display and display != "-":
+            res.append(f"''{display}''")
+        if gloss and gloss != "-":
             res.append("(“" + str(gloss) + "”)")
 
         return " ".join(res)
@@ -600,7 +594,6 @@ ignore = {
     "top",
     "topics",
     "U:es:relative pronouns",
-    "unk",
     "Wikipedia",
     "wikipedia",
     "wp",
@@ -916,6 +909,8 @@ replace_with = {
     "es-demonstrative-accent-usage": "The unaccented form can function as a pronoun if it can be unambiguously deduced as such from context.",
     "es-note-noun-mf": "The noun {{PAGENAME}} is like most Spanish nouns with a human referent.  The masculine forms are used when the referent is known to be male, a group of males, a group of mixed or unknown gender, or an individual of unknown or unspecified gender.  The feminine forms are used if the referent is known to be female or a group of females.",
     "sup": "^",
+    "unk": "Unknown",
+    "unknown": "Unknown",
 }
 
 handlers = {
