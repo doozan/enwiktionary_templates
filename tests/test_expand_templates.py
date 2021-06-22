@@ -210,4 +210,5 @@ def test_calique():
 def test_bor():
     assert _expand("From the {{bor|es|ar|-}} suffix {{m|ar|ـِيّ}}.", "xxx") == "From the Arabic suffix ''ـِيّ''."
 
-
+def test_pagename_expansion():
+    assert _expand("{{es-note-noun-mf}}", "TEST") == "The noun TEST is like most Spanish nouns with a human referent.  The masculine forms are used when the referent is known to be male, a group of males, a group of mixed or unknown gender, or an individual of unknown or unspecified gender.  The feminine forms are used if the referent is known to be female or a group of females."

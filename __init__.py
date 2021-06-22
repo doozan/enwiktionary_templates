@@ -905,7 +905,7 @@ replace_with = {
     "CE": "C.E.",
     "C.E.": "C.E.",
     "es-note-noun-common-gender-a": "The noun {{PAGENAME}} is like several other Spanish nouns with a human referent and ending in a. The masculine articles and adjectives are used when the referent is known to be male, a group of males, a group of mixed or unknown gender, or an individual of unknown or unspecified gender. The feminine articles and adjectives are used if the referent is known to be female or a group of females.",
-    "es-note-noun-f-starting-with-stressed-a": "* The feminine noun {{PAGENAME}} is like other feminine nouns starting with a stressed ''a'' sound in that it takes the definite article {{m|es|el}} (normally reserved for masculine nouns) in the singular when there is no intervening adjective:\n:: ''[[el#Spanish|el]] {{PAGENAME}}''\n* However, if an adjective, even one that begins with a stressed ''a'' sound such as {{m|es|alta}} or {{m|es|ancha}}, intervenes between the article and the noun, the article reverts to {{m|es|la}}.",
+    "es-note-noun-f-starting-with-stressed-a": "* The feminine noun {{PAGENAME}} is like other feminine nouns starting with a stressed ''a'' sound in that it takes the definite article ''el'' (normally reserved for masculine nouns) in the singular when there is no intervening adjective:\n:: ''el {{PAGENAME}}''\n* However, if an adjective, even one that begins with a stressed ''a'' sound such as ''alta'' or ''ancha'', intervenes between the article and the noun, the article reverts to ''la''.",
     "es-demonstrative-accent-usage": "The unaccented form can function as a pronoun if it can be unambiguously deduced as such from context.",
     "es-note-noun-mf": "The noun {{PAGENAME}} is like most Spanish nouns with a human referent.  The masculine forms are used when the referent is known to be male, a group of males, a group of mixed or unknown gender, or an individual of unknown or unspecified gender.  The feminine forms are used if the referent is known to be female or a group of females.",
     "sup": "^",
@@ -965,9 +965,11 @@ def expand_template(t, title):
         handler = getattr(Template, name, getattr(Template, "_default"))
     return handler(t, title)
 
+
 def expand_templates(wikt, title):
     for t in reversed(wikt.filter_templates()):
         new = expand_template(t, title)
+        new = new.replace("{{PAGENAME}}", str(title))
         wikt.replace(t, new)
 
 
