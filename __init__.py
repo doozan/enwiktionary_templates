@@ -676,7 +676,6 @@ quote1_with = {
 
 # Templates that wrap the second parameter with text other than the template name
 quote2_with = {
-    "-a-o-e": "Gender-neutral e replaces the gendered endings/elements a and o.",
     "abb": "abbreviation of",
     "abbrev of": "abbreviation of",
     "abbreviation": "abbreviation of",
@@ -896,6 +895,7 @@ replace_with = {
     "...": "[…]",
     "!": "|",
     "=": "=",
+    "-a-o-e": "Gender-neutral e replaces the gendered endings/elements a and o.",
     "AD": "C.E.",
     "A.D.": "C.E.",
     "BC": "B.C.E.",
