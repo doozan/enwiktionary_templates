@@ -96,6 +96,10 @@ class Template():
 
         return Template.__format_etyl(t, pre_text, source, display, gloss)
 
+    @staticmethod
+    def learned_borrowing(t, title):
+        return Template.__lang2_etyl(t, title, "learned borrowing from")
+    lbor = learned_borrowing
 
     @staticmethod
     def semi_learned_borrowing(t, title):
