@@ -44,7 +44,7 @@ def test_expand_template():
     assert expand_template(template, "test") == "(test1, test2, test3)"
 
     template = next(mwparserfromhell.parse("{{ellipsis of |es|Antigua Guatemala|nocap=1}}").ifilter_templates())
-    assert expand_template(template, "test") == "ellipsis of ''Antigua Guatemala''"
+    assert expand_template(template, "test") == 'ellipsis of "Antigua Guatemala"'
 
     template = next(mwparserfromhell.parse("# {{es-compound of|adelgaz|ar|adelgazar|las|mood=inf}}").ifilter_templates())
     assert expand_template(template, "test") == 'compound form of "adelgazar"+"las"'
@@ -169,24 +169,24 @@ def test_derived():
     text = "From {{der|es|la|grātīs}}."
     wikt = mwparserfromhell.parse(text)
     expand_templates(wikt, "title")
-    assert str(wikt) == "From Latin ''grātīs''."
+    assert str(wikt) == 'From Latin "grātīs".'
 
     text = "From {{der|es|LL.|abōminābilis}}."
     wikt = mwparserfromhell.parse(text)
     expand_templates(wikt, "title")
-    assert str(wikt) == "From Late Latin ''abōminābilis''."
+    assert str(wikt) == 'From Late Latin "abōminābilis".'
 
     text = "From {{der|es|la|argentum||silver}}"
     wikt = mwparserfromhell.parse(text)
     expand_templates(wikt, "title")
-    assert str(wikt) == "From Latin ''argentum'' (“silver”)"
+    assert str(wikt) == 'From Latin "argentum" (“silver”)'
 
 
 def test_inherited():
     text = "From {{inh|es|la|tenēre||to hold, to have}}"
     wikt = mwparserfromhell.parse(text)
     expand_templates(wikt, "title")
-    assert str(wikt) == "From Latin ''tenēre'' (“to hold, to have”)"
+    assert str(wikt) == 'From Latin "tenēre" (“to hold, to have”)'
 
 
 def test_u_es_false_friend():
@@ -200,12 +200,12 @@ def test_univerbation():
     assert _expand("{{univerbation|es|one|two|three}}", "test") == "Univerbation of one + two + three"
 
 def test_deverbal():
-    assert _expand("{{deverbal|es|escombrar}}", "test") == "Deverbal of ''escombrar''"
-    assert _expand("{{deverbal|es|escombrar||to clear out}}", "test") == "Deverbal of ''escombrar'' (“to clear out”)"
-    assert _expand("{{deverbal|es|limpiar|t=to clean}}", "test") == "Deverbal of ''limpiar'' (“to clean”)"
+    assert _expand("{{deverbal|es|escombrar}}", "test") == 'Deverbal of "escombrar"'
+    assert _expand("{{deverbal|es|escombrar||to clear out}}", "test") == 'Deverbal of "escombrar" (“to clear out”)'
+    assert _expand("{{deverbal|es|limpiar|t=to clean}}", "test") == 'Deverbal of "limpiar" (“to clean”)'
 
 def test_calique():
-    assert _expand("{{calque|es|nci|necuātl}}", "aguamiel") == "Calque of Classical Nahuatl ''necuātl''"
+    assert _expand("{{calque|es|nci|necuātl}}", "aguamiel") == 'Calque of Classical Nahuatl "necuātl"'
 
 def test_bor():
     assert _expand("From the {{bor|es|ar|-}} suffix {{m|ar|ـِيّ}}.", "xxx") == "From the Arabic suffix ''ـِيّ''."

@@ -173,7 +173,7 @@ class Template():
             res.append(lang)
 
         if display and display != "-":
-            res.append(f"''{display}''")
+            res.append(f'"{display}"')
         if gloss and gloss != "-":
             res.append("(“" + str(gloss) + "”)")
 
