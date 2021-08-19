@@ -21,7 +21,7 @@ import mwparserfromhell
 expand_template = enwiktionary_templates.expand_template
 expand_templates = enwiktionary_templates.expand_templates
 
-def _expand(text, pagename):
+def _expand(text, pagename="test"):
     wikt = mwparserfromhell.parse(text)
     expand_templates(wikt, pagename)
     return str(wikt)
@@ -190,25 +190,30 @@ def test_inherited():
 
 
 def test_u_es_false_friend():
-    assert _expand("{{U:es:false friend}}", "test") == "Test is a false friend and does not mean the same as the English word for test."
-    assert _expand("{{U:es:false friend|foo}}", "test") == "Test is a false friend and does not mean the same as the English word for test. \nThe Spanish word for test is ''foo''."
-    assert _expand("{{U:es:false friend|foo|en=bar}}", "test") == "Test is a false friend and does not mean bar. \nThe Spanish word for bar is ''foo''."
-    assert _expand("{{U:es:false friend|foo|en=bar|gloss=glossy}}", "test") == "Test is a false friend and does not mean bar in the sense of ''glossy''. \nThe Spanish word for bar in that sense is ''foo''."
+    assert _expand("{{U:es:false friend}}") == "Test is a false friend and does not mean the same as the English word for test."
+    assert _expand("{{U:es:false friend|foo}}") == "Test is a false friend and does not mean the same as the English word for test. \nThe Spanish word for test is ''foo''."
+    assert _expand("{{U:es:false friend|foo|en=bar}}") == "Test is a false friend and does not mean bar. \nThe Spanish word for bar is ''foo''."
+    assert _expand("{{U:es:false friend|foo|en=bar|gloss=glossy}}") == "Test is a false friend and does not mean bar in the sense of ''glossy''. \nThe Spanish word for bar in that sense is ''foo''."
 
 def test_univerbation():
-    assert _expand("{{univerbation|es|one|two}}", "test") == "Univerbation of one + two"
-    assert _expand("{{univerbation|es|one|two|three}}", "test") == "Univerbation of one + two + three"
+    assert _expand("{{univerbation|es|one|two}}") == "Univerbation of one + two"
+    assert _expand("{{univerbation|es|one|two|three}}") == "Univerbation of one + two + three"
 
 def test_deverbal():
-    assert _expand("{{deverbal|es|escombrar}}", "test") == 'Deverbal of "escombrar"'
-    assert _expand("{{deverbal|es|escombrar||to clear out}}", "test") == 'Deverbal of "escombrar" (“to clear out”)'
-    assert _expand("{{deverbal|es|limpiar|t=to clean}}", "test") == 'Deverbal of "limpiar" (“to clean”)'
+    assert _expand("{{deverbal|es|escombrar}}") == 'Deverbal of "escombrar"'
+    assert _expand("{{deverbal|es|escombrar||to clear out}}") == 'Deverbal of "escombrar" (“to clear out”)'
+    assert _expand("{{deverbal|es|limpiar|t=to clean}}") == 'Deverbal of "limpiar" (“to clean”)'
 
 def test_calique():
-    assert _expand("{{calque|es|nci|necuātl}}", "aguamiel") == 'Calque of Classical Nahuatl "necuātl"'
+    assert _expand("{{calque|es|nci|necuātl}}") == 'Calque of Classical Nahuatl "necuātl"'
 
 def test_bor():
-    assert _expand("From the {{bor|es|ar|-}} suffix {{m|ar|ـِيّ}}.", "xxx") == "From the Arabic suffix ''ـِيّ''."
+    assert _expand("From the {{bor|es|ar|-}} suffix {{m|ar|ـِيّ}}.") == "From the Arabic suffix ''ـِيّ''."
 
 def test_pagename_expansion():
-    assert _expand("{{es-note-noun-mf}}", "TEST") == "The noun TEST is like most Spanish nouns with a human referent.  The masculine forms are used when the referent is known to be male, a group of males, a group of mixed or unknown gender, or an individual of unknown or unspecified gender.  The feminine forms are used if the referent is known to be female or a group of females."
+    assert _expand("{{es-note-noun-mf}}") == "The noun test is like most Spanish nouns with a human referent.  The masculine forms are used when the referent is known to be male, a group of males, a group of mixed or unknown gender, or an individual of unknown or unspecified gender.  The feminine forms are used if the referent is known to be female or a group of females."
+
+def test_named_after():
+    assert _expand("{{named-after|en|nationality=French|occupation=navigator|Louis Antoine de Bougainville|wplink=Louis_Antoine_de_Bougainville|nocat=1}}.") == "Named after French navigator Louis Antoine de Bougainville."
+    assert _expand("Possibly {{named-after|en|nocap=1|nationality=Greco-Egyptian|occupation=pharaoh|Κλαύδιος Πτολεμαῖος|wplink=Ptolemy|tr=Klaudios Ptolemaios|sc=polytonic|nocat=1}}.") == "Possibly named after Greco-Egyptian pharaoh Κλαύδιος Πτολεμαῖος (Klaudios Ptolemaios)."
+

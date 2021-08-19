@@ -442,6 +442,47 @@ class Template():
         return " ".join(res)
     mention = m
 
+    @staticmethod
+    def named_after(t, title):
+        res = []
+        if t.has('alt'):
+            res.append(str(t.get('alt').value))
+        else:
+            if t.has("nocap"):
+                res.append("named after")
+            else:
+                res.append("Named after")
+
+        if t.has("alt"):
+            res.append(str(t.get('alt').value))
+        else:
+            if t.has("nationality"):
+                res.append(str(t.get('nationality').value))
+            elif t.has("nat"):
+                res.append(str(t.get('nat').value))
+            if t.has("occupation"):
+                res.append(str(t.get('occupation').value))
+            elif t.has("occ"):
+                res.append(str(t.get('occ').value))
+
+        if t.has(2):
+            res.append(str(t.get(2).value))
+        else:
+            res.append("an unknown person")
+
+        if t.has("tr"):
+            res.append("(" + str(t.get('tr').value) + ")")
+
+        if t.has("born") or t.has("died"):
+            lived = ""
+            if t.has("born"):
+                t.lived = str(t.get('born').value) + "-"
+            else:
+                t.lived = "?-"
+            if t.has("died"):
+                t.lived += "-" + str(t.get('died').value)
+
+        return " ".join(res)
 
     @staticmethod
     def non_gloss_definition(t, title):
