@@ -87,17 +87,13 @@ def test_af():
     assert expand_template(template, "test") == "pest + -i- + -cide"
 
 def test_doublet():
-    template = next(mwparserfromhell.parse("{{doublet|en|test}}").ifilter_templates())
-    assert expand_template(template, "test") == "Doublet of test"
+    assert _expand("{{doublet|en|test}}") == "Doublet of test"
 
-    template = next(mwparserfromhell.parse("{{doublet|en|test|notext=1}}").ifilter_templates())
-    assert expand_template(template, "test") == "test"
+    assert _expand("{{doublet|en|test|notext=1}}") == "test"
 
-    template = next(mwparserfromhell.parse("{{doublet|en|test|nocap=1}}").ifilter_templates())
-    assert expand_template(template, "test") == "doublet of test"
+    assert _expand("{{doublet|en|test|nocap=1}}") == "doublet of test"
 
-    template = next(mwparserfromhell.parse("{{doublet|en|test|test2}}").ifilter_templates())
-    assert expand_template(template, "test") == "Doublet of test, test2"
+    assert _expand("{{doublet|en|test|test2}}") == "Doublet of test, test2"
 
 def test_newlabels():
     template = next(mwparserfromhell.parse("{{lb|en|test}}").ifilter_templates())
@@ -216,4 +212,11 @@ def test_pagename_expansion():
 def test_named_after():
     assert _expand("{{named-after|en|nationality=French|occupation=navigator|Louis Antoine de Bougainville|wplink=Louis_Antoine_de_Bougainville|nocat=1}}.") == "Named after French navigator Louis Antoine de Bougainville."
     assert _expand("Possibly {{named-after|en|nocap=1|nationality=Greco-Egyptian|occupation=pharaoh|Κλαύδιος Πτολεμαῖος|wplink=Ptolemy|tr=Klaudios Ptolemaios|sc=polytonic|nocat=1}}.") == "Possibly named after Greco-Egyptian pharaoh Κλαύδιος Πτολεμαῖος (Klaudios Ptolemaios)."
+
+def test_coinage():
+    assert _expand("{{coinage|en|Josiah Willard Gibbs}}") == "Coined by Josiah Willard Gibbs"
+    assert _expand("{{coinage|en|Josiah Willard Gibbs|in=1881|nat=American|occ=scientist}}") == "Coined by American scientist Josiah Willard Gibbs in 1881"
+
+def test_and_lit():
+    assert _expand("{{&lit|es|to [[serve]] (on an [[dish]], [[plate]])}}") == "Used other than figuratively or idiomatically: to [[serve]] (on an [[dish]], [[plate]])."
 

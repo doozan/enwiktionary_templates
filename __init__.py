@@ -48,18 +48,16 @@ class Template():
         res = []
         if t.has("qualifier"):
             res.append(str(t.get("qualifier")))
-            res.append("Used other than with a figurative sense or idiom")
+            res.append("used other than figuratively or idiomatically:")
         else:
-            res.append("used other than as an idiom")
+            res.append("Used other than figuratively or idiomatically:")
 
         x = 2
         while t.has(x):
-            val = str(t.get(x))
-            alt = t.get("alt"+str(x-1)) if t.has("alt"+str(x-1)) else None
-            if alt:
-                res.append(f"[[{val}|{alt}]]")
+            if t.has(f"alt{x-1}"):
+                res.append(str(t.get(f"alt{x-1}")))
             else:
-                res.append(f"[[{val}]]")
+                res.append(str(t.get(x)))
             x+=1
 
         if t.has("nodot") and str(t.get("nodot")):
@@ -69,11 +67,25 @@ class Template():
             return " ".join(res) + dot
 
     @staticmethod
+    def abbrev(t, title):
+        return Template.__etyl_misc_variant(t, title, "acronym of")
+
+    @staticmethod
+    def acronym(t, title):
+        return Template.__etyl_misc_variant(t, title, "acronym of")
+
+    @staticmethod
     def affix(t, title):
         res = []
         p = 2
         while t.has(p) and str(t.get(p).value):
-            res.append(str(t.get(p).value))
+            val = str(t.get(p).value)
+            if t.has(f"tr{p}"):
+                val += "(" + str(t.get(f"tr{p}").value) + ")"
+            elif t.has(f"gloss{p}"):
+                val += "(" + str(t.get(f"gloss{p}").value) + ")"
+
+            res.append(val)
             p += 1
 
         return " + ".join(res)
@@ -83,56 +95,34 @@ class Template():
     com = affix
     confix = affix
     blend = affix
+    circumfix = affix
 
     @staticmethod
-    def back_formation(t, title):
-        return Template.__etyl_misc_variant(t, title, "back formation of")
+    def ante(t, title):
+        res = ["a."]
+        res.append(str(t.get(1).value))
+        if t.has(2):
+            res.append(str(t.get(2).value))
+        return " ".join(res)
 
     @staticmethod
-    def __lang2_etyl(t, title, pre_text=None):
-        source = Template.__get_lang(str(t.get(2).value))
-        display = next((str(t.get(p).value) for p in ["alt", "4", "3"] if t.has(p) and str(t.get(p).value)), None)
-        gloss = next((str(t.get(p).value) for p in ["t", "gloss", "5"] if t.has(p) and str(t.get(p).value)), None)
+    def ar_root(t, title):
+        if t.has("notext"):
+            return ""
 
-        return Template.__format_etyl(t, pre_text, source, display, gloss)
+        res = []
+        p = 2
+        while t.has(p) and str(t.get(p).value):
+            res.append(str(t.get(p).value))
+            p += 1
 
-    @staticmethod
-    def learned_borrowing(t, title):
-        return Template.__lang2_etyl(t, title, "learned borrowing from")
-    lbor = learned_borrowing
-
-    @staticmethod
-    def semi_learned_borrowing(t, title):
-        return Template.__lang2_etyl(t, title, "semi-learned borrowing from")
-    slbor = semi_learned_borrowing
+        return " ".join(res)
 
     @staticmethod
-    def orthorgraphic_borrowing(t, title):
-        return Template.__lang2_etyl(t, title, "orthographic borrowing from")
-    obor = orthorgraphic_borrowing
-
-    @staticmethod
-    def semantic_loan(t, title):
-        return Template.__lang2_etyl(t, title, "semantic loan from")
-    sl = semantic_loan
-
-    @staticmethod
-    def unadapted_borrowing(t, title):
-        return Template.__lang2_etyl(t, title, "unadapted borrowing from")
-    ubor = unadapted_borrowing
-
-    @staticmethod
-    def calque(t, title):
-        return Template.__lang2_etyl(t, title, "calque of")
-
-    cal = calque
-    clq = calque
-
-    @staticmethod
-    def clipping(t, title):
-        return Template.__etyl_misc_variant(t, title, "clipping of")
-    clip = clipping
-    clipping_of = clipping
+    def ar_tool_noun(t, title):
+        if t.has("lc"):
+            return "tool noun"
+        return "Tool noun"
 
     @staticmethod
     def __get_lang(lang_id):
@@ -143,22 +133,6 @@ class Template():
         if not src_lang:
             src_lang = lang_id
         return src_lang
-
-    @staticmethod
-    def derived(t, title):
-        return Template.__lang2_etyl(t, title)
-
-    der = derived
-    borrowed = derived
-    bor = borrowed
-    inherited = derived
-    inh = derived
-
-    @staticmethod
-    def __etyl_misc_variant(t, title, pre_text):
-        display = next((str(t.get(p).value) for p in ["alt", "2", "3"] if t.has(p) and str(t.get(p).value)), title)
-        gloss = next((str(t.get(p).value) for p in ["gloss", "t", "4"] if t.has(p) and str(t.get(p).value)), None)
-        return Template.__format_etyl(t, pre_text, None, display, gloss)
 
     @staticmethod
     def __format_etyl(t, pre_text, lang, display, gloss):
@@ -180,6 +154,84 @@ class Template():
         return " ".join(res)
 
     @staticmethod
+    def __lang2_etyl(t, title, pre_text=None):
+        source = Template.__get_lang(str(t.get(2).value))
+        display = next((str(t.get(p).value) for p in ["alt", "4", "3"] if t.has(p) and str(t.get(p).value)), None)
+        gloss = next((str(t.get(p).value) for p in ["t", "gloss", "5"] if t.has(p) and str(t.get(p).value)), None)
+        return Template.__format_etyl(t, pre_text, source, display, gloss)
+
+    @staticmethod
+    def __etyl_misc_variant(t, title, pre_text=None):
+        display = next((str(t.get(p).value) for p in ["alt", "2", "3"] if t.has(p) and str(t.get(p).value)), title)
+        gloss = next((str(t.get(p).value) for p in ["gloss", "t", "4"] if t.has(p) and str(t.get(p).value)), None)
+        return Template.__format_etyl(t, pre_text, None, display, gloss)
+###
+
+    @staticmethod
+    def back_formation(t, title):
+        return Template.__etyl_misc_variant(t, title, "back formation of")
+    back_form = back_formation
+    bf = back_formation
+
+    @staticmethod
+    def calque(t, title):
+        return Template.__lang2_etyl(t, title, "calque of")
+    cal = calque
+    clq = calque
+
+    @staticmethod
+    def clipping(t, title):
+        return Template.__etyl_misc_variant(t, title, "clipping of")
+    clip = clipping
+    clipping_of = clipping
+
+    @staticmethod
+    def coinage(t, title):
+        lang = Template.__get_lang(str(t.get(1).value))
+
+        coiner = str(t.get("alt").value) if t.has("alt") else str(t.get(2).value)
+
+        res = []
+        if not t.has("notext"):
+            if t.has("nocap"):
+                res.append("coined by")
+            else:
+                res.append("Coined by")
+
+        if t.has("nationality"):
+            res.append(str(t.get("nationality").value))
+        elif t.has("nat"):
+            res.append(str(t.get("nat").value))
+
+        if t.has("occupation"):
+            res.append(str(t.get("occupation").value))
+        elif t.has("occ"):
+            res.append(str(t.get("occ").value))
+        # TODO: handle muliple occupations
+
+        res.append(coiner)
+
+        if t.has("in"):
+            res.append("in " + str(t.get("in").value))
+
+        return " ".join(res)
+    coin = coinage
+
+    @staticmethod
+    def derived(t, title):
+        return Template.__lang2_etyl(t, title)
+    der = derived
+    borrowed = derived
+    bor = borrowed
+    inherited = derived
+    inh = derived
+    cognate = derived
+    cog = derived
+    nc = derived
+    ncog = derived
+    noncog = derived
+
+    @staticmethod
     def deverbal(t, title):
         return Template.__etyl_misc_variant(t, title, "deverbal of")
 
@@ -196,6 +248,8 @@ class Template():
             p += 1
 
         return text + ", ".join(res)
+
+    dbt = doublet
 
     @staticmethod
     def ellipsis(t, title):
@@ -345,7 +399,6 @@ class Template():
             return ""
         return f"({res})"
 
-
     @staticmethod
     def label(t, title):
         labels = [ str(p.value).strip() for p in t.params if str(p.name).isdigit() and p.name != "1" ]
@@ -402,6 +455,11 @@ class Template():
         return res
 
     @staticmethod
+    def learned_borrowing(t, title):
+        return Template.__lang2_etyl(t, title, "learned borrowing from")
+    lbor = learned_borrowing
+
+    @staticmethod
     def link(t, title):
         display = ""
         gloss = ""
@@ -441,6 +499,11 @@ class Template():
 
         return " ".join(res)
     mention = m
+
+    @staticmethod
+    def mention_gloss(t, title):
+        return '"' + str(t.get(1).value) + '"'
+    m_g = mention_gloss
 
     @staticmethod
     def named_after(t, title):
@@ -489,22 +552,6 @@ class Template():
         return str(t.get(1))
     non_gloss = ngd = n_g = non_gloss_definition
 
-    def place(t, title):
-        if t.has(2) and str(t.get(2)):
-            return title + " (" + str(t.get(2)) + ")"
-        else:
-            return title + " (place)"
-
-    @staticmethod
-    def pagename(t, title):
-        return title
-
-    @staticmethod
-    def prefix(t, title):
-        return f"{t.get(2)}- + {t.get(3)}"
-
-    pre = prefix
-
     @staticmethod
     def onomatopoeic(t, title):
         if t.has("title"):
@@ -514,8 +561,53 @@ class Template():
         if t.has("nocap"):
             return "onomatopoeic"
         return "Onomatopoeic"
-
     onom = onomatopoeic
+
+    @staticmethod
+    def orthorgraphic_borrowing(t, title):
+        return Template.__lang2_etyl(t, title, "orthographic borrowing from")
+    obor = orthorgraphic_borrowing
+
+    @staticmethod
+    def pagename(t, title):
+        return title
+
+    @staticmethod
+    def partial_calque(t, title):
+        return Template.__lang2_etyl(t, title, "partial calque of")
+    pcal = partial_calque
+    pclq = partial_calque
+
+    @staticmethod
+    def place(t, title):
+        if t.has(2) and str(t.get(2)):
+            return title + " (" + str(t.get(2)) + ")"
+        else:
+            return title + " (place)"
+
+    @staticmethod
+    def prefix(t, title):
+        res = []
+        res.append(str(t.get(2).value))
+        res.append("+")
+        if t.has(3):
+            res.append(str(t.get(3).value))
+        return " ".join(res)
+    pre = prefix
+
+    @staticmethod
+    def phono_semantic_matching(t, title):
+        return Template.__lang2_etyl(t, title, "phono-semantic matching of")
+    psm = phono_semantic_matching
+
+    @staticmethod
+    def qf(t, title):
+        return "(" + str(t.get(1)) + ")"
+
+    @staticmethod
+    def qflit(t, title):
+        return "(literally: " + str(t.get(1)) + ")"
+    lit = qflit
 
     @staticmethod
     def qualifier(t, title):
@@ -524,16 +616,29 @@ class Template():
     q = i = qual = qualifier
 
     @staticmethod
-    def qf(t, title):
-        return "(" + str(t.get(1)) + ")"
-
-    @staticmethod
     def rebracketing(t, title):
         return Template.__etyl_misc_variant(t, title, "rebracketing of")
 
     @staticmethod
     def reduplication(t, title):
         return Template.__etyl_misc_variant(t, title, "reduplication of")
+
+    @staticmethod
+    def rel_top(t, title):
+        if t.has(1):
+            return "---- " + str(t.get(1).value) + " ----"
+        else:
+            return "----"
+
+    @staticmethod
+    def semantic_loan(t, title):
+        return Template.__lang2_etyl(t, title, "semantic loan from")
+    sl = semantic_loan
+
+    @staticmethod
+    def semi_learned_borrowing(t, title):
+        return Template.__lang2_etyl(t, title, "semi-learned borrowing from")
+    slbor = semi_learned_borrowing
 
     @staticmethod
     def sense(t, title):
@@ -549,6 +654,11 @@ class Template():
     @staticmethod
     def surname(t, title):
         return "surname"
+
+    @staticmethod
+    def unadapted_borrowing(t, title):
+        return Template.__lang2_etyl(t, title, "unadapted borrowing from")
+    ubor = unadapted_borrowing
 
     @staticmethod
     def univerbation(t, title):
@@ -621,10 +731,13 @@ ignore = {
     "es-suffix",
     "es-verb",
     "es-verb-form",
+    "etystub",
     "ISBN",
     "nbsp",
     "nonlemma",
+    "rel-bottom",
     "rfclarify",
+    "rfe",
     "rfex",
     "rfv-etym",
     "rfc-sense",
@@ -634,6 +747,7 @@ ignore = {
     "rfquotek",
     "rfquote-sense",
     "rfv-sense",
+    "root",
     "tea room sense",
     "t2i-Egyd",
     "top",
@@ -651,6 +765,7 @@ p1 = {
     "defdt",
     "defdate",
     "en-phrase",
+    "epinew",
     "glink",
     "glossary",
     "honoraltcaps",
@@ -661,6 +776,7 @@ p1 = {
     "ja-r",
     "keyword",
     "ko-inline",
+    "ko-l",
     "n-g",
     "ngd",
     "nobold",
@@ -687,14 +803,13 @@ p1 = {
     "w",
     "W",
     "wtorw",
+    "zh-l",
     "zh-m",
 }
 
 # Templates that just return the second parameter
 p2 = {
     "lang",
-    "cog",
-    "noncog",
 #    "quote",
 #    "w2",
 }
@@ -721,10 +836,6 @@ quote1_with = {
 
 # Templates that wrap the second parameter with text other than the template name
 quote2_with = {
-    "abb": "abbreviation of",
-    "abbrev of": "abbreviation of",
-    "abbreviation": "abbreviation of",
-    "abbreviation-old": "old abbreviation of",
     "abbr of": "abbreviation of",
     "adj form of": "adjective form of",
     "altcaps": "alternative letter-case form of",
@@ -958,6 +1069,7 @@ replace_with = {
     "unknown": "Unknown",
 }
 
+# Special case handles for templates with characters that won't resolve to good function_names
 handlers = {
     'U:es:false friend': Template.u_es_false_friend,
     "&lit": Template._and_lit,
