@@ -69,6 +69,7 @@ class Template():
     @staticmethod
     def abbrev(t, title):
         return Template.__etyl_misc_variant(t, title, "acronym of")
+    abbreviation = abbrev
 
     @staticmethod
     def acronym(t, title):
@@ -154,10 +155,10 @@ class Template():
         return " ".join(res)
 
     @staticmethod
-    def __lang2_etyl(t, title, pre_text=None):
-        source = Template.__get_lang(str(t.get(2).value))
-        display = next((str(t.get(p).value) for p in ["alt", "4", "3"] if t.has(p) and str(t.get(p).value)), None)
-        gloss = next((str(t.get(p).value) for p in ["t", "gloss", "5"] if t.has(p) and str(t.get(p).value)), None)
+    def __lang2_etyl(t, title, pre_text=None, offset=1):
+        source = Template.__get_lang(str(t.get(1+offset).value))
+        display = next((str(t.get(p).value) for p in ["alt", 3+offset, 2+offset] if t.has(p) and str(t.get(p).value)), None)
+        gloss = next((str(t.get(p).value) for p in ["t", "gloss", 4+offset] if t.has(p) and str(t.get(p).value)), None)
         return Template.__format_etyl(t, pre_text, source, display, gloss)
 
     @staticmethod
@@ -165,7 +166,6 @@ class Template():
         display = next((str(t.get(p).value) for p in ["alt", "2", "3"] if t.has(p) and str(t.get(p).value)), title)
         gloss = next((str(t.get(p).value) for p in ["gloss", "t", "4"] if t.has(p) and str(t.get(p).value)), None)
         return Template.__format_etyl(t, pre_text, None, display, gloss)
-###
 
     @staticmethod
     def back_formation(t, title):
@@ -225,11 +225,14 @@ class Template():
     bor = borrowed
     inherited = derived
     inh = derived
-    cognate = derived
-    cog = derived
-    nc = derived
-    ncog = derived
-    noncog = derived
+
+    def cognate(t, title):
+        return Template.__lang2_etyl(t, title, offset=0)
+    cognate = cognate
+    cog = cognate
+    nc = cognate
+    ncog = cognate
+    noncog = cognate
 
     @staticmethod
     def deverbal(t, title):
@@ -647,7 +650,8 @@ class Template():
 
     @staticmethod
     def suffix(t, title):
-        return f"{t.get(2)} + -{t.get(3)}"
+        suf = str(t.get(3).value).lstrip("-")
+        return f"{t.get(2)} + -{suf}"
 
     suf = suffix
 

@@ -76,8 +76,8 @@ def test_expand_templates():
     expand_templates(wikt, "title")
     assert str(wikt) == "Latin"
 
-    template = next(mwparserfromhell.parse("{{suffix|en|do|ing}}").ifilter_templates())
-    assert expand_template(template, "test") == "do + -ing"
+    assert _expand("{{suffix|en|do|ing}}") == "do + -ing"
+    assert _expand("{{suffix|en|do|-ing}}") == "do + -ing"
 
 def test_af():
     template = next(mwparserfromhell.parse("{{af|en|volley|ball}}").ifilter_templates())
@@ -159,6 +159,9 @@ def test_indtr():
         template = mwparserfromhell.parse(k).filter_templates()[0]
         assert expand_template(template, "test") == v
 
+def test_cognate():
+    assert _expand("{{cog|qfa-sub-ibe}}") == "a pre-Roman substrate of Iberia"
+    assert _expand("{{cog|it|guida}}") == 'Italian "guida"'
 
 def test_derived():
 
@@ -176,6 +179,8 @@ def test_derived():
     wikt = mwparserfromhell.parse(text)
     expand_templates(wikt, "title")
     assert str(wikt) == 'From Latin "argentum" (“silver”)'
+
+    assert _expand("{{der|es|la|-esco|-ēscere}}") == 'Latin "-ēscere"'
 
 
 def test_inherited():
