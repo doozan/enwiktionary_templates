@@ -1056,6 +1056,7 @@ replace_with = {
     "!": "|",
     "=": "=",
     "-a-o-e": "Gender-neutral e replaces the gendered endings/elements a and o.",
+    "-a-o-x": "Gender-neutral x replaces the gendered endings/elements a and o.",
     "AD": "C.E.",
     "A.D.": "C.E.",
     "BC": "B.C.E.",
