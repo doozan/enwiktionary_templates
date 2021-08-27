@@ -21,6 +21,8 @@ import mwparserfromhell
 expand_template = enwiktionary_templates.expand_template
 expand_templates = enwiktionary_templates.expand_templates
 
+from enwiktionary_parser.languages.all_ids import languages as all_langs
+
 def _expand(text, pagename="test"):
     wikt = mwparserfromhell.parse(text)
     expand_templates(wikt, pagename)
@@ -181,6 +183,20 @@ def test_derived():
     assert str(wikt) == 'From Latin "argentum" (“silver”)'
 
     assert _expand("{{der|es|la|-esco|-ēscere}}") == 'Latin "-ēscere"'
+
+
+    @staticmethod
+    def __get_lang(lang_id):
+        lang_id = lang_id.strip('\n .')
+        src_lang = all_langs.get(lang_id.lower())
+        if not src_lang:
+            src_lang = ety_langs.get(lang_id, {}).get("canonicalName")
+        if not src_lang:
+            src_lang = lang_id
+        return src_lang
+
+    assert enwiktionary_templates.Template.__get_lang("gem") == "Germanic"
+    assert _expand("{{der|es|gem}}") == "Germanic"
 
 
 def test_inherited():

@@ -24,6 +24,7 @@ def dump_label_data():
 
     print("data = {}")
     for module in modules:
+
         target = "Module:labels/data"
         suffix = ""
         if module:
@@ -33,6 +34,7 @@ def dump_label_data():
 
         for varname in variables:
             print(f"# Data from: {res['url']} (revision: {res['revision']}, scraped {datetime.datetime.now()})")
+            print(f'data["{module}_{varname}"] = {{}}')
             pydata = luadata_to_python.convert(res["wikitext"], varname, f'data["{module}_{varname}"]', trim_newlines=True)
             print(pydata)
 

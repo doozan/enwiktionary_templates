@@ -1,28 +1,28 @@
 data = {}
-# Data from: https://en.wiktionary.org/wiki/Module:etymology_languages/data (revision: 61395490, scraped 2021-01-12 17:54:40.856431)
+# Data from: https://en.wiktionary.org/wiki/Module:etymology_languages/data (revision: 63752843, scraped 2021-08-26 18:06:31.025869)
 data["aln"] = {
     "canonicalName" : "Gheg Albanian",
     "aliases" : ["Gheg"],
     "parent" : "sq",
-    "wikidata_item" : "Q181037",
+    "wikidata_item" : 181037,
 }
 data["aae"] = {
     "canonicalName" : "Arbëresh Albanian",
     "aliases" : ["Arbëreshë", "Arbëresh"],
     "parent" : "sq",
-    "wikidata_item" : "Q1075302",
+    "wikidata_item" : 1075302,
 }
 data["aat"] = {
     "canonicalName" : "Arvanitika Albanian",
     "aliases" : ["Arvanitika"],
     "parent" : "sq",
-    "wikidata_item" : "Q29347",
+    "wikidata_item" : 29347,
 }
 data["als"] = {
     "canonicalName" : "Tosk Albanian",
     "aliases" : ["Tosk"],
     "parent" : "sq",
-    "wikidata_item" : "Q180937",
+    "wikidata_item" : 180937,
 }
 data["bnt-cmn"] = {
     "canonicalName" : "Common Bantu",
@@ -60,68 +60,86 @@ data["akk-lbb"] = {
     "canonicalName" : "Late Babylonian",
     "parent" : "akk",
 }
+data["jrb"] = {
+    "canonicalName" : "Judeo-Arabic",
+    "parent" : "ar",
+    "wikidata_item" : 37733,
+}
 data["arc-bib"] = {
     "canonicalName" : "Biblical Aramaic",
     "parent" : "arc",
-}
-data["arc-imp"] = {
-    "canonicalName" : "Imperial Aramaic",
-    "aliases" : ["Official Aramaic"],
-    "parent" : "arc",
-}
-data["arc-hat"] = {
-    "canonicalName" : "Hatran Aramaic",
-    "parent" : "arc",
-}
-data["sem-jar"] = {
-    "canonicalName" : "Jewish Aramaic",
-    "aliases" : ["Judeo-Aramaic"],
-    "parent" : "arc",
-    "wikidata_item" : "Q2633045",
-}
-data["arc-pal"] = {
-    "canonicalName" : "Palmyrene Aramaic",
-    "parent" : "arc",
-}
-data["tmr"] = {
-    "canonicalName" : "Jewish Babylonian Aramaic",
-    "parent" : "arc",
-    "wikidata_item" : "Q33407",
-}
-data["jpa"] = {
-    "canonicalName" : "Jewish Palestinian Aramaic",
-    "aliases" : ["Galilean Aramaic"],
-    "parent" : "arc",
-    "wikidata_item" : "Q948909",
+    "wikidata_item" : 843235,
 }
 data["arc-cpa"] = {
     "canonicalName" : "Christian Palestinian Aramaic",
     "aliases" : ["Melkite Aramaic", "Palestinian Syriac", "Syropalestinian Aramaic"],
     "parent" : "arc",
-    "wikidata_item" : "Q60790119",
+    "wikidata_item" : 60790119,
+}
+data["arc-imp"] = {
+    "canonicalName" : "Imperial Aramaic",
+    "aliases" : ["Official Aramaic"],
+    "parent" : "arc",
+    "wikidata_item" : 7079491,
+}
+data["arc-hat"] = {
+    "canonicalName" : "Hatran Aramaic",
+    "parent" : "arc",
+    "wikidata_item" : 3832926,
+}
+data["arc-jla"] = {
+    "canonicalName" : "Jewish Literary Aramaic",
+    "parent" : "arc",
+    "wikidata_item" : 105952842,
+}
+data["arc-nab"] = {
+    "canonicalName" : "Nabataean Aramaic",
+    "parent" : "arc",
+    "wikidata_item" : 36178,
+}
+data["arc-old"] = {
+    "canonicalName" : "Old Aramaic",
+    "parent" : "arc",
+    "wikidata_item" : 3398392,
+}
+data["arc-pal"] = {
+    "canonicalName" : "Palmyrene Aramaic",
+    "parent" : "arc",
+    "wikidata_item" : 1510113,
+}
+data["tmr"] = {
+    "canonicalName" : "Jewish Babylonian Aramaic",
+    "parent" : "arc",
+    "wikidata_item" : 33407,
+}
+data["jpa"] = {
+    "canonicalName" : "Jewish Palestinian Aramaic",
+    "aliases" : ["Galilean Aramaic"],
+    "parent" : "arc",
+    "wikidata_item" : 948909,
 }
 data["ca-val"] = {
     "canonicalName" : "Valencian",
     "parent" : "ca",
-    "wikidata_item" : "Q32641",
+    "wikidata_item" : 32641,
 }
 data["ncb-cam"] = {
     "canonicalName" : "Camorta",
     "aliases" : ["Kamorta"],
     "parent" : "ncb",
-    "wikidata_item" : "Q5026908",
+    "wikidata_item" : 5026908,
 }
 data["ncb-kat"] = {
     "canonicalName" : "Katchal",
     "aliases" : ["Tehnu"],
     "parent" : "ncb",
-    "wikidata_item" : "Q17064263",
+    "wikidata_item" : 17064263,
 }
 data["ncb-nan"] = {
     "canonicalName" : "Nancowry",
     "aliases" : ["Nankwari"],
     "parent" : "ncb",
-    "wikidata_item" : "Q6962504",
+    "wikidata_item" : 6962504,
 }
 data["och-ear"] = {
     "canonicalName" : "Early Old Chinese",
@@ -146,34 +164,34 @@ data["cmn-ear"] = {
 data["wuu-sha"] = {
     "canonicalName" : "Shanghainese",
     "parent" : "wuu",
-    "wikidata_item" : "Q36718",
+    "wikidata_item" : 36718,
 }
 data["hsn-old"] = {
     "canonicalName" : "Old Xiang",
     "aliases" : ["Lou-Shao"],
     "parent" : "hsn",
-    "wikidata_item" : "Q7085453",
+    "wikidata_item" : 7085453,
 }
 data["zhx-pin"] = {
     "canonicalName" : "Pinghua",
     "parent" : "yue",
-    "wikidata_item" : "Q2735715",
+    "wikidata_item" : 2735715,
 }
 data["nan-hai"] = {
     "canonicalName" : "Hainanese",
     "parent" : "nan",
-    "wikidata_item" : "Q934541",
+    "wikidata_item" : 934541,
 }
 data["nan-hok"] = {
     "canonicalName" : "Hokkien",
     "parent" : "nan",
-    "wikidata_item" : "Q1624231",
+    "wikidata_item" : 1624231,
 }
 data["nan-xm"] = {
     "canonicalName" : "Amoy",
     "aliases" : ["Xiamenese"],
     "parent" : "nan-hok",
-    "wikidata_item" : "Q68744",
+    "wikidata_item" : 68744,
 }
 data["nan-zz"] = {
     "canonicalName" : "Zhangzhou Hokkien",
@@ -190,7 +208,7 @@ data["nan-jj"] = {
 data["nan-ph"] = {
     "canonicalName" : "Philippine Hokkien",
     "parent" : "nan-jj",
-    "wikidata_item" : "Q3236692",
+    "wikidata_item" : 3236692,
 }
 data["cop-akh"] = {
     "canonicalName" : "Akhmimic Coptic",
@@ -201,7 +219,7 @@ data["cop-boh"] = {
     "canonicalName" : "Bohairic Coptic",
     "aliases" : ["Bohairic", "Memphitic Coptic", "Memphitic"],
     "parent" : "cop",
-    "wikidata_item" : "Q890733",
+    "wikidata_item" : 890733,
 }
 data["cop-ggg"] = {
     "canonicalName" : "Coptic Dialect G",
@@ -226,7 +244,7 @@ data["cop-fay"] = {
     "aliases" : ["Fayyumic", "Faiyumic Coptic", "Faiyumic", "Fayumic Coptic", "Fayumic",
         "Bashmuric Coptic", "Bashmuric"],
     "parent" : "cop",
-    "wikidata_item" : "Q1399115",
+    "wikidata_item" : 1399115,
 }
 data["cop-her"] = {
     "canonicalName" : "Hermopolitan Coptic",
@@ -261,18 +279,18 @@ data["cop-sah"] = {
     "canonicalName" : "Sahidic Coptic",
     "aliases" : ["Sahidic", "Saidic Coptic", "Saidic", "Thebaic Coptic", "Thebaic"],
     "parent" : "cop",
-    "wikidata_item" : "Q2645851",
+    "wikidata_item" : 2645851,
 }
 data["egy-old"] = {
     "canonicalName" : "Old Egyptian",
     "parent" : "egy",
-    "wikidata_item" : "Q447117",
+    "wikidata_item" : 447117,
 }
 data["egy-mid"] = {
     "canonicalName" : "Middle Egyptian",
     "aliases" : ["Classical Egyptian"],
     "parent" : "egy",
-    "wikidata_item" : "Q657330",
+    "wikidata_item" : 657330,
 }
 data["egy-nmi"] = {
     "canonicalName" : "Neo-Middle Egyptian",
@@ -282,7 +300,7 @@ data["egy-nmi"] = {
 data["egy-lat"] = {
     "canonicalName" : "Late Egyptian",
     "parent" : "egy",
-    "wikidata_item" : "Q1852329",
+    "wikidata_item" : 1852329,
 }
 data["elx-old"] = {
     "canonicalName" : "Old Elamite",
@@ -303,14 +321,14 @@ data["elx-ach"] = {
 data["en-GB"] = {
     "canonicalName" : "British English",
     "parent" : "en",
-    "wikidata_item" : "Q7979",
+    "wikidata_item" : 7979,
 }
 data["British English"] = data["en-GB"]
 data["BE."] = data["en-GB"]
 data["en-US"] = {
     "canonicalName" : "American English",
     "parent" : "en",
-    "wikidata_item" : "Q7976",
+    "wikidata_item" : 7976,
 }
 data["American English"] = data["en-US"]
 data["AE."] = data["en-US"]
@@ -321,7 +339,7 @@ data["en-geo"] = {
 data["sco-osc"] = {
     "canonicalName" : "Early Scots",
     "parent" : "enm",
-    "wikidata_item" : "Q5326738",
+    "wikidata_item" : 5326738,
 }
 data["Early Scots"] = data["sco-osc"]
 data["Old Scots"] = data["sco-osc"]
@@ -329,35 +347,35 @@ data["O.Sc."] = data["sco-osc"]
 data["sco-smi"] = {
     "canonicalName" : "Middle Scots",
     "parent" : "sco-osc",
-    "wikidata_item" : "Q3327000",
+    "wikidata_item" : 3327000,
 }
 data["Middle Scots"] = data["sco-smi"]
 data["Mid.Sc."] = data["sco-smi"]
 data["sco-ins"] = {
     "canonicalName" : "Insular Scots",
     "parent" : "sco",
-    "wikidata_item" : "Q16919205",
+    "wikidata_item" : 16919205,
 }
 data["Insular Scots"] = data["sco-ins"]
 data["Ins.Sc."] = data["sco-ins"]
 data["sco-uls"] = {
     "canonicalName" : "Ulster Scots",
     "parent" : "sco",
-    "wikidata_item" : "Q201966",
+    "wikidata_item" : 201966,
 }
 data["Ulster Scots"] = data["sco-uls"]
 data["Uls.Sc."] = data["sco-uls"]
 data["sco-nor"] = {
     "canonicalName" : "Northern Scots",
     "parent" : "sco",
-    "wikidata_item" : "Q16928150",
+    "wikidata_item" : 16928150,
 }
 data["Northern Scots"] = data["sco-nor"]
 data["Nor.Sc."] = data["sco-nor"]
 data["sco-sou"] = {
     "canonicalName" : "South Scots",
     "parent" : "sco",
-    "wikidata_item" : "Q7570457",
+    "wikidata_item" : 7570457,
 }
 data["Southern Scots"] = data["sco-sou"]
 data["Borders Scots"] = data["sco-sou"]
@@ -378,7 +396,7 @@ data["ang-mer"] = {
 data["ang-nor"] = {
     "canonicalName" : "Northumbrian Old English",
     "parent" : "ang",
-    "wikidata_item" : "Q1798915",
+    "wikidata_item" : 1798915,
 }
 data["ang-wsx"] = {
     "canonicalName" : "West Saxon Old English",
@@ -388,7 +406,7 @@ data["fro-nor"] = {
     "canonicalName" : "Old Northern French",
     "aliases" : ["Old Norman", "Old Norman French"],
     "parent" : "fro",
-    "wikidata_item" : "Q2044917",
+    "wikidata_item" : 2044917,
 }
 data["Old Northern French"] = data["fro-nor"]
 data["ONF."] = data["fro-nor"]
@@ -399,26 +417,26 @@ data["fro-pic"] = {
 data["xno"] = {
     "canonicalName" : "Anglo-Norman",
     "parent" : "fro",
-    "wikidata_item" : "Q35214",
+    "wikidata_item" : 35214,
 }
 data["fr-CA"] = {
     "canonicalName" : "Canadian French",
     "parent" : "fr",
-    "wikidata_item" : "Q1450506",
+    "wikidata_item" : 1450506,
 }
 data["Canadian French"] = data["fr-CA"]
 data["CF."] = data["fr-CA"]
 data["fr-CH"] = {
     "canonicalName" : "Switzerland French",
     "parent" : "fr",
-    "wikidata_item" : "Q1480152",
+    "wikidata_item" : 1480152,
 }
 data["Swiss French"] = data["fr-CH"]
 data["Switzerland French"] = data["fr-CH"]
 data["fr-aca"] = {
     "canonicalName" : "Acadian French",
     "parent" : "fr",
-    "wikidata_item" : "Q415109",
+    "wikidata_item" : 415109,
 }
 data["Acadian French"] = data["fr-aca"]
 data["fra-aca"] = data["fr-aca"]
@@ -426,20 +444,20 @@ data["frc"] = {
     "canonicalName" : "Cajun French",
     "aliases" : ["Louisiana French"],
     "parent" : "fr",
-    "wikidata_item" : "Q880301",
+    "wikidata_item" : 880301,
 }
 data["roa-grn"] = {
     "canonicalName" : "Guernsey Norman",
     "aliases" : ["Guernsey"],
     "parent" : "nrf",
-    "wikidata_item" : "Q56428",
+    "wikidata_item" : 56428,
 }
 data["nrf-grn"] = data["roa-grn"]
 data["roa-jer"] = {
     "canonicalName" : "Jersey Norman",
     "aliases" : ["Jersey"],
     "parent" : "nrf",
-    "wikidata_item" : "Q56430",
+    "wikidata_item" : 56430,
 }
 data["nrf-jer"] = data["roa-jer"]
 data["bry-ear"] = {
@@ -453,45 +471,50 @@ data["bry-lat"] = {
 data["xcg"] = {
     "canonicalName" : "Cisalpine Gaulish",
     "parent" : "cel-gau",
-    "wikidata_item" : "Q3832927",
+    "wikidata_item" : 3832927,
 }
 data["xtg"] = {
     "canonicalName" : "Transalpine Gaulish",
     "parent" : "cel-gau",
-    "wikidata_item" : "Q29977",
+    "wikidata_item" : 29977,
 }
 data["pt-BR"] = {
     "canonicalName" : "Brazilian Portuguese",
     "parent" : "pt",
-    "wikidata_item" : "Q750553"
+    "wikidata_item" : 750553
 }
 data["es-AR"] = {
     "canonicalName" : "Rioplatense Spanish",
     "parent" : "es",
-    "wikidata_item" : "Q509780",
+    "wikidata_item" : 509780,
 }
 data["es-MX"] = {
     "canonicalName" : "Mexican Spanish",
     "parent" : "es",
-    "wikidata_item" : "Q616620",
+    "wikidata_item" : 616620,
 }
 data["es-US"] = {
     "canonicalName" : "United States Spanish",
     "aliases" : ["US Spanish"],
     "parent" : "es",
-    "wikidata_item" : "Q2301077",
+    "wikidata_item" : 2301077,
+}
+data["es-PR"] = {
+    "canonicalName" : "Puerto Rican Spanish",
+    "parent" : "es",
+    "wikidata_item" : 7258609
 }
 data["de-AT"] = {
     "canonicalName" : "Austrian German",
     "parent" : "de",
-    "wikidata_item" : "Q306626",
+    "wikidata_item" : 306626,
 }
 data["Austrian German"] = data["de-AT"]
 data["AG."] = data["de-AT"]
 data["de-AT-vie"] = {
     "canonicalName" : "Viennese German",
     "parent" : "de-AT",
-    "wikidata_item" : "Q56474",
+    "wikidata_item" : 56474,
 }
 data["Viennese German"] = data["de-AT-vie"]
 data["VG."] = data["de-AT-vie"]
@@ -499,35 +522,35 @@ data["de-CH"] = {
     "canonicalName" : "Swiss High German",
     "aliases" : ["Schweizer Hochdeutsch", "Swiss Standard German"],
     "parent" : "de",
-    "wikidata_item" : "Q1366643",
+    "wikidata_item" : 1366643,
 }
 data["ksh"] = {
     "canonicalName" : "Kölsch",
     "parent" : "gmw-cfr",
-    "wikidata_item" : "Q4624",
+    "wikidata_item" : 4624,
 }
 data["Kölsch"] = data["ksh"]
 data["pfl"] = {
     "canonicalName" : "Palatine German",
     "aliases" : ["Pfälzisch", "Pälzisch", "Palatinate German"],
     "parent" : "gmw-rfr",
-    "wikidata_item" : "Q23014",
+    "wikidata_item" : 23014,
 }
 data["sli"] = {
     "canonicalName" : "Silesian German",
     "aliases" : ["Silesian"],
     "parent" : "gmw-ecg",
-    "wikidata_item" : "Q152965",
+    "wikidata_item" : 152965,
 }
 data["sxu"] = {
     "canonicalName" : "Upper Saxon",
         "parent" : "gmw-ecg",
-    "wikidata_item" : "Q699284",
+    "wikidata_item" : 699284,
 }
 data["lng"] = {
     "canonicalName" : "Lombardic",
     "parent" : "goh",
-    "wikidata_item" : "Q35972",
+    "wikidata_item" : 35972,
 }
 data["Lombardic"] = data["lng"]
 data["goh-lng"] = data["lng"]
@@ -535,68 +558,68 @@ data["frk"] = {
     "canonicalName" : "Frankish",
     "aliases" : ["Old Frankish"],
     "parent" : "gmw-pro",
-    "wikidata_item" : "Q10860505",
+    "wikidata_item" : 10860505,
 }
 data["non-oen"] = {
     "canonicalName" : "Old East Norse",
     "parent" : "non",
-    "wikidata_item" : "Q10498031",
+    "wikidata_item" : 10498031,
 }
 data["non-ogt"] = {
     "canonicalName" : "Old Gutnish",
     "aliases" : ["Old Gotlandic"],
     "parent" : "non",
-    "wikidata_item" : "Q1133488",
+    "wikidata_item" : 1133488,
 }
 data["non-own"] = {
     "canonicalName" : "Old West Norse",
     "parent" : "non",
-    "wikidata_item" : "Q10498026",
+    "wikidata_item" : 10498026,
 }
 data["qfa-sub-grc"] = {
     "canonicalName" : "Pre-Greek",
     "parent" : "qfa-sub",
-    "wikidata_item" : "Q965052",
+    "wikidata_item" : 965052,
 }
 data["pregrc"] = data["qfa-sub-grc"]
 data["grc-boi"] = {
     "canonicalName" : "Boeotian Greek",
     "parent" : "grc-aeo",
-    "wikidata_item" : "Q406373",
+    "wikidata_item" : 406373,
 }
 data["grc-koi"] = {
     "canonicalName" : "Koine Greek",
     "aliases" : ["Hellenistic Greek"],
     "parent" : "grc",
-    "wikidata_item" : "Q107358",
+    "wikidata_item" : 107358,
 }
 data["Koine"] = data["grc-koi"]
 data["gkm"] = {
     "canonicalName" : "Byzantine Greek",
     "aliases" : ["Medieval Greek"],
     "parent" : "grc",
-    "wikidata_item" : "Q36387",
+    "wikidata_item" : 36387,
 }
 data["Medieval Greek"] = data["gkm"]
 data["grc-dor"] = {
     "canonicalName" : "Doric Greek",
     "parent" : "grc",
-    "wikidata_item" : "Q285494",
+    "wikidata_item" : 285494,
 }
 data["grc-att"] = {
     "canonicalName" : "Attic Greek",
     "parent" : "grc",
-    "wikidata_item" : "Q506588",
+    "wikidata_item" : 506588,
 }
 data["grc-ion"] = {
     "canonicalName" : "Ionic Greek",
     "parent" : "grc",
-    "wikidata_item" : "Q504165",
+    "wikidata_item" : 504165,
 }
 data["grc-pam"] = {
     "canonicalName" : "Pamphylian Greek",
     "parent" : "grc",
-    "wikidata_item" : "Q2271793",
+    "wikidata_item" : 2271793,
 }
 data["grc-kre"] = { # code used elsewhere: see [[Module:grc:Dialects]]
     "canonicalName" : "Cretan Ancient Greek", # to distinguish from Cretan Greek below
@@ -605,7 +628,7 @@ data["grc-kre"] = { # code used elsewhere: see [[Module:grc:Dialects]]
 data["grc-arp"] = {
     "canonicalName" : "Arcadocypriot Greek",
     "parent" : "grc",
-    "wikidata_item" : "Q499602",
+    "wikidata_item" : 499602,
 }
 data["grc-arc"] = {
     "canonicalName" : "Arcadian Greek",
@@ -624,7 +647,7 @@ data["grc-aeo"] = {
     "canonicalName" : "Aeolic Greek",
     "aliases" : ["Lesbic Greek", "Lesbian Greek", "Aeolian Greek"],
     "parent" : "grc",
-    "wikidata_item" : "Q406373",
+    "wikidata_item" : 406373,
 }
 data["loc-ozo"] = {
     "canonicalName" : "Ozolian Locrian",
@@ -637,7 +660,7 @@ data["loc-opu"] = {
 data["grc-ths"] = {
     "canonicalName" : "Thessalian Greek",
     "parent" : "grc-aeo",
-    "wikidata_item" : "Q406373",
+    "wikidata_item" : 406373,
 }
 data["grc-ela"] = {
     "canonicalName" : "Elean Greek",
@@ -647,45 +670,45 @@ data["grc-epc"] = {
     "canonicalName" : "Epic Greek",
     "aliases" : ["Homeric Greek"],
     "parent" : "grc",
-    "wikidata_item" : "Q990062",
+    "wikidata_item" : 990062,
 }
 data["el-crt"] = {
     "canonicalName" : "Cretan Greek",
     "parent" : "el",
-    "wikidata_item" : "Q588306",
+    "wikidata_item" : 588306,
 }
 data["hbo"] = {
     "canonicalName" : "Biblical Hebrew",
     "aliases" : ["Classical Hebrew"],
     "parent" : "he",
-    "wikidata_item" : "Q1982248",
+    "wikidata_item" : 1982248,
 }
 data["he-mis"] = {
     "canonicalName" :"Mishnaic Hebrew",
     "parent" : "he",
-    "wikidata_item" : "Q1649362",
+    "wikidata_item" : 1649362,
 }
 data["he-med"] = {
     "canonicalName" :"Medieval Hebrew",
     "parent" : "he",
-    "wikidata_item" : "Q2712572",
+    "wikidata_item" : 2712572,
 }
 data["he-IL"] = {
     "canonicalName" : "Modern Israeli Hebrew",
     "parent" : "he",
-    "wikidata_item" : "Q8141",
+    "wikidata_item" : 8141,
 }
 data["bsh-kat"] = {
     "canonicalName" :"Kativiri",
     "aliases" : ["Katə́viri"],
     "parent" : "bsh",
-    "wikidata_item" :"Q2605045",
+    "wikidata_item" :2605045,
 }
 data["bsh-kam"] = {
     "canonicalName" :"Kamviri",
     "aliases" : ["Kamvíri"],
     "parent" : "bsh",
-    "wikidata_item" :"Q1193495",
+    "wikidata_item" :1193495,
 }
 data["xvi"] = data["bsh-kam"]
 data["bsh-mum"] = {
@@ -696,13 +719,13 @@ data["bsh-mum"] = {
 data["qfa-sub-bma"] = {
     "canonicalName" : "the BMAC substrate",
     "parent" : "qfa-sub",
-    "wikidata_item" : "Q1054850",
+    "wikidata_item" : 1054850,
 }
 data["ae-old"] = {
     "canonicalName" : "Old Avestan",
     "aliases" : ["Gathic Avestan"],
     "parent" : "ae",
-    "wikidata_item" : "Q29572",
+    "wikidata_item" : 29572,
 }
 data["ae-yng"] = {
     "canonicalName" : "Younger Avestan",
@@ -713,21 +736,21 @@ data["bcc"] = {
     "canonicalName" : "Southern Balochi",
     "aliases" : ["Southern Baluchi"],
     "parent" : "bal",
-    "wikidata_item" : "Q33049",
+    "wikidata_item" : 33049,
 }
 data["bal-sou"] = data["bcc"]
 data["bgp"] = {
     "canonicalName" : "Eastern Balochi",
     "aliases" : ["Eastern Baluchi"],
     "parent" : "bal",
-    "wikidata_item" : "Q33049",
+    "wikidata_item" : 33049,
 }
 data["bal-eas"] = data["bgp"]
 data["bgn"] = {
     "canonicalName" : "Western Balochi",
     "aliases" : ["Western Baluchi"],
     "parent" : "bal",
-    "wikidata_item" : "Q33049",
+    "wikidata_item" : 33049,
 }
 data["bal-wes"] = data["bgn"]
 data["bgn"] = {
@@ -754,13 +777,13 @@ data["bsg-min"] = {
 data["ira-mid"] = {
     "canonicalName" : "Middle Iranian",
     "parent" : "ira",
-    "wikidata_item" : "Q33527",
+    "wikidata_item" : 33527,
 }
 data["MIr."] = data["ira-mid"]
 data["ira-old"] = {
     "canonicalName" : "Old Iranian",
     "parent" : "ira",
-    "wikidata_item" : "Q33527",
+    "wikidata_item" : 33527,
 }
 data["OIr."] = data["ira-old"]
 data["kho-old"] = {
@@ -884,24 +907,24 @@ data["fa-ira"] = {
     "canonicalName" : "Iranian Persian",
     "aliases" : ["Modern Persian", "Western Persian"],
     "parent" : "fa",
-    "wikidata_item" : "Q3513637",
+    "wikidata_item" : 3513637,
 }
 data["fa-cls"] = {
     "canonicalName" : "Classical Persian",
     "parent" : "fa",
-    "wikidata_item" : "Q9168",
+    "wikidata_item" : 9168,
 }
 data["prs"] = {
     "canonicalName" : "Dari",
     "aliases" : ["Dari Persian", "Central Persian", "Eastern Persian", "Afghan Persian"],
     "parent" : "fa",
-    "wikidata_item" : "Q178440",
+    "wikidata_item" : 178440,
 }
 data["os-dig"] = {
     "canonicalName" : "Digor",
     "aliases" : ["Digoron"],
     "parent" : "os",
-    "wikidata_item" : "Q3027861",
+    "wikidata_item" : 3027861,
 }
 data["os-iro"] = {
     "canonicalName" : "Iron",
@@ -918,7 +941,7 @@ data["sog-lat"] = {
 data["oru-kan"] = {
     "canonicalName" : "Kaniguram",
     "parent" : "oru",
-    "wikidata_item" : "Q6363164",
+    "wikidata_item" : 6363164,
 }
 data["oru-log"] = {
     "canonicalName" : "Logar",
@@ -963,7 +986,7 @@ data["fay-dsh"] = {
 data["fay-dav"] = {
     "canonicalName" : "Davani",
     "parent" : "fay",
-    "wikidata_item" : "Q5228140",
+    "wikidata_item" : 5228140,
 }
 data["fay-eze"] = {
     "canonicalName" : "Emamzada Esma’ili",
@@ -1077,7 +1100,7 @@ data["xme-ast"] = {
     "canonicalName" : "Ashtiani",
     "parent" : "xme-taf",
     "wikipedia_article" : "Ashtiani language",
-    "wikidata_item" : "Q3436590",
+    "wikidata_item" : 3436590,
 }
 data["atn"] = data["xme-ast"]
 data["xme-bor"] = {
@@ -1087,7 +1110,7 @@ data["xme-bor"] = {
 data["xme-ham"] = {
     "canonicalName" : "Hamadani",
     "parent" : "xme-taf",
-    "wikidata_item" : "Q6302426",
+    "wikidata_item" : 6302426,
 }
 data["xme-kah"] = {
     "canonicalName" : "Kahaki",
@@ -1096,14 +1119,14 @@ data["xme-kah"] = {
 data["xme-vaf"] = {
     "canonicalName" : "Vafsi",
     "parent" : "xme-taf",
-    "wikidata_item" : "Q32611",
+    "wikidata_item" : 32611,
 }
 data["vaf"] = data["xme-vaf"]
 data["xme-xun"] = {
     "canonicalName" : "Khunsari",
     "parent" : "xme-ker",
     "wikipedia_article" : "Khunsari language",
-    "wikidata_item" : "Q6403030",
+    "wikidata_item" : 6403030,
 }
 data["kfm"] = data["xme-xun"]
 data["xme-mah"] = {
@@ -1138,7 +1161,7 @@ data["xme-nat"] = {
     "canonicalName" : "Natanzi",
     "parent" : "xme-ker",
     "wikipedia_article" : "Natanzi language",
-    "wikidata_item" : "Q6968399",
+    "wikidata_item" : 6968399,
 }
 data["ntz"] = data["xme-nat"]
 data["xme-abz"] = {
@@ -1174,7 +1197,7 @@ data["xme-soi"] = {
     "aliases" : ["Sohi"],
     "parent" : "xme-ker",
     "wikipedia_article" : "Soi language",
-    "wikidata_item" : "Q7930463",
+    "wikidata_item" : 7930463,
 }
 data["soj"] = data["xme-soi"]
 data["xme-tar"] = {
@@ -1185,7 +1208,7 @@ data["xme-gaz"] = {
     "canonicalName" : "Gazi",
     "parent" : "xme-ker",
     "wikipedia_article" : "Gazi language",
-    "wikidata_item" : "Q5529130",
+    "wikidata_item" : 5529130,
 }
 data["gzi"] = data["xme-gaz"]
 data["xme-sed"] = {
@@ -1220,7 +1243,7 @@ data["xme-nay"] = {
     "canonicalName" : "Nayini",
     "parent" : "xme-ker",
     "wikipedia_article" : "Nayini language",
-    "wikidata_item" : "Q6983146",
+    "wikidata_item" : 6983146,
 }
 data["nyq"] = data["xme-nay"]
 data["xme-ana"] = {
@@ -1232,7 +1255,7 @@ data["xme-dar"] = {
     "aliases" : ["Behdināni", "Gabri", "Gavrŭni", "Gabrōni"],
     "parent" : "xme-ker",
     "wikipedia_article" : "Zoroastrian Dari language",
-    "wikidata_item" : "Q32389",
+    "wikidata_item" : 32389,
 }
 data["gbz"] = data["xme-dar"]
 data["xme-krm"] = {
@@ -1363,7 +1386,7 @@ data["sgh-baj"] = {
 data["inc-mit"] = {
     "canonicalName" : "Mitanni",
     "parent" : "inc-pro",
-    "wikidata_item" : "Q1986700",
+    "wikidata_item" : 1986700,
 }
 data["awa-old"] = {
     "canonicalName" : "Old Awadhi",
@@ -1387,40 +1410,36 @@ data["hi-mum"] = {
     "canonicalName" : "Bombay Hindi",
     "aliases" : ["Mumbai Hindi", "Bambaiyya Hindi"],
     "parent" : "hi",
-    "wikidata_item" : "Q3543151",
+    "wikidata_item" : 3543151,
 }
 data["hi-mid"] = {
     "canonicalName" : "Middle Hindi",
     "parent" : "hi",
 }
-data["pa-old"] = {
-    "canonicalName" : "Old Punjabi",
-    "parent" : "pa",
-}
 data["sa-bhs"] = {
     "canonicalName" : "Buddhist Hybrid Sanskrit",
     "parent" : "sa",
-    "wikidata_item" : "Q248758",
+    "wikidata_item" : 248758,
 }
 data["sa-bra"] = {
     "canonicalName" : "Brahmanic Sanskrit",
     "parent" : "sa",
-    "wikidata_item" : "Q36858",
+    "wikidata_item" : 36858,
 }
 data["sa-cls"] = {
     "canonicalName" : "Classical Sanskrit",
     "parent" : "sa",
-    "wikidata_item" : "Q11059",
+    "wikidata_item" : 11059,
 }
 data["sa-neo"] = {
     "canonicalName" : "New Sanskrit",
     "parent" : "sa",
-    "wikidata_item" : "Q11059",
+    "wikidata_item" : 11059,
 }
 data["sa-ved"] = {
     "canonicalName" : "Vedic Sanskrit",
     "parent" : "sa",
-    "wikidata_item" : "Q36858",
+    "wikidata_item" : 36858,
 }
 data["si-med"] = {
     "canonicalName" : "Medieval Sinhalese",
@@ -1455,75 +1474,122 @@ data["add-dv"] = {
 data["ta-mid"] = {
     "canonicalName" : "Middle Tamil",
     "parent" : "ta",
-    "wikidata_item" : "Q20987434",
+    "wikidata_item" : 20987434,
+}
+data["kn-hav"] = {
+    "canonicalName" : "Havyaka Kannada",
+    "aliases" : ["Havigannada"],
+    "parent" : "kn",
+    "wikidata_item" : 24276369,
+}
+data["inc-pka"] = {
+    "canonicalName" : "Ardhamagadhi Prakrit",
+    "aliases" : ["Ardhamagadhi"],
+    "parent" : "inc-pra",
+    "wikidata_item" : 35217,
+}
+data["inc-elu"] = {
+    "canonicalName" : "Helu Prakrit",
+    "aliases" : ["Elu", "Elu Prakrit", "Helu"],
+    "parent" : "inc-pra",
+    "wikidata_item" : 15080869,
+}
+data["inc-khs"] = {
+    "canonicalName" : "Khasa Prakrit",
+    "aliases" : ["Khasa"],
+    "parent" : "inc-pra",
+}
+data["inc-pmg"] = {
+    "canonicalName" : "Magadhi Prakrit",
+    "aliases" : ["Magadhi"],
+    "parent" : "inc-pra",
+    "wikidata_item" : 2652214,
+}
+data["inc-pmh"] = {
+    "canonicalName" : "Maharastri Prakrit",
+    "aliases" : ["Maharashtri Prakrit", "Maharastri", "Maharashtri"],
+    "parent" : "inc-pra",
+    "wikidata_item" : 2586773,
+}
+data["inc-psi"] = {
+    "canonicalName" : "Paisaci Prakrit",
+    "aliases" : ["Paisaci", "Paisachi"],
+    "parent" : "inc-pra",
+    "wikidata_item" : 2995607,
+}
+data["inc-pse"] = {
+    "canonicalName" : "Sauraseni Prakrit",
+    "aliases" : ["Sauraseni", "Shauraseni"],
+    "parent" : "inc-pra",
+    "wikidata_item" : 2452885,
 }
 data["prk-avt"] = {
     "canonicalName" : "Avanti",
     "aliases" : ["Avanti Prakrit"],
-    "parent" : "sa",
+    "parent" : "inc-pra",
 }
 data["prc-prk"] = {
     "canonicalName" : "Pracya",
     "aliases" : ["Pracya Prakrit"],
-    "parent" : "sa",
+    "parent" : "inc-pra",
 }
 data["bhl-prk"] = {
     "canonicalName" : "Bahliki",
     "aliases" : ["Bahliki Prakrit"],
-    "parent" : "sa",
+    "parent" : "inc-pra",
 }
 data["dks-prk"] = {
     "canonicalName" : "Daksinatya",
     "aliases" : ["Daksinatya Prakrit"],
-    "parent" : "sa",
+    "parent" : "inc-pra",
 }
 data["skr-prk"] = {
     "canonicalName" : "Sakari",
     "aliases" : ["Sakari Prakrit"],
-    "parent" : "sa",
+    "parent" : "inc-pra",
 }
 data["cnd-prk"] = {
     "canonicalName" : "Candali",
     "aliases" : ["Candali Prakrit"],
-    "parent" : "sa",
+    "parent" : "inc-pra",
 }
 data["sbr-prk"] = {
     "canonicalName" : "Sabari",
     "aliases" : ["Sabari Prakrit"],
-    "parent" : "sa",
+    "parent" : "inc-pra",
 }
 data["abh-prk"] = {
     "canonicalName" : "Abhiri",
     "aliases" : ["Abhiri Prakrit"],
-    "parent" : "sa",
+    "parent" : "inc-pra",
 }
 data["drm-prk"] = {
     "canonicalName" : "Dramili",
     "aliases" : ["Dramili Prakrit"],
-    "parent" : "sa",
+    "parent" : "inc-pra",
 }
 data["odr-prk"] = {
     "canonicalName" : "Odri",
     "aliases" : ["Odri Prakrit"],
-    "parent" : "sa",
+    "parent" : "inc-pra",
 }
 data["it-oit"] = {
     "canonicalName" : "Old Italian",
     "parent" : "it",
-    "wikidata_item" : "Q652",
+    "wikidata_item" : 652,
 }
 data["roa-oit"] = data["it-oit"]
 data["it-CH"] = {
     "canonicalName" : "Switzerland Italian",
     "parent" : "it",
-    "wikidata_item" : "Q672147",
+    "wikidata_item" : 672147,
 }
 data["Swiss Italian"] = data["it-CH"]
 data["Switzerland Italian"] = data["it-CH"]
 data["la-lat"] = {
     "canonicalName" : "Late Latin",
     "parent" : "la",
-    "wikidata_item" : "Q1503113",
+    "wikidata_item" : 1503113,
 }
 data["Late Latin"] = data["la-lat"]
 data["LL."] = data["la-lat"]
@@ -1531,14 +1597,14 @@ data["LL"] = data["la-lat"]
 data["la-vul"] = {
     "canonicalName" : "Vulgar Latin",
     "parent" : "la",
-    "wikidata_item" : "Q37560",
+    "wikidata_item" : 37560,
 }
 data["Vulgar Latin"] = data["la-vul"]
 data["VL."] = data["la-vul"]
 data["la-med"] = {
     "canonicalName" : "Medieval Latin",
     "parent" : "la",
-    "wikidata_item" : "Q1163234",
+    "wikidata_item" : 1163234,
 }
 data["Medieval Latin"] = data["la-med"]
 data["ML."] = data["la-med"]
@@ -1547,14 +1613,14 @@ data["la-ecc"] = {
     "canonicalName" : "Ecclesiastical Latin",
     "aliases" : ["Church Latin"],
     "parent" : "la",
-    "wikidata_item" : "Q1247932",
+    "wikidata_item" : 1247932,
 }
 data["Ecclesiastical Latin"] = data["la-ecc"]
 data["EL."] = data["la-ecc"]
 data["la-ren"] = {
     "canonicalName" : "Renaissance Latin",
     "parent" : "la",
-    "wikidata_item" : "Q499083",
+    "wikidata_item" : 499083,
 }
 data["Renaissance Latin"] = data["la-ren"]
 data["RL."] = data["la-ren"]
@@ -1562,7 +1628,7 @@ data["la-new"] = {
     "canonicalName" : "New Latin",
     "aliases" : ["Modern Latin"],
     "parent" : "la",
-    "wikidata_item" : "Q1248221",
+    "wikidata_item" : 1248221,
 }
 data["New Latin"] = data["la-new"]
 data["NL."] = data["la-new"]
@@ -1614,113 +1680,137 @@ data["mn-kha"] = {
     "canonicalName" : "Khalkha Mongolian",
     "aliases" : ["Khalkha"],
     "parent" : "mn",
-    "wikidata_item" : "Q6399808",
+    "wikidata_item" : 6399808,
 }
 data["mn-ord"] = {
     "canonicalName" : "Ordos Mongolian",
     "aliases" : ["Ordos"],
     "parent" : "mn",
-    "wikidata_item" : "Q716904",
+    "wikidata_item" : 716904,
 }
 data["mn-cha"] = {
     "canonicalName" : "Chakhar Mongolian",
     "aliases" : ["Chakhar"],
     "parent" : "mn",
-    "wikidata_item" : "Q907425",
+    "wikidata_item" : 907425,
 }
 data["mn-khr"] = {
     "canonicalName" : "Khorchin Mongolian",
     "aliases" : ["Khorchin"],
     "parent" : "mn",
-    "wikidata_item" : "Q3196210",
+    "wikidata_item" : 3196210,
 }
 data["mjg-huz"] = {
     "canonicalName" : "Mongghul",
     "aliases" : ["Huzhu Monguor"],
     "parent" : "mjg",
-    "wikidata_item" : "Q34214",
+    "wikidata_item" : 34214,
 }
 data["mjg-min"] = {
     "canonicalName" : "Mangghuer",
     "aliases" : ["Minhe Monguor"],
     "parent" : "mjg",
-    "wikidata_item" : "Q34214",
+    "wikidata_item" : 34214,
 }
 data["ja-mid"] = {
     "canonicalName" : "Middle Japanese",
     "parent" : "ojp",
-    "wikidata_item" : "Q6841474",
+    "wikidata_item" : 6841474,
 }
 data["ja-mid-ear"] = {
     "canonicalName" : "Early Middle Japanese",
     "parent" : "ja-mid",
-    "wikidata_item" : "Q182695",
+    "wikidata_item" : 182695,
 }
 data["ja-mid-lat"] = {
     "canonicalName" : "Late Middle Japanese",
     "parent" : "ja-mid",
-    "wikidata_item" : "Q1816184",
+    "wikidata_item" : 1816184,
 }
 data["ja-ear"] = {
     "canonicalName" : "Early Modern Japanese",
     "parent" : "ja",
-    "wikidata_item" : "Q5326692",
+    "wikidata_item" : 5326692,
 }
 data["ka-mid"] = {
     "canonicalName" : "Middle Georgian",
     "parent" : "ka",
 }
-data["ko-ear"] = {
-    "canonicalName" : "Early Modern Korean",
-    "parent" : "ko",
-    "wikidata_item" : "Q756014",
+data["oko-lat"] = {
+    "canonicalName" : "Late Old Korean",
+    "parent" : "oko",
 }
 data["okm-ear"] = {
     "canonicalName" : "Early Middle Korean",
     "parent" : "okm",
 }
-data["oko-lat"] = {
-    "canonicalName" : "Late Old Korean",
-    "parent" : "oko",
+data["ko-ear"] = {
+    "canonicalName" : "Early Modern Korean",
+    "parent" : "ko",
+    "wikidata_item" : 756014,
+}
+data["ko-c"] = {
+    "canonicalName" : "Central Korean",
+    "parent" : "ko",
+}
+data["ko-se"] = {
+    "canonicalName" : "Southeastern Korean",
+    "parent" : "ko",
+}
+data["ko-sw"] = {
+    "canonicalName" : "Southwestern Korean",
+    "parent" : "ko",
+}
+data["ko-nw"] = {
+    "canonicalName" : "Northwestern Korean",
+    "parent" : "ko",
+}
+data["ko-ne"] = {
+    "canonicalName" : "Northeastern Korean",
+    "parent" : "ko",
+}
+data["ko-yuk"] = {
+    "canonicalName" : "Yukjin Korean",
+    "parent" : "ko",
 }
 data["oc-auv"] = {
     "canonicalName" : "Auvergnat",
     "aliases" : ["Auvernhat", "Auvergnese"],
     "parent" : "oc",
-    "wikidata_item" : "Q35359",
+    "wikidata_item" : 35359,
 }
 data["oc-gas"] = {
     "canonicalName" : "Gascon",
     "parent" : "oc",
-    "wikidata_item" : "Q35735",
+    "wikidata_item" : 35735,
 }
 data["oc-ara"] = {
     "canonicalName" : "Aranese",
     "parent" : "oc-gas",
-    "wikidata_item" : "Q10196",
+    "wikidata_item" : 10196,
 }
 data["oc-lan"] = {
     "canonicalName" : "Languedocien",
     "aliases" : ["Lengadocian"],
     "parent" : "oc",
-    "wikidata_item" : "Q942602",
+    "wikidata_item" : 942602,
 }
 data["oc-lim"] = {
     "canonicalName" : "Limousin",
     "parent" : "oc",
-    "wikidata_item" : "Q427614",
+    "wikidata_item" : 427614,
 }
 data["oc-pro"] = {
     "canonicalName" : "Provençal",
     "aliases" : ["Provencal"],
     "parent" : "oc",
-    "wikidata_item" : "Q241243",
+    "wikidata_item" : 241243,
 }
 data["prv"] = data["oc-pro"]
 data["oc-viv"] = {
     "canonicalName" : "Vivaro-Alpine",
     "parent" : "oc",
-    "wikidata_item" : "Q1649613",
+    "wikidata_item" : 1649613,
 }
 data["oc-jud"] = {
     "canonicalName" : "Shuadit",
@@ -1732,12 +1822,12 @@ data["oc-jud"] = {
         "Judeo-Comtadin", "Judæo-Comtadin", "Judaeo-Comtadin",
     ],
     "parent" : "oc",
-    "wikidata_item" : "Q56472",
+    "wikidata_item" : 56472,
 }
 data["tl-old"] = {
     "canonicalName" : "Old Tagalog",
     "parent" : "tl",
-    "wikidata_item" : "Q12967437",
+    "wikidata_item" : 12967437,
 }
 data["tl-cls"] = {
     "canonicalName" : "Classical Tagalog",
@@ -1746,7 +1836,7 @@ data["tl-cls"] = {
 data["qfa-sub-ibe"] = {
     "canonicalName" : "a pre-Roman substrate of Iberia",
     "parent" : "qfa-sub",
-    "wikidata_item" : "Q530799",
+    "wikidata_item" : 530799,
 }
 data["qfa-sub-bal"] = {
     "canonicalName" : "a pre-Roman substrate of the Balkans",
@@ -1756,7 +1846,7 @@ data["sc-src"] = {
     "canonicalName" : "Logudorese",
     "aliases" : ["Logudorese Sardinian"],
     "parent" : "sc",
-    "wikidata_item" : "Q777974",
+    "wikidata_item" : 777974,
 }
 data["sc-nuo"] = {
     "canonicalName" : "Nuorese",
@@ -1767,89 +1857,119 @@ data["sc-sro"] = {
     "canonicalName" : "Campidanese",
     "aliases" : ["Campidanese Sardinian"],
     "parent" : "sc",
-    "wikidata_item" : "Q35348",
+    "wikidata_item" : 35348,
 }
 data["rw-kin"] = {
     "canonicalName" : "Kinyarwanda",
     "aliases" : ["Rwanda"],
     "parent" : "rw",
-    "wikidata_item" : "Q33573",
+    "wikidata_item" : 33573,
 }
 data["rw-run"] = {
     "canonicalName" : "Kirundi",
     "aliases" : ["Rundi"],
     "parent" : "rw",
-    "wikidata_item" : "Q33583",
+    "wikidata_item" : 33583,
 }
 data["cs-ear"] = {
     "canonicalName" : "Early Modern Czech",
     "parent" : "cs",
 }
+data["cu-bgm"] = {
+    "canonicalName" : "Middle Bulgarian",
+    "parent" : "cu",
+    "wikidata_item" : 12294897,
+}
 data["zle-oru"] = {
     "canonicalName" : "Old Russian",
     "parent" : "orv",
-    "wikidata_item" : "Q35228",
+    "wikidata_item" : 35228,
 }
 data["zle-obe"] = {
     "canonicalName" : "Old Belarusian",
     "parent" : "orv",
-    "wikidata_item" : "Q13211",
+    "wikidata_item" : 13211,
 }
 data["zle-ouk"] = {
     "canonicalName" : "Old Ukrainian",
     "parent" : "orv",
-    "wikidata_item" : "Q13211",
+    "wikidata_item" : 13211,
 }
 data["sh-cha"] = {
     "canonicalName" : "Chakavian Serbo-Croatian",
     "aliases" : ["Čakavian"],
     "parent" : "sh",
-    "wikidata_item" : "Q337565",
+    "wikidata_item" : 337565,
 }
 data["ckm"] = data["sh-cha"] # ISO 639-3 code
 data["sh-kaj"] = {
     "canonicalName" : "Kajkavian Serbo-Croatian",
     "parent" : "sh",
-    "wikidata_item" : "Q838165",
+    "wikidata_item" : 838165,
 }
 data["kjv"] = data["sh-kaj"] # ISO 639-3 code
 data["sh-tor"] = { # Linguist code srp-tor
     "canonicalName" : "Torlakian Serbo-Croatian",
     "aliases" : ["Torlak"],
     "parent" : "sh",
-    "wikidata_item" : "Q1078803",
+    "wikidata_item" : 1078803,
+}
+data["thv"] = {
+    "canonicalName" : "Tamahaq",
+    "parent" : "tmh",
+    "wikidata_item" : 56703,
+}
+data["ttq"] = {
+    "canonicalName" : "Tawellemmet",
+    "parent" : "tmh",
+    "wikidata_item" : 56390,
+}
+data["taq"] = {
+    "canonicalName" : "Tamasheq",
+    "parent" : "tmh",
+    "wikidata_item" : 4670066,
+}
+data["thz"] = {
+    "canonicalName" : "Tayert",
+    "parent" : "tmh",
+    "wikidata_item" : 56388,
+}
+data["tmh-ght"] = {
+    "canonicalName" : "Ghat",
+    "parent" : "tmh",
+    "wikidata_item" : 47012900,
 }
 data["trk-cmn"] = {
     "canonicalName" : "Common Turkic",
     "parent" : "trk-pro",
-    "wikidata_item" : "Q1126028",
+    "wikidata_item" : 1126028,
 }
 data["trk-ogz-pro"] = {
     "canonicalName" : "Proto-Oghuz",
     "aliases" : ["Southwestern Common Turkic"],
     "parent" : "trk-pro",
     "ancestors" : ["trk-pro"],
-    "wikidata_item" : "Q494600",
+    "wikidata_item" : 494600,
 }
 data["otk-kir"] = {
     "canonicalName" : "Old Kirghiz",
     "parent" : "otk",
-    "wikidata_item" : "Q83142",
+    "wikidata_item" : 83142,
 }
 data["klj-arg"] = {
     "canonicalName" : "Arghu",
     "parent" : "klj",
-    "wikidata_item" : "Q33455",
+    "wikidata_item" : 33455,
 }
 data["qwm-arm"] = {
     "canonicalName" : "Armeno-Kipchak",
     "parent" : "qwm",
-    "wikidata_item" : "Q2027503",
+    "wikidata_item" : 2027503,
 }
 data["qwm-mam"] = {
     "canonicalName" : "Mamluk-Kipchak",
     "parent" : "qwm",
-    "wikidata_item" : "Q4279942",
+    "wikidata_item" : 4279942,
 }
 data["az-cls"] = {
     "canonicalName" : "Classical Azerbaijani",
@@ -1859,41 +1979,41 @@ data["az-cls"] = {
 data["alv-kro"] = {
     "canonicalName" : "Kromanti",
     "parent" : "crp",
-    "wikidata_item" : "Q1093206",
+    "wikidata_item" : 1093206,
 }
 data["bat-pro"] = {
     "canonicalName" : "Proto-Baltic",
     "parent" : "ine-bsl-pro",
-    "wikidata_item" : "Q1703347",
+    "wikidata_item" : 1703347,
 }
 data["es-lun"] = {
     "canonicalName" : "Lunfardo",
     "parent" : "es",
-    "wikidata_item" : "Q1401612",
+    "wikidata_item" : 1401612,
 }
 data["Lunfardo"] = data["es-lun"]
 data["fiu-pro"] = {
     "canonicalName" : "Proto-Finno-Ugric",
     "parent" : "urj-pro",
-    "wikidata_item" : "Q79890",
+    "wikidata_item" : 79890,
 }
 data["gem-sue"] = {
     "canonicalName" : "Suevic",
     "aliases" : ["Suebian"],
-    "parent" : "gmw",
-    "wikidata_item" : "Q155085",
+    "parent" : "gmw-pro",
+    "wikidata_item" : 155085,
 }
 data["mkh-okm-A"] = {
     "canonicalName" : "Angkorian Old Khmer",
     "parent" : "mkh-okm",
     "wikipedia_article" : "Khmer language#Historical periods",
-    "wikidata_item" : "Q9205",
+    "wikidata_item" : 9205,
 }
 data["mkh-okm-P"] = {
     "canonicalName" : "Pre-Angkorian Old Khmer",
     "parent" : "mkh-okm",
     "wikipedia_article" : "Khmer language#Historical periods",
-    "wikidata_item" : "Q9205",
+    "wikidata_item" : 9205,
 }
 data["mul-tax"] = {
     "canonicalName" : "taxonomic name",
@@ -1909,18 +2029,18 @@ data["pygmy"] = data["qfa-pyg"]
 data["tai-shz"] = {
     "canonicalName" : "Shangsi Zhuang",
     "parent" : "za",
-    "wikidata_item" : "Q13216",
+    "wikidata_item" : 13216,
 }
 data["tbq-pro"] = {
     "canonicalName" : "Proto-Tibeto-Burman",
     "parent" : "sit-pro",
-    "wikidata_item" : "Q7251864",
+    "wikidata_item" : 7251864,
 }
 data["und-idn"] = {
     "canonicalName" : "Idiom Neutral",
     "parent" : "und", # or "vo"
     "wikipedia_article" : "Idiom Neutral",
-    "wikidata_item" : "Q35847",
+    "wikidata_item" : 35847,
 }
 data["und-tdl"] = {
     "canonicalName" : "Turduli",
@@ -1949,5 +2069,5 @@ data["urj-fpr-pro"] = {
 data["woy"] = {
     "canonicalName" : "Weyto",
     "parent" : "und",
-    "wikidata_item" : "Q3915918",
+    "wikidata_item" : 3915918,
 }
