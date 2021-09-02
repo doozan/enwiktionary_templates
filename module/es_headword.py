@@ -419,7 +419,7 @@ def do_adjective(pagename, args={}, data={}, tracking_categories=[], is_superlat
 
     if args.get("sup"):
         #check_all_missing(args.sup, "adjectives", tracking_categories)
-        data["inflections"] = data.get("inflections", []) + [{"label": "superlative", "": [args["comp"]]}]
+        data["inflections"] = data.get("inflections", []) + [{"label": "superlative", "": [args["sup"]]}]
 
 #    if args.irreg and is_superlative then
 #        table.insert(data.categories, langname + " irregular superlative adjectives")
