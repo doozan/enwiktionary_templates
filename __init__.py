@@ -735,6 +735,7 @@ ignore = {
     "es-suffix",
     "es-verb",
     "es-verb-form",
+    "etymid",
     "etystub",
     "ISBN",
     "nbsp",
