@@ -82,11 +82,13 @@ def test_expand_templates():
     assert _expand("{{suffix|en|do|-ing}}") == "do + -ing"
 
 def test_af():
-    template = next(mwparserfromhell.parse("{{af|en|volley|ball}}").ifilter_templates())
-    assert expand_template(template, "test") == "volley + ball"
+    assert _expand("{{af|en|volley|ball}}") == "volley + ball"
+    assert _expand("{{affix|en|pest|-i-|-cide}}") == "pest + -i- + -cide"
 
-    template = next(mwparserfromhell.parse("{{affix|en|pest|-i-|-cide}}").ifilter_templates())
-    assert expand_template(template, "test") == "pest + -i- + -cide"
+    assert _expand("{{af|es|lang1=mxi|Galib|t1=victorious|-ez|lit=son of the victorious}}") == 'Mozarabic Galib ("victorious") + -ez'
+    assert _expand("{{af|es|a-|bancal|gloss2=terrace, plot of land|-ar}}") == 'a- + bancal ("terrace, plot of land") + -ar'
+
+    assert _expand("{{blend|he|תַּשְׁבֵּץ|tr1=tashbéts|t1=crossword puzzle|חֵץ|t2=arrow|tr2=chets}}") == 'Blend of תַּשְׁבֵּץ (tashbéts, "crossword puzzle") + חֵץ (chets, "arrow")'
 
 def test_doublet():
     assert _expand("{{doublet|en|test}}") == "Doublet of test"
@@ -184,18 +186,7 @@ def test_derived():
 
     assert _expand("{{der|es|la|-esco|-ēscere}}") == 'Latin "-ēscere"'
 
-
-    @staticmethod
-    def __get_lang(lang_id):
-        lang_id = lang_id.strip('\n .')
-        src_lang = all_langs.get(lang_id.lower())
-        if not src_lang:
-            src_lang = ety_langs.get(lang_id, {}).get("canonicalName")
-        if not src_lang:
-            src_lang = lang_id
-        return src_lang
-
-    assert enwiktionary_templates.Template.__get_lang("gem") == "Germanic"
+    assert enwiktionary_templates.Template._get_lang("gem") == "Germanic"
     assert _expand("{{der|es|gem}}") == "Germanic"
 
 
@@ -241,3 +232,5 @@ def test_coinage():
 def test_and_lit():
     assert _expand("{{&lit|es|to [[serve]] (on an [[dish]], [[plate]])}}") == "Used other than figuratively or idiomatically: to [[serve]] (on an [[dish]], [[plate]])."
 
+def test_fem():
+    assert _expand("{{female equivalent of|es|sirviente|t=[[maid]], [[servant]]}}") == 'female equivalent of "sirviente" (“[[maid]], [[servant]]”)'

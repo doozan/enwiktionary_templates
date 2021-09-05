@@ -44,6 +44,17 @@ class Template():
         #return ""
 
     @staticmethod
+    def _form_of(t, title, text):
+        res = [text]
+        if not t.has(2):
+            raise ValueError("missing paramater 2", t)
+        res.append(f'"{t.get(2)}"')
+        gloss = next((str(t.get(p).value) for p in ["t", "gloss", 4] if t.has(p) and str(t.get(p).value)), None)
+        if gloss and gloss != "-":
+            res.append("(“" + str(gloss) + "”)")
+        return " ".join(res)
+
+    @staticmethod
     def _and_lit(t, template):
         res = []
         if t.has("qualifier"):
@@ -78,15 +89,36 @@ class Template():
     @staticmethod
     def affix(t, title):
         res = []
+
         p = 2
         while t.has(p) and str(t.get(p).value):
-            val = str(t.get(p).value)
-            if t.has(f"tr{p}"):
-                val += "(" + str(t.get(f"tr{p}").value) + ")"
-            elif t.has(f"gloss{p}"):
-                val += "(" + str(t.get(f"gloss{p}").value) + ")"
+            x = p-1
+            val = []
 
-            res.append(val)
+            langid = str(t.get(f"lang{x}").value) if t.has(f"lang{x}") else None
+            if langid:
+                val.append(Template._get_lang(langid))
+
+            val.append(str(t.get(p).value))
+
+            tr = str(t.get(f"tr{x}").value) if t.has(f"tr{x}") else None
+            gloss = next((str(t.get(p).value) for p in [f"t{x}", f"gloss{x}"] if t.has(p) and str(t.get(p).value)), None)
+            if tr or gloss:
+                item = ["("]
+                if tr:
+                    item.append(tr)
+                    if gloss:
+                        item.append(", ")
+                if gloss:
+                    item.append('"')
+                    item.append(gloss)
+                    item.append('"')
+
+                item.append(")")
+                val.append("".join(item))
+
+            res.append(" ".join(val))
+
             p += 1
 
         return " + ".join(res)
@@ -95,8 +127,8 @@ class Template():
     compound = affix
     com = affix
     confix = affix
-    blend = affix
     circumfix = affix
+
 
     @staticmethod
     def ante(t, title):
@@ -126,7 +158,7 @@ class Template():
         return "Tool noun"
 
     @staticmethod
-    def __get_lang(lang_id):
+    def _get_lang(lang_id):
         lang_id = lang_id.strip('\n .')
         src_lang = all_langs.get(lang_id.lower())
         if not src_lang:
@@ -156,7 +188,7 @@ class Template():
 
     @staticmethod
     def __lang2_etyl(t, title, pre_text=None, offset=1):
-        source = Template.__get_lang(str(t.get(1+offset).value))
+        source = Template._get_lang(str(t.get(1+offset).value))
         display = next((str(t.get(p).value) for p in ["alt", 3+offset, 2+offset] if t.has(p) and str(t.get(p).value)), None)
         gloss = next((str(t.get(p).value) for p in ["t", "gloss", 4+offset] if t.has(p) and str(t.get(p).value)), None)
         return Template.__format_etyl(t, pre_text, source, display, gloss)
@@ -174,6 +206,13 @@ class Template():
     bf = back_formation
 
     @staticmethod
+    def blend_of(t, title):
+        res = ["Blend of"] if not t.has("notext") else []
+        res.append(Template.affix(t, title))
+        return " ".join(res)
+    blend = blend_of
+
+    @staticmethod
     def calque(t, title):
         return Template.__lang2_etyl(t, title, "calque of")
     cal = calque
@@ -187,7 +226,7 @@ class Template():
 
     @staticmethod
     def coinage(t, title):
-        lang = Template.__get_lang(str(t.get(1).value))
+        lang = Template._get_lang(str(t.get(1).value))
 
         coiner = str(t.get("alt").value) if t.has("alt") else str(t.get(2).value)
 
@@ -316,7 +355,7 @@ class Template():
 
     @staticmethod
     def form_of(t, title):
-        return f"{t.get(2)} form of {t.get(3)}"
+        return f'{t.get(2)} form of "{t.get(3)}"'
 
     @staticmethod
     def g(t, title):
@@ -841,8 +880,13 @@ quote1_with = {
 
 # Templates that wrap the second parameter with text other than the template name
 quote2_with = {
-    "abbr of": "abbreviation of",
     "adj form of": "adjective form of",
+    "infl of": "inflection of",
+    "inflection of": "inflection of",
+}
+
+form_of_alt = {
+    "abbr of": "abbreviation of",
     "altcaps": "alternative letter-case form of",
     "alt caps": "alternative letter-case form of",
     "alt case": "alternative letter-case form of",
@@ -876,7 +920,6 @@ quote2_with = {
     "fr-post-1990": "post-1990 spelling of",
     "gerund of": "gerund of",
     "honor alt case": "honorific alternative case of",
-    "infl of": "inflection of",
     "init of": "initialism of",
     "io": "initialism of",
     "la-praenominal abbreviation of": "praenominal abbreviation of",
@@ -926,54 +969,58 @@ quote2_with = {
     "zh-used": "only used in",
 }
 
-# Templates that return template_name + second parameter
-quote2 = {
+form_of = {
     "abbreviation of",
+    "abstract noun of",
+    "accusative of",
+    "accusative plural of",
+    "accusative singular of",
     "acronym of",
+    "active participle of",
     "agent noun of",
-    "alternate form of",
-    "alternate spelling of",
-    "alternative capitalization of",
     "alternative case form of",
     "alternative form of",
-    "alternative name of",
     "alternative plural of",
+    "alternative reconstruction of",
     "alternative spelling of",
-    "alternative term for",
     "alternative typography of",
     "aphetic form of",
     "apocopic form of",
     "archaic form of",
+    "archaic inflection of",
     "archaic spelling of",
+    "aspirate mutation of",
     "attributive form of",
-    "attributive of",
     "augmentative of",
-    "blend of",
+    "broad form of",
     "causative of",
-    "common misspelling of",
-    "comparative form of",
+    "clipping of",
+    "combining form of",
     "comparative of",
     "construed with",
     "contraction of",
     "dated form of",
     "dated spelling of",
-    "definite of",
+    "dative of",
+    "dative plural of",
+    "dative singular of",
     "definite singular of",
+    "definite plural of",
     "deliberate misspelling of",
     "diminutive of",
-    "diminutive plural of",
-    "early form of",
+    "dual of",
+    "eclipsis of",
     "eggcorn of",
+    "elative of",
+    "ellipsis of",
     "elongated form of",
+    "endearing diminutive of",
     "endearing form of",
+    "equative of",
     "euphemistic form of",
     "euphemistic spelling of",
-    "eye dialect",
     "eye dialect of",
-    "eye-dialect of",
     "female equivalent of",
-    "feminine equivalent of",
-    "feminine noun of",
     "feminine of",
     "feminine plural of",
     "feminine plural past participle of",
@@ -981,75 +1028,94 @@ quote2 = {
     "feminine singular past participle of",
     "former name of",
     "frequentative of",
+    "future participle of",
+    "genitive of",
+    "genitive plural of",
+    "genitive singular of",
+    "gerund of",
+    "h-prothesis of",
+    "hard mutation of",
+    "harmonic variant of",
+    "honorific alternative case form of",
+    "imperative of",
     "imperfective form of",
     "indefinite plural of",
-    "inflection of",
     "informal form of",
     "informal spelling of",
     "initialism of",
     "iterative of",
-    "late form of",
+    "lenition of",
     "masculine noun of",
     "masculine of",
     "masculine plural of",
-    "masculine singular past participle of",
     "masculine plural past participle of",
     "medieval spelling of",
+    "men's speech form of",
     "misconstruction of",
+    "misromanization of",
     "misspelling of",
-    "misspelling form of",
+    "mixed mutation of",
+    "nasal mutation of",
     "negative of",
-    "neuter of",
+    "neuter plural of",
     "neuter singular of",
+    "neuter singular past participle of",
+    "nomen sacrum form of",
     "nominalization of",
+    "nominative plural of",
     "nonstandard form of",
     "nonstandard spelling of",
-    "obsolete form of",
+    "noun form of",
+    "nuqtaless form of",
     "obsolete form of",
     "obsolete spelling of",
     "obsolete typography of",
-    "only in",
     "only used in",
     "participle of",
-    "past of",
+    "passive of",
+    "passive participle of",
+    "passive past tense of",
+    "past active participle of",
     "past participle form of",
+    "past participle of",
+    "past passive participle of",
+    "past tense of",
     "pejorative of",
-    "perfective form of",
     "perfect participle of",
+    "perfective form of",
     "plural of",
     "present active participle of",
     "present participle of",
-    "present of",
     "present tense of",
-    "pronunciation respelling of",
     "pronunciation spelling of",
+    "pronunciation variant of",
     "rare form of",
     "rare spelling of",
     "reflexive of",
-    "second-person singular of",
-    "second-person singular past of",
+    "rfform",
+    "romanization of",
     "short for",
-    "short for",
-    "short form of",
-    "short form of",
-    "short of",
+    "singular of",
     "singulative of",
+    "slender form of",
+    "soft mutation of",
     "spelling of",
     "standard form of",
-    "substantivisation of",
-    "superlative form of",
+    "standard spelling of",
+    "superlative attributive of",
     "superlative of",
-    "superseded form of",
+    "superlative predicative of",
     "superseded spelling of",
     "supine of",
     "syncopic form of",
     "synonym of",
+    "t-prothesis of",
     "uncommon form of",
+    "uncommon spelling of",
     "verbal noun of",
-}
-
-quote3 = {
-    "form of",
+    "verb form of",
+    "vocative plural of",
+    "vocative singular of",
 }
 
 replace_with = {
@@ -1103,17 +1169,16 @@ def expand_template(t, title):
         text = quote1_with[name]
         return text + ' "' + str(t.get(1)).strip() + '"'
 
-    if name in quote2:
-        return name + ' "' + str(t.get(2)).strip() + '"'
+    if name in form_of:
+        return Template._form_of(t, title, name)
+
+    if name in form_of_alt:
+        return Template._form_of(t, title, form_of_alt[name])
 
     if name in quote2_with:
-        text = quote2_with[name]
         if not t.has(2):
             raise ValueError("missing paramater 2", t)
-        return text + ' "' + str(t.get(2)).strip() + '"'
-
-    if name in quote3:
-        return name + ' "' + str(t.get(3)).strip() + '"'
+        return quote2_with[name] + ' "' + str(t.get(2)).strip() + '"'
 
     handler = None
     if name in handlers:
