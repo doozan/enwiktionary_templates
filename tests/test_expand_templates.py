@@ -199,9 +199,11 @@ def test_inherited():
 
 def test_u_es_false_friend():
     assert _expand("{{U:es:false friend}}") == "Test is a false friend and does not mean the same as the English word for test."
-    assert _expand("{{U:es:false friend|foo}}") == "Test is a false friend and does not mean the same as the English word for test. \nThe Spanish word for test is ''foo''."
-    assert _expand("{{U:es:false friend|foo|en=bar}}") == "Test is a false friend and does not mean bar. \nThe Spanish word for bar is ''foo''."
-    assert _expand("{{U:es:false friend|foo|en=bar|gloss=glossy}}") == "Test is a false friend and does not mean bar in the sense of ''glossy''. \nThe Spanish word for bar in that sense is ''foo''."
+    assert _expand("{{U:es:false friend|foo}}") == "Test is a false friend and does not mean the same as the English word for test.\nThe Spanish word for test is ''foo''."
+    assert _expand("{{U:es:false friend|foo|en=bar}}") == "Test is a false friend and does not mean bar.\nThe Spanish word for bar is ''foo''."
+    assert _expand("{{U:es:false friend|foo|en=bar|gloss=glossy}}") == "Test is a false friend and does not mean bar in the sense of ''glossy''.\nThe Spanish word for bar in that sense is ''foo''."
+
+    assert _expand("{{U:es:false friend|foo|es2=foo2|en=bar}}") == "Test is a false friend and does not mean bar.\nThe Spanish word for bar is ''foo'' or ''foo2''."
 
 def test_univerbation():
     assert _expand("{{univerbation|es|one|two}}") == "Univerbation of one + two"

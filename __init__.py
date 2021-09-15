@@ -317,33 +317,45 @@ class Template():
         else:
             res.append(title[0].upper() + title[1:])
 
-        res.append("is a false friend and does not mean")
+        res.append(" is a false friend and does not mean")
 
         if t.has("en"):
             if t.has("gloss"):
+                res.append(' ')
                 res.append(str(t.get("en").value))
-                res.append(f"in the sense of ''{t.get('gloss').value}''.")
+                res.append(f" in the sense of ''{t.get('gloss').value}''.")
             else:
-                res.append(f"{t.get('en').value}.")
+                res.append(f" {t.get('en').value}.")
 
         elif t.has("gloss"):
-            res.append(f"''{t.get('gloss').value}''")
-            res.append("in Spanish.")
+            res.append(f" ''{t.get('gloss').value}''")
+            res.append(" in Spanish.")
         else:
-            res.append(f"the same as the English word for {title}.")
+            res.append(f" the same as the English word for {title}.")
 
         if t.has(1):
             res.append("\nThe Spanish word for")
             if t.has("en"):
+                res.append(' ')
                 res.append(str(t.get("en").value))
                 if t.has("gloss"):
-                    res.append(f"in that sense")
+                    res.append(f" in that sense")
             else:
+                res.append(' ')
                 res.append(title)
 
-            res.append(f"is ''{t.get(1).value}''.")
+            res.append(f" is ''{t.get(1).value}''")
 
-        return " ".join(res)
+            i = 2
+            while t.has(f"es{i}"):
+                res.append(f" or ''")
+                res.append(str(t.get(f"es{i}").value))
+                res.append(f"''")
+                i += 1
+
+            res.append(".")
+
+        return "".join(res)
 
     @staticmethod
     def frac(t, title):
