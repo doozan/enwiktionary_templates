@@ -1353,10 +1353,7 @@ def normalize_all_lemmas(alternant_multiword_spec):
             linked_lemma = base["user_specified_lemma"]
         elif base["refl"] or base["clitic"]:
             # Reconstruct the linked lemma with separate links around base verb, reflexive pronoun and clitic.
-            # TODO : wtf lua
-            linked_lemma = "x"
-            #base.get("user_specified_verb") == base["verb"] and "[[" + base.user_specified_verb + "]]" or
-            #    "[[" + base.verb + "|" + base["user_specified_verb"] + "]]"
+            linked_lemma = base["user_specified_verb"]
             linked_lemma = linked_lemma + (refl and "[[" + refl + "]]" or "") + \
                 (clitic and "[[" + clitic + "]]" or "")
         else:
