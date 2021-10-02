@@ -213,6 +213,13 @@ class Template():
     blend = blend_of
 
     @staticmethod
+    def bor_(t, title):
+        if t.has("nocap"):
+            return Template.__lang2_etyl(t, title, "borrowed from")
+        else:
+            return Template.__lang2_etyl(t, title, "Borrowed from")
+
+    @staticmethod
     def calque(t, title):
         return Template.__lang2_etyl(t, title, "calque of")
     cal = calque
@@ -384,6 +391,13 @@ class Template():
     @staticmethod
     def given_name(t, title):
         return "given name"
+
+    @staticmethod
+    def inh_(t, title):
+        if t.has("nocap"):
+            return Template.__lang2_etyl(t, title, "inherited from")
+        else:
+            return Template.__lang2_etyl(t, title, "Inherited from")
 
     @staticmethod
     def indtr(t, title):
@@ -748,6 +762,7 @@ ignore = {
     "cite-book",
     "Cite book",
     "cite book",
+    "cite journal",
     "cite-web",
     "cite web",
     "cite news",
@@ -1196,7 +1211,7 @@ def expand_template(t, title):
     if name in handlers:
         handler = handlers[name]
     else:
-        name = re.sub(r"[\s-]", "_", name.lower())
+        name = re.sub(r"[+\s-]", "_", name.lower())
         if len(name) > 2 and name[2] == "_" and name[:2] in Template.lang2:
             lang_handler = getattr(Template.lang2[name[:2]], name)
             if lang_handler:
