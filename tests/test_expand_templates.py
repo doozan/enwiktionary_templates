@@ -196,6 +196,8 @@ def test_inherited():
     expand_templates(wikt, "title")
     assert str(wikt) == 'From Latin "tenēre" (“to hold, to have”)'
 
+    assert _expand("{{inh+|es|la|vāgīna|t=sheath}}") == 'Inherited from Latin "vāgīna" (“sheath”)'
+
 
 def test_u_es_false_friend():
     assert _expand("{{U:es:false friend}}") == "Test is a false friend and does not mean the same as the English word for test."
@@ -204,6 +206,7 @@ def test_u_es_false_friend():
     assert _expand("{{U:es:false friend|foo|en=bar|gloss=glossy}}") == "Test is a false friend and does not mean bar in the sense of ''glossy''.\nThe Spanish word for bar in that sense is ''foo''."
 
     assert _expand("{{U:es:false friend|foo|es2=foo2|en=bar}}") == "Test is a false friend and does not mean bar.\nThe Spanish word for bar is ''foo'' or ''foo2''."
+    assert _expand("{{U:es:false friend|foo|es2=foo2|gl2=glossy2|en=bar}}") == "Test is a false friend and does not mean bar.\nThe Spanish word for bar is ''foo'' or ''foo2''."
 
 def test_univerbation():
     assert _expand("{{univerbation|es|one|two}}") == "Univerbation of one + two"
@@ -236,3 +239,46 @@ def test_and_lit():
 
 def test_fem():
     assert _expand("{{female equivalent of|es|sirviente|t=[[maid]], [[servant]]}}") == 'female equivalent of "sirviente" (“[[maid]], [[servant]]”)'
+
+def test_place():
+    assert _expand("{{place|en|country|cont/Europe}}.") == "A country in Europe."
+    assert _expand("{{place|en|city|p/Ontario|c/Canada}}.") == "A city in Ontario, Canada."
+    assert _expand("{{place|en|city|c/Netherlands}}.") == "A city in the Netherlands."
+    assert _expand("{{place|en|city|s/Pennsylvania|c/United States}}.") == "A city in Pennsylvania, United States."
+    assert _expand("{{place|fr|country|cont/Europe|t1=Germany}}") == "Germany (a country in Europe)"
+    assert _expand("{{place|en|county|s/Virginia|c/United States}}.") == "A county of Virginia, United States."
+    assert _expand("{{place|en|country|in central|cont/Europe}}.") == "A country in central Europe."
+    assert _expand("{{place|en|A <<neighborhood>> midway up the <<inlet/Golden Horn>> within <<dist/Fatih>> in <<city/Istanbul>>, <<c/Turkey>>.}}") == "A neighborhood midway up the Golden Horn within Fatih district in Istanbul, Turkey."
+    assert _expand("{{place|en|A <<former>> French <<colony>> on the <<isl:pref/Hispaniola>> from 1659 to 1809, roughly equivalent to modern-day <<c/Haiti>>}}.") == "A former French colony on the island of Hispaniola from 1659 to 1809, roughly equivalent to modern-day Haiti."
+
+
+    assert _expand("{{place|es|The name of a number of <<cities>> and <<town>>s in <<c/Spain>>.}}") == "The name of a number of cities and towns in Spain."
+    assert _expand("{{place|es|<<ancient>> [[Greek]] <<city>> on the <<riv:Suf/Orontes>>, in modern <<c/Turkey>>|t1=Antioch|t2=Antioch on the Orontes}}") == "Antioch, Antioch on the Orontes (ancient [[Greek]] city on the Orontes River, in modern Turkey)"
+    assert _expand("{{place|es|country|cont/Europe|and|cont/Asia|t=Armenia}}") == "Armenia (a country in Europe and Asia)"
+    assert _expand("{{place|es|town|province/Ciego de Ávila|c/Cuba}}") == "A town in Ciego de Ávila, Cuba"
+    assert _expand("{{place|es|autonomous territory|c/Netherlands|in the|sea/Caribbean|t1=Aruba}}") == "Aruba (an autonomous territory of the Netherlands, in the Caribbean)"
+    #assert _expand("{{place|es|autonomous territory|c/Netherlands|in the|sea/Caribbean|t1=Aruba}}") == "Aruba (an autonomous territory of the Netherlands in the Caribbean)"
+    assert _expand("{{place|es|archipelago/and/country|r/Caribbean|t=Bahamas}}") == "Bahamas (an archipelago and country in the Caribbean)"
+
+    assert _expand("{{place|es|island|ocean/Atlantic Ocean|;, and|overseas territory|c/United Kingdom|t=Saint Helena}}") == "Saint Helena (an island in the Atlantic Ocean, and overseas territory of the United Kingdom)"
+    assert _expand("{{place|es|mountain range|acomm/Catalonia|c/Spain|near [[Barcelona]], the site of a [[monastery]]|t=Montserrat}}") == "Montserrat (a mountain range in Catalonia, Spain, near [[Barcelona]], the site of a [[monastery]])"
+#    assert _expand("{{place|es|mountain|es:state/Puebla}}") == "A mountain in Puebla"
+
+    assert _expand("{{place|es|department|c/El Salvador}}") == "A department of El Salvador"
+#    assert _expand("{{place|es|province|r/Ancash|c/Peru}}") == "A province of Ancash, Peru"
+    assert _expand("{{place|es|state|c/USA|t=Alaska}}") == "Alaska (a state of the United States)"
+    assert _expand("{{place|es|province|autonomous community/en:Castile-La Mancha|country/Spain|capital/en:Albacete|t1=Albacete}}") == "Albacete (a province of Castile-La Mancha, Spain, Albacete)"
+    assert _expand("{{place|es|capital|s/New York|t1=Albany}}") == "Albany (the capital of New York)"
+    assert _expand("{{place|es|ancient region|c/Georgia|t1=Iberia}}") == "Iberia (an ancient region in Georgia)"
+    assert _expand("{{place|es|river|c/Peru}}") == "A river in Peru"
+    #assert _expand("") == ""
+
+    from enwiktionary_templates.place import res_ends_with
+
+    assert res_ends_with(["abc", "def"], "cdef") == True
+    assert res_ends_with(["abc", "def"], "Xabcdef") == False
+    assert res_ends_with(["ab", "cd", "ef"], "bcdef") == True
+    assert res_ends_with(["abc", "def"], "Xdef") == False
+
+    # Isla Príncipe Eduardo
+    # an island in the subantarctic Indian Ocean, part of the [https://en.wikipedia.org/wiki/Prince_Edward_Islands Prince Edward Islands]

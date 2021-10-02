@@ -28,6 +28,7 @@ from enwiktionary_parser.languages.all_ids import languages as all_langs
 from .etydata import data as ety_langs
 from .labeldata import data as labeldata
 from .get_template_params import get_template_params
+from .place import place
 
 class Template():
 
@@ -648,10 +649,7 @@ class Template():
 
     @staticmethod
     def place(t, title):
-        if t.has(2) and str(t.get(2)):
-            return title + " (" + str(t.get(2)) + ")"
-        else:
-            return title + " (place)"
+        return place(t, title)
 
     @staticmethod
     def prefix(t, title):
