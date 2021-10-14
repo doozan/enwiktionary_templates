@@ -36,7 +36,7 @@ class Template():
     lang2 = {}
     #lang2["es"] = _es
 
-    from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup
+    from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp
 
     @staticmethod
     def _default(t, title):

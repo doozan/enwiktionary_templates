@@ -1,6 +1,6 @@
 from .es_conj import es_conj
 from .es_noun import es_noun
-from .es_adj import es_adj, es_adj_sup
+from .es_adj import es_adj, es_adj_sup, es_adj_comp
 
 @staticmethod
 def es_compound_of(t,title):

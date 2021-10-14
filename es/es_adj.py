@@ -56,3 +56,6 @@ def es_adj(t, title):
 
 def es_adj_sup(t, title):
     return es_adj(t, title)
+
+def es_adj_comp(t, title):
+    return es_adj(t, title)
