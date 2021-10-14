@@ -381,7 +381,7 @@ def do_adjective(pagename, args={}, data={}, tracking_categories=[], is_superlat
         #check_all_missing(feminine_plurals, "adjectives", tracking_categories)
 
         # Make sure there are feminines given and not same as lemma.
-        if len(feminines) == 1 and feminines[0] != lemma:
+        if len(feminines) and not(len(feminines)==1 and feminines[0] == lemma):
             item = {
                 "label": "feminine",
                 "accel": {"form": "f|s"},

@@ -66,6 +66,9 @@ def test_es_adj():
     template = next(mwparserfromhell.parse("{{es-adj}}").ifilter_templates())
     assert expand_template(template, "testo") == 'f=testa; pl=testos; fpl=testas'
 
+    template = next(mwparserfromhell.parse("{{es-adj|f=obturatriz|f2=obturadora}}").ifilter_templates())
+    assert expand_template(template, "obturador") == 'f=obturatriz; f=obturadora; pl=obturadores; fpl=obturatrices; fpl=obturadoras'
+
 #    template = next(mwparserfromhell.parse("{{es-adj|f=testa}}").ifilter_templates())
 #    assert expand_template(template, "testo") == 'f=testa; fpl=testas; pl=testos'
 
