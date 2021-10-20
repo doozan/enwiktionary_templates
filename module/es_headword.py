@@ -124,7 +124,7 @@ def handle_multiword(form, special, inflect):
 
         for i, term in enumerate(terms):
             terms[i] = inflect(term)
-            if i > 1:
+            if i > 0:
                 terms[i] = add_endings(" ", terms[i])
 
         result = ""

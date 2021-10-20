@@ -59,6 +59,11 @@ def test_es_noun():
     template = next(mwparserfromhell.parse("{{es-noun|m|f=cordera|fpl=corderas}}").ifilter_templates())
     assert expand_template(template, "cordero") == 'pl=corderos; f=cordera; fpl=corderas'
 
+    template = next(mwparserfromhell.parse("{{es-noun|m}}").ifilter_templates())
+    assert expand_template(template, "agujero negro supermasivo") == 'pl=agujeros negro supermasivos'
+
+    template = next(mwparserfromhell.parse("{{es-noun|m|+each}}").ifilter_templates())
+    assert expand_template(template, "agujero negro supermasivo") == 'pl=agujeros negros supermasivos'
 
 
 
@@ -68,6 +73,10 @@ def test_es_adj():
 
     template = next(mwparserfromhell.parse("{{es-adj|f=obturatriz|f2=obturadora}}").ifilter_templates())
     assert expand_template(template, "obturador") == 'f=obturatriz; f=obturadora; pl=obturadores; fpl=obturatrices; fpl=obturadoras'
+
+    template = next(mwparserfromhell.parse("{{es-adj-comp|f=obturatriz|f2=obturadora}}").ifilter_templates())
+    assert expand_template(template, "obturador") == 'f=obturatriz; f=obturadora; pl=obturadores; fpl=obturatrices; fpl=obturadoras'
+
 
 #    template = next(mwparserfromhell.parse("{{es-adj|f=testa}}").ifilter_templates())
 #    assert expand_template(template, "testo") == 'f=testa; fpl=testas; pl=testos'
