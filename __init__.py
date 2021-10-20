@@ -558,8 +558,9 @@ class Template():
         t.add("p", "v")
         return Template.inflection_of(t, title)
 
-#    @staticmethod
-#    def es_verb_form_of(t, title):
+    @staticmethod
+    def es_verb_form_of(t, title):
+        return f'inflection of "{t.get(1)}"'
 #        t.add("1", "es")
 #        t.add("p", "v")
 #        return Template.inflection_of(t, title)
@@ -742,6 +743,10 @@ class Template():
     onom = onomatopoeic
 
     @staticmethod
+    def only_in(t, title):
+        return f'Only used in "{t.get(2)}"'
+
+    @staticmethod
     def orthorgraphic_borrowing(t, title):
         return Template.__lang2_etyl(t, title, "orthographic borrowing from")
     obor = orthorgraphic_borrowing
@@ -903,8 +908,8 @@ ignore = {
     "es-prop",
     "es-punctuation mark",
     "es-suffix",
+    "es-unadapted",
     "es-verb",
-    "es-verb form of",
     "etymid",
     "etystub",
     "ISBN",
