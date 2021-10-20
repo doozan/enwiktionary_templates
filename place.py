@@ -1,4 +1,5 @@
 import re
+import sys
 
 placetype_aliases = {
     "c": "country",
@@ -1025,7 +1026,9 @@ def add_placename(res, placename, placetype, affix_type, article, prep, alt_form
             res.append(" ")
             res.append(placetype.capitalize())
         elif affix_type not in [None, "", "pref", "Pref"]:
-            raise ValueError("Unhandled affix", affix_type)
+            res.append(" ")
+            res.append(placetype)
+            print("Unhandled affix", affix_type, [res, placename, placetype, affix_type, article, prep, alt_format, is_text], file=sys.stderr)
 
     return prep
 
