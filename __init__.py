@@ -41,8 +41,8 @@ class Template():
     @staticmethod
     def _default(t, title):
         print(f"{title} uses unknown template: {t}", file=sys.stderr)
-        return str(t)
-        #return ""
+        #return str(t)
+        return ""
 
     @staticmethod
     def _form_of(t, title, text):
@@ -394,13 +394,6 @@ class Template():
         return "given name"
 
     @staticmethod
-    def inh_(t, title):
-        if t.has("nocap"):
-            return Template.__lang2_etyl(t, title, "inherited from")
-        else:
-            return Template.__lang2_etyl(t, title, "Inherited from")
-
-    @staticmethod
     def indtr(t, title):
         labels = []
         indtr = ""
@@ -467,6 +460,122 @@ class Template():
         if not res.strip():
             return ""
         return f"({res})"
+
+    inflection_pos_type = {
+        "a": "adjective",
+        "adj": "adjective",
+        "adv": "adverb",
+        "art": "article",
+        "cnum": "cardinal numeral",
+        "conj": "conjunction",
+        "det": "determiner",
+        "int": "interjection",
+        "intj": "interjection",
+        #"vi": "intransitive verb",
+        "vi": "verb",
+        "n": "noun",
+        "num": "numeral",
+        "onum": "ordinal numeral",
+        "part": "participle",
+        "pcl": "particle",
+        "postp": "postposition",
+        "pre": "preposition",
+        "prep": "preposition",
+        "pro": "pronoun",
+        "pron": "pronoun",
+        "pn": "proper noun",
+        "proper": "proper noun",
+        #"vti": "transitive and intransitive verb",
+        "vti": "verb",
+        #"vt": "transitive verb",
+        "vt": "verb",
+        "v": "verb",
+        "vb": "verb",
+    }
+
+    @staticmethod
+    def inflection_of(t, title):
+        pos = ""
+        if t.has("POS"):
+            pos = Template.inflection_pos_type[str(t.get("POS").value)]
+        if t.has("p"):
+            if pos:
+                raise ValueError("Multiple POS")
+            pos = Template.inflection_pos_type[str(t.get("p").value)]
+
+        if not pos:
+            pos = "inflection"
+
+        x = 4
+        params = []
+        while t.has(x):
+            params.append(str(t.get(x).value))
+            x+=1
+
+        qualifiers = []
+
+        if "m" in params:
+            qualifiers.append("masculine")
+        if "f" in params:
+            if qualifiers:
+                print("ERROR: double gender", title, t, file=sys.stderr)
+            qualifiers.append("feminine")
+        if "s" in params:
+            qualifiers.append("singular")
+        if "p" in params or "pl" in params:
+            qualifiers.append("plural")
+
+        if "inf" in params or "infinitive" in params:
+            qualifiers.append("infinitive")
+
+        if not qualifiers:
+            qualifiers = ["inflection"]
+            #qualifiers = [pos, "form"]
+
+        res = qualifiers
+        res.append("of")
+        res.append('"' + str(t.get(2).value) + '"')
+
+        if t.has("tr"):
+            res.append("(" + str(t.get("tr").value) + ")")
+
+        return " ".join(res)
+
+    infl_of = inflection_of
+
+    @staticmethod
+    def adj_form_of(t, title):
+        t.add("p", "a")
+        return Template.inflection_of(t, title)
+
+    @staticmethod
+    def noun_form_of(t, title):
+        t.add("p", "n")
+        return Template.inflection_of(t, title)
+
+    @staticmethod
+    def verb_form_of(t, title):
+        t.add("p", "v")
+        return Template.inflection_of(t, title)
+
+#    @staticmethod
+#    def es_verb_form_of(t, title):
+#        t.add("1", "es")
+#        t.add("p", "v")
+#        return Template.inflection_of(t, title)
+
+#    @staticmethod
+#    def es_adj_form_of(t, title):
+#        t.add("1", "es")
+#        t.add("p", "a")
+#        return Template.inflection_of(t, title)
+
+    @staticmethod
+    def inh_(t, title):
+        if t.has("nocap"):
+            return Template.__lang2_etyl(t, title, "inherited from")
+        else:
+            return Template.__lang2_etyl(t, title, "Inherited from")
 
     @staticmethod
     def label(t, title):
@@ -773,9 +882,6 @@ ignore = {
     "DEFAULTSORT",
     "dercat",
     "elements",
-    "es-adj-form",
-    "es-adj form",
-    "es-adj form of",
     "es-adj-inv",
     "es-adv",
     "es-adverb",
@@ -798,7 +904,7 @@ ignore = {
     "es-punctuation mark",
     "es-suffix",
     "es-verb",
-    "es-verb-form",
+    "es-verb form of",
     "etymid",
     "etystub",
     "ISBN",
@@ -806,6 +912,7 @@ ignore = {
     "nonlemma",
     "rel-bottom",
     "rfclarify",
+    "rfdef",
     "rfe",
     "rfex",
     "rfv-etym",
@@ -817,6 +924,7 @@ ignore = {
     "rfquote-sense",
     "rfv-sense",
     "root",
+    "senseid",
     "tea room sense",
     "t2i-Egyd",
     "top",
@@ -898,16 +1006,8 @@ quote1_with = {
     "en-superlative of": "superlative of",
     "en-third person singular of": "third person singular of",
     "en-third-person singular of": "third-person singular of",
-    "es-verb form of": "inflection of",
     "pt-verb-form-of": "inflection of",
     "pt-apocopic-verb": "apocopic (used preceding the pronouns lo, la, los or las) form of",
-}
-
-# Templates that wrap the second parameter with text other than the template name
-quote2_with = {
-    "adj form of": "adjective form of",
-    "infl of": "inflection of",
-    "inflection of": "inflection of",
 }
 
 form_of_alt = {
@@ -950,7 +1050,6 @@ form_of_alt = {
     "la-praenominal abbreviation of": "praenominal abbreviation of",
     "missp": "misspelling of",
     "misspelling": "misspelling of",
-    "noun form of": "inflection of",
     "obs form": "obsolete form of",
     "obs sp": "obsolete spelling of",
     "obs-sp": "obsolete spelling of",
@@ -1090,7 +1189,6 @@ form_of = {
     "nominative plural of",
     "nonstandard form of",
     "nonstandard spelling of",
-    "noun form of",
     "nuqtaless form of",
     "obsolete form of",
     "obsolete spelling of",
@@ -1138,7 +1236,6 @@ form_of = {
     "uncommon form of",
     "uncommon spelling of",
     "verbal noun of",
-    "verb form of",
     "vocative plural of",
     "vocative singular of",
 }
@@ -1199,11 +1296,6 @@ def expand_template(t, title):
 
     if name in form_of_alt:
         return Template._form_of(t, title, form_of_alt[name])
-
-    if name in quote2_with:
-        if not t.has(2):
-            raise ValueError("missing paramater 2", t)
-        return quote2_with[name] + ' "' + str(t.get(2)).strip() + '"'
 
     handler = None
     if name in handlers:
