@@ -41,7 +41,7 @@ class Template():
     @staticmethod
     def _default(t, title):
         print(f"{title} uses unknown template: {t}", file=sys.stderr)
-        #return str(t)
+        return str(t)
         return ""
 
     @staticmethod
@@ -375,7 +375,7 @@ class Template():
 
     @staticmethod
     def form_of(t, title):
-        return f'{t.get(2)} form of "{t.get(3)}"'
+        return f'{t.get(2)} of "{t.get(3)}"'
 
     @staticmethod
     def g(t, title):
@@ -528,6 +528,10 @@ class Template():
         if "inf" in params or "infinitive" in params:
             qualifiers.append("infinitive")
 
+
+        if any(x for x in ["1", "2", "3"] if x in params):
+            qualifiers = []
+
         if not qualifiers:
             qualifiers = ["inflection"]
             #qualifiers = [pos, "form"]
@@ -535,6 +539,9 @@ class Template():
         res = qualifiers
         res.append("of")
         res.append('"' + str(t.get(2).value) + '"')
+
+        if t.has("t"):
+            res.append("(" + str(t.get("t").value) + ")")
 
         if t.has("tr"):
             res.append("(" + str(t.get("tr").value) + ")")
@@ -843,6 +850,9 @@ class Template():
 
     @staticmethod
     def univerbation(t, title):
+        if not t.has(2):
+            return "Univerbation"
+
         res = [f"Univerbation of {t.get(2)}"]
         count = 3
         while t.has(count):
@@ -871,9 +881,10 @@ ignore = {
     "catlangname",
     "catlangcode",
     "cite",
-    "cite-book",
     "Cite book",
+    "cite-book",
     "cite book",
+    "cite-journal",
     "cite journal",
     "cite-web",
     "cite web",
@@ -916,10 +927,12 @@ ignore = {
     "nbsp",
     "nonlemma",
     "rel-bottom",
+    "rfc",
     "rfclarify",
     "rfdef",
     "rfe",
     "rfex",
+    "rfform",
     "rfv-etym",
     "rfc-sense",
     "rfd-sense",
@@ -1011,6 +1024,8 @@ quote1_with = {
     "en-superlative of": "superlative of",
     "en-third person singular of": "third person singular of",
     "en-third-person singular of": "third-person singular of",
+    "fr-post-1990": "post-1990 spelling of",
+    "fr-post-1990-plural": "post-1990 plural of",
     "pt-verb-form-of": "inflection of",
     "pt-apocopic-verb": "apocopic (used preceding the pronouns lo, la, los or las) form of",
 }
@@ -1047,7 +1062,6 @@ form_of_alt = {
     "el-Italiot dialect form of": "Italiot dialect form of",
     "el-Maniot dialect form of": "Maniot dialect form of",
     "euphemism of": "euphemism of",
-    "fr-post-1990": "post-1990 spelling of",
     "gerund of": "gerund of",
     "honor alt case": "honorific alternative case of",
     "init of": "initialism of",
@@ -1220,7 +1234,6 @@ form_of = {
     "rare form of",
     "rare spelling of",
     "reflexive of",
-    "rfform",
     "romanization of",
     "short for",
     "singular of",
