@@ -323,3 +323,7 @@ def notest_create_accented_form():
     assert Data.create_accented_form("beilame") == "beílame"
 
 
+
+def test_es_suffix():
+    template = next(mwparserfromhell.parse("{{es-suffix|m|f=-ita}}").ifilter_templates())
+    assert expand_template(template, "-ito") == 'f=-ita'

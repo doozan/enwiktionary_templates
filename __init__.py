@@ -36,12 +36,12 @@ class Template():
     lang2 = {}
     #lang2["es"] = _es
 
-    from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp
+    from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp, es_suffix
 
     @staticmethod
     def _default(t, title):
         print(f"{title} uses unknown template: {t}", file=sys.stderr)
-        return str(t)
+        #return str(t)
         return ""
 
     @staticmethod
@@ -375,7 +375,14 @@ class Template():
 
     @staticmethod
     def form_of(t, title):
-        return f'{t.get(2)} of "{t.get(3)}"'
+        form = str(t.get(2).value) if str(t.get(2).value) else "form"
+
+        gloss = ""
+        for p in ["gloss", "t", "5"]:
+            if t.has(p):
+                gloss = " (" + str(t.get(p).value) + ")"
+
+        return f'{form} of "{t.get(3)}"{gloss}'
 
     @staticmethod
     def g(t, title):
@@ -501,7 +508,7 @@ class Template():
         if t.has("p"):
             if pos:
                 raise ValueError("Multiple POS")
-            pos = Template.inflection_pos_type[str(t.get("p").value)]
+            pos = Template.inflection_pos_type.get(str(t.get("p").value), str(t.get("p").value))
 
         if not pos:
             pos = "inflection"
@@ -918,7 +925,6 @@ ignore = {
     "es-proverb",
     "es-prop",
     "es-punctuation mark",
-    "es-suffix",
     "es-unadapted",
     "es-verb",
     "etymid",

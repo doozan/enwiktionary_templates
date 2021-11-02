@@ -282,3 +282,22 @@ def test_place():
 
     # Isla Príncipe Eduardo
     # an island in the subantarctic Indian Ocean, part of the [https://en.wikipedia.org/wiki/Prince_Edward_Islands Prince Edward Islands]
+
+
+def test_inflections():
+    # {{adj form of|es|rojo||m|p}}
+    # {{inflection of|es|rojo||p}}
+    #
+    assert _expand("{{inflection of|es|brillar||1|s|impf|ind}}") == 'inflection of "brillar"'
+
+    assert _expand("{{adj form of|es|rojo||m|p}}") == 'masculine plural of "rojo"'
+    assert _expand("{{noun form of|es|rojo||m|p}}") == 'masculine plural of "rojo"'
+
+
+    assert _expand("{{form of|es||-torio}}") == 'form of "-torio"'
+    assert _expand("{{form of|es|plural|-torio}}") == 'plural of "-torio"'
+
+
+def test_es_verb():
+    assert _expand("{{es-verb form of|ending=ar|mood=subjunctive|tense=imperfect|sera=se|pers=1|number=plural|abadernar}}") == 'inflection of "abadernar"'
+

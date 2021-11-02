@@ -29,3 +29,16 @@ def es_note_noun_f_starting_with_stressed_a(t,title):
 @staticmethod
 def es_proper_noun(t,title):
     return ""
+
+@staticmethod
+def es_suffix(t,title):
+
+    forms = []
+    for p in ["f", "pl", "fpl"]:
+        if t.has(p):
+            forms.append(f"{p}={t.get(p).value}")
+
+    if not forms:
+        return ""
+
+    return "; ".join(forms)
