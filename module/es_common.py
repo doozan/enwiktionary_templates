@@ -180,7 +180,7 @@ def stressed_syllable(syllables):
 
     # Monosyllabic words are stressed on that syllable.
     if len(syllables) == 1:
-        return 1
+        return 0
 
     i = len(syllables)-1
     # Unaccented words ending in a vowel or a vowel + s/n are stressed on the preceding syllable.

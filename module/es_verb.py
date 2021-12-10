@@ -1037,17 +1037,22 @@ def add_forms_with_clitic(base, base_slot, pronouns, do_combined_slots=False):
         # (2) Accent mark currently, still needed: infinitive oír because of oírlo;
         # (3) No accent mark currently, accent needed: imperative singular siente -> siénte because of siéntelo;
         # (4) Accent mark currently, not needed: imperative singular está -> estálo, sé -> selo.
-        syllables = com.syllabify(form["form"])
-        sylno = com.stressed_syllable(syllables)
-        syllables.append("lo")
-        needs_accent = com.accent_needed(syllables, sylno)
-        if needs_accent:
-            syllables[sylno] = com.add_accent_to_syllable(syllables[sylno])
-        else:
-            syllables[sylno] = com.remove_accent_from_syllable(syllables[sylno])
-        syllables.pop() # remove added clitic pronoun
-        reaccented_verb = "".join(syllables)
         for pronoun in pronouns:
+            syllables = com.syllabify(form["form"])
+            sylno = com.stressed_syllable(syllables)
+            syllables.append("me")
+            if len(pronoun) > 3:
+                syllables.append("lo")
+            needs_accent = com.accent_needed(syllables, sylno)
+            if needs_accent:
+                syllables[sylno] = com.add_accent_to_syllable(syllables[sylno])
+            else:
+                syllables[sylno] = com.remove_accent_from_syllable(syllables[sylno])
+            syllables.pop() # remove added clitic pronoun
+            if len(pronoun) > 3:
+                syllables.pop() # remove added clitic pronoun
+            reaccented_verb = "".join(syllables)
+
             cliticized_verb = None
             # Some further special cases.
             if base_slot == "imp_1p" and (pronoun == "nos" or pronoun == "os"):
@@ -1067,6 +1072,9 @@ def add_forms_with_clitic(base, base_slot, pronouns, do_combined_slots=False):
                         {"form": cliticized_verb, "footnotes": form.get("footnotes", [])})
             else:
                 form["form"] = cliticized_verb
+
+            if cliticized_verb == "dimelo":
+                raise ValueError(reaccented_verb, pronoun, needs_accent, sylno)
 
 
 # Generate the combinations of verb form (infinitive, gerund or various imperatives) + clitic pronoun.
@@ -1627,6 +1635,13 @@ def do_generate_forms(args, from_headword, d, PAGENAME):
         for form in forms:
             form["form"] = com.strip_redundant_links(form["form"])
 
+    # rename imp_3s to imp_2sf, imp_3p -> imp_2pf
+    alternant_multiword_spec["forms"] = {k.replace("imp_3s", "imp_2sf"):v for k,v in alternant_multiword_spec["forms"].items()}
+    alternant_multiword_spec["forms"] = {k.replace("imp_3p", "imp_2pf"):v for k,v in alternant_multiword_spec["forms"].items()}
+
+    # copy 3s and 3p slots to 2sf and 2pf slots
+    alternant_multiword_spec["forms"].update({k.replace("3p", "2pf").replace("3s", "2sf"):v for k,v in alternant_multiword_spec["forms"].items() if "3" in k})
+
     #compute_categories_and_annotation(alternant_multiword_spec, from_headword)
     return alternant_multiword_spec
 
@@ -1636,8 +1651,12 @@ def do_generate_forms(args, from_headword, d, PAGENAME):
 # additional properties (currently, none). This is for use by bots.
 def concat_forms(alternant_multiword_spec, include_props):
     ins_text = []
-    for slot in all_verb_slots:
-        formtext = iut.concat_forms_in_slot(alternant_multiword_spec["forms"].get(slot))
+    #for slot in all_verb_slots:
+    #    formtext = iut.concat_forms_in_slot(alternant_multiword_spec["forms"].get(slot))
+    #    if formtext:
+    #        ins_text.append(slot + "=" + formtext)
+    for slot, value in alternant_multiword_spec["forms"].items():
+        formtext = iut.concat_forms_in_slot(value)
         if formtext:
             ins_text.append(slot + "=" + formtext)
     return "|".join(ins_text)
