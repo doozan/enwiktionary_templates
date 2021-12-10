@@ -19,7 +19,7 @@ GENERATE_ALL_COMBINATIONS=True
 Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module%3Aes%2Dverb
-Revision 62366447, 01:28, 13 April 2021
+Revision 64087460, 10:39, 2 October 2021
 
 forms values
   string
@@ -642,9 +642,9 @@ irreg_conjugations = [
         "forms": {
             # use 'vengu' because we're in a front environment; if we use 'veng', we'll get '#venjo'
             "pres1_and_sub": "vengu", "vowel_alt": "ie-i", "pret": "vin", "pret_conj": "irreg",
-            # uniquely for this verb, pres sub 1p/2p do not raise the vowel even though we are an
+            # uniquely for this verb, pres sub 2sv/1p/2p do not raise the vowel even though we are an
             # e-ie-i verb (contrast sentir -> sintamos/sintáis)
-            "pres_sub_1p": "vengamos", "pres_sub_2p": "vengáis",
+            "pres_sub_2sv": "vengás", "pres_sub_1p": "vengamos", "pres_sub_2p": "vengáis",
             "fut": "vendr", "imp_2s": "vén" # need the accent for the compounds; it will be removed in the simplex
         }
     },
