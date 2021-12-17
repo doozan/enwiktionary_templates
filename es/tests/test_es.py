@@ -1,21 +1,46 @@
+import re
 import enwiktionary_templates
 import mwparserfromhell
 
 expand_template = enwiktionary_templates.expand_template
+expand_templates = enwiktionary_templates.expand_templates
+
+def _expand(text, pagename="test"):
+    wikt = mwparserfromhell.parse(text)
+    expand_templates(wikt, pagename)
+    return str(wikt)
 
 def test_es_compound_of():
-    template = next(mwparserfromhell.parse("# {{es-compound of|adelgaz|ar|adelgazar|las|mood=inf}}").ifilter_templates())
-    assert expand_template(template, "test") == 'compound form of "adelgazar"+"las"'
+    #assert _expand("{{es-compound of|adelgaz|ar|adelgazar|las|mood=inf}}") == 'compound form of "adelgazar"+"las"'
+    assert _expand("{{es-compound of|adelgaz|ar|adelgazar|las|mood=inf}}") == 'infinitive_comb_las of "adelgazar"'
+    assert _expand("{{es-compound of|adelgaz|ar|adelgazar|se|las|mood=ger}}") == 'gerund_comb_selas of "adelgazar"'
+
+    assert _expand("{{es-compound of|adelgaz|ar|adelgazar|me|las|mood=imp|person=tu}}") == 'imp_2s_comb_melas of "adelgazar"'
+    assert _expand("{{es-compound of|adelgaz|ar|adelgazar|me|mood=imp|person=usted}}") == 'imp_2sf_comb_me of "adelgazar"'
+    assert _expand("{{es-compound of|adelgaz|ar|adelgazar|me|mood=imp|person=nosotros}}") == 'imp_1p_comb_me of "adelgazar"'
+    assert _expand("{{es-compound of|adelgaz|ar|adelgazar|me|mood=imp|person=vosotros}}") == 'imp_2p_comb_me of "adelgazar"'
+    assert _expand("{{es-compound of|adelgaz|ar|adelgazar|me|mood=imp|person=ustedes}}") == 'imp_2pf_comb_me of "adelgazar"'
+
+    assert _expand("{{es-compound of|abraz|ar|abraza|los|mood=imperative|person=tú}}") == 'imp_2s_comb_los of "abrazar"'
 
 def test_es_conj():
-    template = next(mwparserfromhell.parse("{{es-conj}}").ifilter_templates())
-    value = expand_template(template, "tener")
-    assert value == "cond_1p=tendríamos; cond_1s=tendría; cond_2p=tendríais; cond_2s=tendrías; cond_3p=tendrían; cond_3s=tendría; fut_1p=tendremos; fut_1s=tendré; fut_2p=tendréis; fut_2s=tendrás; fut_3p=tendrán; fut_3s=tendrá; fut_sub_1p=tuviéremos; fut_sub_1s=tuviere; fut_sub_2p=tuviereis; fut_sub_2s=tuvieres; fut_sub_3p=tuvieren; fut_sub_3s=tuviere; gerund=teniendo; gerund_comb_la=teniéndola; gerund_comb_las=teniéndolas; gerund_comb_le=teniéndole; gerund_comb_les=teniéndoles; gerund_comb_lo=teniéndolo; gerund_comb_los=teniéndolos; gerund_comb_me=teniéndome; gerund_comb_mela=teniéndomela; gerund_comb_melas=teniéndomelas; gerund_comb_mele=teniéndomele; gerund_comb_meles=teniéndomeles; gerund_comb_melo=teniéndomelo; gerund_comb_melos=teniéndomelos; gerund_comb_nos=teniéndonos; gerund_comb_nosla=teniéndonosla; gerund_comb_noslas=teniéndonoslas; gerund_comb_nosle=teniéndonosle; gerund_comb_nosles=teniéndonosles; gerund_comb_noslo=teniéndonoslo; gerund_comb_noslos=teniéndonoslos; gerund_comb_os=teniéndoos; gerund_comb_osla=teniéndoosla; gerund_comb_oslas=teniéndooslas; gerund_comb_osle=teniéndoosle; gerund_comb_osles=teniéndoosles; gerund_comb_oslo=teniéndooslo; gerund_comb_oslos=teniéndooslos; gerund_comb_se=teniéndose; gerund_comb_sela=teniéndosela; gerund_comb_selas=teniéndoselas; gerund_comb_sele=teniéndosele; gerund_comb_seles=teniéndoseles; gerund_comb_selo=teniéndoselo; gerund_comb_selos=teniéndoselos; gerund_comb_te=teniéndote; gerund_comb_tela=teniéndotela; gerund_comb_telas=teniéndotelas; gerund_comb_tele=teniéndotele; gerund_comb_teles=teniéndoteles; gerund_comb_telo=teniéndotelo; gerund_comb_telos=teniéndotelos; imp_1p=tengamos; imp_1p_comb_la=tengámosla; imp_1p_comb_las=tengámoslas; imp_1p_comb_le=tengámosle; imp_1p_comb_les=tengámosles; imp_1p_comb_lo=tengámoslo; imp_1p_comb_los=tengámoslos; imp_1p_comb_nos=tengámonos; imp_1p_comb_nosla=tengámosnosla; imp_1p_comb_noslas=tengámosnoslas; imp_1p_comb_nosle=tengámosnosle; imp_1p_comb_nosles=tengámosnosles; imp_1p_comb_noslo=tengámosnoslo; imp_1p_comb_noslos=tengámosnoslos; imp_1p_comb_os=tengámoos; imp_1p_comb_osla=tengámososla; imp_1p_comb_oslas=tengámososlas; imp_1p_comb_osle=tengámososle; imp_1p_comb_osles=tengámososles; imp_1p_comb_oslo=tengámososlo; imp_1p_comb_oslos=tengámososlos; imp_1p_comb_te=tengámoste; imp_1p_comb_tela=tengámostela; imp_1p_comb_telas=tengámostelas; imp_1p_comb_tele=tengámostele; imp_1p_comb_teles=tengámosteles; imp_1p_comb_telo=tengámostelo; imp_1p_comb_telos=tengámostelos; imp_2p=tened; imp_2p_comb_la=tenedla; imp_2p_comb_las=tenedlas; imp_2p_comb_le=tenedle; imp_2p_comb_les=tenedles; imp_2p_comb_lo=tenedlo; imp_2p_comb_los=tenedlos; imp_2p_comb_me=tenedme; imp_2p_comb_mela=tenedmela; imp_2p_comb_melas=tenedmelas; imp_2p_comb_mele=tenedmele; imp_2p_comb_meles=tenedmeles; imp_2p_comb_melo=tenedmelo; imp_2p_comb_melos=tenedmelos; imp_2p_comb_nos=tenednos; imp_2p_comb_nosla=tenednosla; imp_2p_comb_noslas=tenednoslas; imp_2p_comb_nosle=tenednosle; imp_2p_comb_nosles=tenednosles; imp_2p_comb_noslo=tenednoslo; imp_2p_comb_noslos=tenednoslos; imp_2p_comb_os=teneos; imp_2p_comb_osla=tenedosla; imp_2p_comb_oslas=tenedoslas; imp_2p_comb_osle=tenedosle; imp_2p_comb_osles=tenedosles; imp_2p_comb_oslo=tenedoslo; imp_2p_comb_oslos=tenedoslos; imp_2s=ten; imp_2s_comb_la=tenla; imp_2s_comb_las=tenlas; imp_2s_comb_le=tenle; imp_2s_comb_les=tenles; imp_2s_comb_lo=tenlo; imp_2s_comb_los=tenlos; imp_2s_comb_me=tenme; imp_2s_comb_mela=tenmela; imp_2s_comb_melas=tenmelas; imp_2s_comb_mele=tenmele; imp_2s_comb_meles=tenmeles; imp_2s_comb_melo=tenmelo; imp_2s_comb_melos=tenmelos; imp_2s_comb_nos=tennos; imp_2s_comb_nosla=tennosla; imp_2s_comb_noslas=tennoslas; imp_2s_comb_nosle=tennosle; imp_2s_comb_nosles=tennosles; imp_2s_comb_noslo=tennoslo; imp_2s_comb_noslos=tennoslos; imp_2s_comb_te=tente; imp_2s_comb_tela=tentela; imp_2s_comb_telas=tentelas; imp_2s_comb_tele=tentele; imp_2s_comb_teles=tenteles; imp_2s_comb_telo=tentelo; imp_2s_comb_telos=tentelos; imp_2sv=tené; imp_3p=tengan; imp_3p_comb_la=ténganla; imp_3p_comb_las=ténganlas; imp_3p_comb_le=ténganle; imp_3p_comb_les=ténganles; imp_3p_comb_lo=ténganlo; imp_3p_comb_los=ténganlos; imp_3p_comb_me=ténganme; imp_3p_comb_mela=ténganmela; imp_3p_comb_melas=ténganmelas; imp_3p_comb_mele=ténganmele; imp_3p_comb_meles=ténganmeles; imp_3p_comb_melo=ténganmelo; imp_3p_comb_melos=ténganmelos; imp_3p_comb_nos=téngannos; imp_3p_comb_nosla=téngannosla; imp_3p_comb_noslas=téngannoslas; imp_3p_comb_nosle=téngannosle; imp_3p_comb_nosles=téngannosles; imp_3p_comb_noslo=téngannoslo; imp_3p_comb_noslos=téngannoslos; imp_3p_comb_se=ténganse; imp_3p_comb_sela=téngansela; imp_3p_comb_selas=ténganselas; imp_3p_comb_sele=téngansele; imp_3p_comb_seles=ténganseles; imp_3p_comb_selo=ténganselo; imp_3p_comb_selos=ténganselos; imp_3s=tenga; imp_3s_comb_la=téngala; imp_3s_comb_las=téngalas; imp_3s_comb_le=téngale; imp_3s_comb_les=téngales; imp_3s_comb_lo=téngalo; imp_3s_comb_los=téngalos; imp_3s_comb_me=téngame; imp_3s_comb_mela=téngamela; imp_3s_comb_melas=téngamelas; imp_3s_comb_mele=téngamele; imp_3s_comb_meles=téngameles; imp_3s_comb_melo=téngamelo; imp_3s_comb_melos=téngamelos; imp_3s_comb_nos=ténganos; imp_3s_comb_nosla=ténganosla; imp_3s_comb_noslas=ténganoslas; imp_3s_comb_nosle=ténganosle; imp_3s_comb_nosles=ténganosles; imp_3s_comb_noslo=ténganoslo; imp_3s_comb_noslos=ténganoslos; imp_3s_comb_se=téngase; imp_3s_comb_sela=téngasela; imp_3s_comb_selas=téngaselas; imp_3s_comb_sele=téngasele; imp_3s_comb_seles=téngaseles; imp_3s_comb_selo=téngaselo; imp_3s_comb_selos=téngaselos; impf_1p=teníamos; impf_1s=tenía; impf_2p=teníais; impf_2s=tenías; impf_3p=tenían; impf_3s=tenía; impf_sub_ra_1p=tuviéramos; impf_sub_ra_1s=tuviera; impf_sub_ra_2p=tuvierais; impf_sub_ra_2s=tuvieras; impf_sub_ra_3p=tuvieran; impf_sub_ra_3s=tuviera; impf_sub_se_1p=tuviésemos; impf_sub_se_1s=tuviese; impf_sub_se_2p=tuvieseis; impf_sub_se_2s=tuvieses; impf_sub_se_3p=tuviesen; impf_sub_se_3s=tuviese; infinitive=tener; infinitive_comb_la=tenerla; infinitive_comb_las=tenerlas; infinitive_comb_le=tenerle; infinitive_comb_les=tenerles; infinitive_comb_lo=tenerlo; infinitive_comb_los=tenerlos; infinitive_comb_me=tenerme; infinitive_comb_mela=tenermela; infinitive_comb_melas=tenermelas; infinitive_comb_mele=tenermele; infinitive_comb_meles=tenermeles; infinitive_comb_melo=tenermelo; infinitive_comb_melos=tenermelos; infinitive_comb_nos=tenernos; infinitive_comb_nosla=tenernosla; infinitive_comb_noslas=tenernoslas; infinitive_comb_nosle=tenernosle; infinitive_comb_nosles=tenernosles; infinitive_comb_noslo=tenernoslo; infinitive_comb_noslos=tenernoslos; infinitive_comb_os=teneros; infinitive_comb_osla=tenerosla; infinitive_comb_oslas=teneroslas; infinitive_comb_osle=tenerosle; infinitive_comb_osles=tenerosles; infinitive_comb_oslo=teneroslo; infinitive_comb_oslos=teneroslos; infinitive_comb_se=tenerse; infinitive_comb_sela=tenersela; infinitive_comb_selas=tenerselas; infinitive_comb_sele=tenersele; infinitive_comb_seles=tenerseles; infinitive_comb_selo=tenerselo; infinitive_comb_selos=tenerselos; infinitive_comb_te=tenerte; infinitive_comb_tela=tenertela; infinitive_comb_telas=tenertelas; infinitive_comb_tele=tenertele; infinitive_comb_teles=tenerteles; infinitive_comb_telo=tenertelo; infinitive_comb_telos=tenertelos; infinitive_linked=tener; neg_imp_1p=no tengamos; neg_imp_2p=no tengáis; neg_imp_2s=no tengas; neg_imp_3p=no tengan; neg_imp_3s=no tenga; pp_fp=tenidas; pp_fs=tenida; pp_mp=tenidos; pp_ms=tenido; pres_1p=tenemos; pres_1s=tengo; pres_2p=tenéis; pres_2s=tienes; pres_2sv=tenés; pres_3p=tienen; pres_3s=tiene; pres_sub_1p=tengamos; pres_sub_1s=tenga; pres_sub_2p=tengáis; pres_sub_2s=tengas; pres_sub_2sv=tengás; pres_sub_3p=tengan; pres_sub_3s=tenga; pret_1p=tuvimos; pret_1s=tuve; pret_2p=tuvisteis; pret_2s=tuviste; pret_3p=tuvieron; pret_3s=tuvo"
-    assert len(value.split("; ")) == 291
+
+    conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj}}", "decir").split(";")}
+#    print(conj)
+    assert [k for k,v in conj.items() if v=="dime"] == ["imp_2s_comb_me"]
+    assert [k for k,v in conj.items() if v=="dímelo"] == ["imp_2s_comb_melo"]
+
+
+    conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj}}", "tener").split(";")}
+#    print(conj)
+    expected = {'cond_1p': 'tendríamos', 'cond_1s': 'tendría', 'cond_2p': 'tendríais', 'cond_2pf': 'tendrían', 'cond_2s': 'tendrías', 'cond_2sf': 'tendría', 'cond_3p': 'tendrían', 'cond_3s': 'tendría', 'fut_1p': 'tendremos', 'fut_1s': 'tendré', 'fut_2p': 'tendréis', 'fut_2pf': 'tendrán', 'fut_2s': 'tendrás', 'fut_2sf': 'tendrá', 'fut_3p': 'tendrán', 'fut_3s': 'tendrá', 'fut_sub_1p': 'tuviéremos', 'fut_sub_1s': 'tuviere', 'fut_sub_2p': 'tuviereis', 'fut_sub_2pf': 'tuvieren', 'fut_sub_2s': 'tuvieres', 'fut_sub_2sf': 'tuviere', 'fut_sub_3p': 'tuvieren', 'fut_sub_3s': 'tuviere', 'gerund': 'teniendo', 'gerund_comb_la': 'teniéndola', 'gerund_comb_las': 'teniéndolas', 'gerund_comb_le': 'teniéndole', 'gerund_comb_les': 'teniéndoles', 'gerund_comb_lo': 'teniéndolo', 'gerund_comb_los': 'teniéndolos', 'gerund_comb_me': 'teniéndome', 'gerund_comb_mela': 'teniéndomela', 'gerund_comb_melas': 'teniéndomelas', 'gerund_comb_mele': 'teniéndomele', 'gerund_comb_meles': 'teniéndomeles', 'gerund_comb_melo': 'teniéndomelo', 'gerund_comb_melos': 'teniéndomelos', 'gerund_comb_nos': 'teniéndonos', 'gerund_comb_nosla': 'teniéndonosla', 'gerund_comb_noslas': 'teniéndonoslas', 'gerund_comb_nosle': 'teniéndonosle', 'gerund_comb_nosles': 'teniéndonosles', 'gerund_comb_noslo': 'teniéndonoslo', 'gerund_comb_noslos': 'teniéndonoslos', 'gerund_comb_os': 'teniéndoos', 'gerund_comb_osla': 'teniéndoosla', 'gerund_comb_oslas': 'teniéndooslas', 'gerund_comb_osle': 'teniéndoosle', 'gerund_comb_osles': 'teniéndoosles', 'gerund_comb_oslo': 'teniéndooslo', 'gerund_comb_oslos': 'teniéndooslos', 'gerund_comb_se': 'teniéndose', 'gerund_comb_sela': 'teniéndosela', 'gerund_comb_selas': 'teniéndoselas', 'gerund_comb_sele': 'teniéndosele', 'gerund_comb_seles': 'teniéndoseles', 'gerund_comb_selo': 'teniéndoselo', 'gerund_comb_selos': 'teniéndoselos', 'gerund_comb_te': 'teniéndote', 'gerund_comb_tela': 'teniéndotela', 'gerund_comb_telas': 'teniéndotelas', 'gerund_comb_tele': 'teniéndotele', 'gerund_comb_teles': 'teniéndoteles', 'gerund_comb_telo': 'teniéndotelo', 'gerund_comb_telos': 'teniéndotelos', 'imp_1p': 'tengamos', 'imp_1p_comb_la': 'tengámosla', 'imp_1p_comb_las': 'tengámoslas', 'imp_1p_comb_le': 'tengámosle', 'imp_1p_comb_les': 'tengámosles', 'imp_1p_comb_lo': 'tengámoslo', 'imp_1p_comb_los': 'tengámoslos', 'imp_1p_comb_nos': 'tengámonos', 'imp_1p_comb_nosla': 'tengámosnosla', 'imp_1p_comb_noslas': 'tengámosnoslas', 'imp_1p_comb_nosle': 'tengámosnosle', 'imp_1p_comb_nosles': 'tengámosnosles', 'imp_1p_comb_noslo': 'tengámosnoslo', 'imp_1p_comb_noslos': 'tengámosnoslos', 'imp_1p_comb_os': 'tengámoos', 'imp_1p_comb_osla': 'tengámososla', 'imp_1p_comb_oslas': 'tengámososlas', 'imp_1p_comb_osle': 'tengámososle', 'imp_1p_comb_osles': 'tengámososles', 'imp_1p_comb_oslo': 'tengámososlo', 'imp_1p_comb_oslos': 'tengámososlos', 'imp_1p_comb_te': 'tengámoste', 'imp_1p_comb_tela': 'tengámostela', 'imp_1p_comb_telas': 'tengámostelas', 'imp_1p_comb_tele': 'tengámostele', 'imp_1p_comb_teles': 'tengámosteles', 'imp_1p_comb_telo': 'tengámostelo', 'imp_1p_comb_telos': 'tengámostelos', 'imp_2p': 'tened', 'imp_2p_comb_la': 'tenedla', 'imp_2p_comb_las': 'tenedlas', 'imp_2p_comb_le': 'tenedle', 'imp_2p_comb_les': 'tenedles', 'imp_2p_comb_lo': 'tenedlo', 'imp_2p_comb_los': 'tenedlos', 'imp_2p_comb_me': 'tenedme', 'imp_2p_comb_mela': 'tenédmela', 'imp_2p_comb_melas': 'tenédmelas', 'imp_2p_comb_mele': 'tenédmele', 'imp_2p_comb_meles': 'tenédmeles', 'imp_2p_comb_melo': 'tenédmelo', 'imp_2p_comb_melos': 'tenédmelos', 'imp_2p_comb_nos': 'tenednos', 'imp_2p_comb_nosla': 'tenédnosla', 'imp_2p_comb_noslas': 'tenédnoslas', 'imp_2p_comb_nosle': 'tenédnosle', 'imp_2p_comb_nosles': 'tenédnosles', 'imp_2p_comb_noslo': 'tenédnoslo', 'imp_2p_comb_noslos': 'tenédnoslos', 'imp_2p_comb_os': 'teneos', 'imp_2p_comb_osla': 'tenédosla', 'imp_2p_comb_oslas': 'tenédoslas', 'imp_2p_comb_osle': 'tenédosle', 'imp_2p_comb_osles': 'tenédosles', 'imp_2p_comb_oslo': 'tenédoslo', 'imp_2p_comb_oslos': 'tenédoslos', 'imp_2pf': 'tengan', 'imp_2pf_comb_la': 'ténganla', 'imp_2pf_comb_las': 'ténganlas', 'imp_2pf_comb_le': 'ténganle', 'imp_2pf_comb_les': 'ténganles', 'imp_2pf_comb_lo': 'ténganlo', 'imp_2pf_comb_los': 'ténganlos', 'imp_2pf_comb_me': 'ténganme', 'imp_2pf_comb_mela': 'ténganmela', 'imp_2pf_comb_melas': 'ténganmelas', 'imp_2pf_comb_mele': 'ténganmele', 'imp_2pf_comb_meles': 'ténganmeles', 'imp_2pf_comb_melo': 'ténganmelo', 'imp_2pf_comb_melos': 'ténganmelos', 'imp_2pf_comb_nos': 'téngannos', 'imp_2pf_comb_nosla': 'téngannosla', 'imp_2pf_comb_noslas': 'téngannoslas', 'imp_2pf_comb_nosle': 'téngannosle', 'imp_2pf_comb_nosles': 'téngannosles', 'imp_2pf_comb_noslo': 'téngannoslo', 'imp_2pf_comb_noslos': 'téngannoslos', 'imp_2pf_comb_se': 'ténganse', 'imp_2pf_comb_sela': 'téngansela', 'imp_2pf_comb_selas': 'ténganselas', 'imp_2pf_comb_sele': 'téngansele', 'imp_2pf_comb_seles': 'ténganseles', 'imp_2pf_comb_selo': 'ténganselo', 'imp_2pf_comb_selos': 'ténganselos', 'imp_2s': 'ten', 'imp_2s_comb_la': 'tenla', 'imp_2s_comb_las': 'tenlas', 'imp_2s_comb_le': 'tenle', 'imp_2s_comb_les': 'tenles', 'imp_2s_comb_lo': 'tenlo', 'imp_2s_comb_los': 'tenlos', 'imp_2s_comb_me': 'tenme', 'imp_2s_comb_mela': 'ténmela', 'imp_2s_comb_melas': 'ténmelas', 'imp_2s_comb_mele': 'ténmele', 'imp_2s_comb_meles': 'ténmeles', 'imp_2s_comb_melo': 'ténmelo', 'imp_2s_comb_melos': 'ténmelos', 'imp_2s_comb_nos': 'tennos', 'imp_2s_comb_nosla': 'ténnosla', 'imp_2s_comb_noslas': 'ténnoslas', 'imp_2s_comb_nosle': 'ténnosle', 'imp_2s_comb_nosles': 'ténnosles', 'imp_2s_comb_noslo': 'ténnoslo', 'imp_2s_comb_noslos': 'ténnoslos', 'imp_2s_comb_te': 'tente', 'imp_2s_comb_tela': 'téntela', 'imp_2s_comb_telas': 'téntelas', 'imp_2s_comb_tele': 'téntele', 'imp_2s_comb_teles': 'ténteles', 'imp_2s_comb_telo': 'téntelo', 'imp_2s_comb_telos': 'téntelos', 'imp_2sf': 'tenga', 'imp_2sf_comb_la': 'téngala', 'imp_2sf_comb_las': 'téngalas', 'imp_2sf_comb_le': 'téngale', 'imp_2sf_comb_les': 'téngales', 'imp_2sf_comb_lo': 'téngalo', 'imp_2sf_comb_los': 'téngalos', 'imp_2sf_comb_me': 'téngame', 'imp_2sf_comb_mela': 'téngamela', 'imp_2sf_comb_melas': 'téngamelas', 'imp_2sf_comb_mele': 'téngamele', 'imp_2sf_comb_meles': 'téngameles', 'imp_2sf_comb_melo': 'téngamelo', 'imp_2sf_comb_melos': 'téngamelos', 'imp_2sf_comb_nos': 'ténganos', 'imp_2sf_comb_nosla': 'ténganosla', 'imp_2sf_comb_noslas': 'ténganoslas', 'imp_2sf_comb_nosle': 'ténganosle', 'imp_2sf_comb_nosles': 'ténganosles', 'imp_2sf_comb_noslo': 'ténganoslo', 'imp_2sf_comb_noslos': 'ténganoslos', 'imp_2sf_comb_se': 'téngase', 'imp_2sf_comb_sela': 'téngasela', 'imp_2sf_comb_selas': 'téngaselas', 'imp_2sf_comb_sele': 'téngasele', 'imp_2sf_comb_seles': 'téngaseles', 'imp_2sf_comb_selo': 'téngaselo', 'imp_2sf_comb_selos': 'téngaselos', 'imp_2sv': 'tené', 'impf_1p': 'teníamos', 'impf_1s': 'tenía', 'impf_2p': 'teníais', 'impf_2pf': 'tenían', 'impf_2s': 'tenías', 'impf_2sf': 'tenía', 'impf_3p': 'tenían', 'impf_3s': 'tenía', 'impf_sub_ra_1p': 'tuviéramos', 'impf_sub_ra_1s': 'tuviera', 'impf_sub_ra_2p': 'tuvierais', 'impf_sub_ra_2pf': 'tuvieran', 'impf_sub_ra_2s': 'tuvieras', 'impf_sub_ra_2sf': 'tuviera', 'impf_sub_ra_3p': 'tuvieran', 'impf_sub_ra_3s': 'tuviera', 'impf_sub_se_1p': 'tuviésemos', 'impf_sub_se_1s': 'tuviese', 'impf_sub_se_2p': 'tuvieseis', 'impf_sub_se_2pf': 'tuviesen', 'impf_sub_se_2s': 'tuvieses', 'impf_sub_se_2sf': 'tuviese', 'impf_sub_se_3p': 'tuviesen', 'impf_sub_se_3s': 'tuviese', 'infinitive': 'tener', 'infinitive_comb_la': 'tenerla', 'infinitive_comb_las': 'tenerlas', 'infinitive_comb_le': 'tenerle', 'infinitive_comb_les': 'tenerles', 'infinitive_comb_lo': 'tenerlo', 'infinitive_comb_los': 'tenerlos', 'infinitive_comb_me': 'tenerme', 'infinitive_comb_mela': 'tenérmela', 'infinitive_comb_melas': 'tenérmelas', 'infinitive_comb_mele': 'tenérmele', 'infinitive_comb_meles': 'tenérmeles', 'infinitive_comb_melo': 'tenérmelo', 'infinitive_comb_melos': 'tenérmelos', 'infinitive_comb_nos': 'tenernos', 'infinitive_comb_nosla': 'tenérnosla', 'infinitive_comb_noslas': 'tenérnoslas', 'infinitive_comb_nosle': 'tenérnosle', 'infinitive_comb_nosles': 'tenérnosles', 'infinitive_comb_noslo': 'tenérnoslo', 'infinitive_comb_noslos': 'tenérnoslos', 'infinitive_comb_os': 'teneros', 'infinitive_comb_osla': 'tenérosla', 'infinitive_comb_oslas': 'tenéroslas', 'infinitive_comb_osle': 'tenérosle', 'infinitive_comb_osles': 'tenérosles', 'infinitive_comb_oslo': 'tenéroslo', 'infinitive_comb_oslos': 'tenéroslos', 'infinitive_comb_se': 'tenerse', 'infinitive_comb_sela': 'tenérsela', 'infinitive_comb_selas': 'tenérselas', 'infinitive_comb_sele': 'tenérsele', 'infinitive_comb_seles': 'tenérseles', 'infinitive_comb_selo': 'tenérselo', 'infinitive_comb_selos': 'tenérselos', 'infinitive_comb_te': 'tenerte', 'infinitive_comb_tela': 'tenértela', 'infinitive_comb_telas': 'tenértelas', 'infinitive_comb_tele': 'tenértele', 'infinitive_comb_teles': 'tenérteles', 'infinitive_comb_telo': 'tenértelo', 'infinitive_comb_telos': 'tenértelos', 'infinitive_linked': 'tener', 'neg_imp_1p': 'no tengamos', 'neg_imp_2p': 'no tengáis', 'neg_imp_2pf': 'no tengan', 'neg_imp_2s': 'no tengas', 'neg_imp_2sf': 'no tenga', 'pp_fp': 'tenidas', 'pp_fs': 'tenida', 'pp_mp': 'tenidos', 'pp_ms': 'tenido', 'pres_1p': 'tenemos', 'pres_1s': 'tengo', 'pres_2p': 'tenéis', 'pres_2pf': 'tienen', 'pres_2s': 'tienes', 'pres_2sf': 'tiene', 'pres_2sv': 'tenés', 'pres_3p': 'tienen', 'pres_3s': 'tiene', 'pres_sub_1p': 'tengamos', 'pres_sub_1s': 'tenga', 'pres_sub_2p': 'tengáis', 'pres_sub_2pf': 'tengan', 'pres_sub_2s': 'tengas', 'pres_sub_2sf': 'tenga', 'pres_sub_2sv': 'tengás', 'pres_sub_3p': 'tengan', 'pres_sub_3s': 'tenga', 'pret_1p': 'tuvimos', 'pret_1s': 'tuve', 'pret_2p': 'tuvisteis', 'pret_2pf': 'tuvieron', 'pret_2s': 'tuviste', 'pret_2sf': 'tuvo', 'pret_3p': 'tuvieron', 'pret_3s': 'tuvo'}
+    assert conj == expected
+
+    assert len(conj) == 309
 
     template = next(mwparserfromhell.parse("{{es-conj}}").ifilter_templates())
     value = expand_template(template, "oír")
-    assert len(value.split("; ")) == 291
+    assert len(value.split("; ")) == 309
 
     template = next(mwparserfromhell.parse("{{es-conj|<ue>}}").ifilter_templates())
     value = expand_template(template, "mostrar")
@@ -24,6 +49,12 @@ def test_es_conj():
     value = expand_template(template, "ir")
     assert "," not in value
 
+    conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj}}", "decir").split(";")}
+    assert [k for k,v in conj.items() if v=="dime"] == ["imp_2s_comb_me"]
+#    assert [k for k,v in conj.items() if v=="dímelo"] == ["imp_2s_comb_melo"]
+
+    conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj}}", "hacer").split(";")}
+    assert [k for k,v in conj.items() if v=="házmelo"] == ["imp_2s_comb_melo"]
 
 def test_es_noun():
     template = next(mwparserfromhell.parse("{{es-noun|m}}").ifilter_templates())
@@ -327,3 +358,118 @@ def notest_create_accented_form():
 def test_es_suffix():
     template = next(mwparserfromhell.parse("{{es-suffix|m|f=-ita}}").ifilter_templates())
     assert expand_template(template, "-ito") == 'f=-ita'
+
+
+
+def test_es_verb_form_of():
+
+    test = [ #{
+('ten', 'imp_2s', '{{es-verb form of|mood=imp|num=s|pers=2|formal=n|sense=+|ending=er|tener}}'),
+('tenemos', 'pres_1p', '{{es-verb form of|mood=ind|tense=pres|num=p|pers=1|ending=er|tener}}'),
+('tené', 'imp_2sv', '{{es-verb form of|tener|ending=-er|mood=imperative|number=s|person=2|formal=n|sense=affirmative|voseo=y|region=Latin America}}'),
+('tuvo', 'pret_3s', '{{es-verb form of|mood=ind|tense=pret|num=s|pers=3|ending=er|tener}}'),
+('tengo', 'pres_1s', '{{es-verb form of|mood=ind|tense=pres|num=s|pers=1|ending=er|tener}}'),
+('tenido', 'pp_ms', '{{es-verb form of|mood=par|gen=m|num=s|ending=er|tener}}'),
+('tienes', 'pres_2s', '{{es-verb form of|mood=ind|tense=pres|num=s|pers=2|formal=n|ending=er|tener}}'),
+('tiene', 'pres_2sf', '{{es-verb form of|mood=ind|tense=pres|num=s|pers=2|formal=y|ending=er|tener}}'),
+('tiene', 'pres_3s', '{{es-verb form of|mood=ind|tense=pres|num=s|pers=3|ending=er|tener}}'),
+('tienen', 'pres_2pf', '{{es-verb form of|mood=ind|tense=pres|num=p|pers=2|formal=y|ending=er|tener}}'),
+('tienen', 'pres_3p', '{{es-verb form of|mood=ind|tense=pres|num=p|pers=3|ending=er|tener}}'),
+('tenga', 'pres_sub_1s', '{{es-verb form of|mood=subj|tense=pres|num=s|pers=1|ending=er|tener}}'),
+('tenga', 'pres_sub_2sf', '{{es-verb form of|mood=subj|tense=pres|num=s|pers=2|formal=y|ending=er|tener}}'),
+('tenga', 'pres_sub_3s', '{{es-verb form of|mood=subj|tense=pres|num=s|pers=3|ending=er|tener}}'),
+('tenga', 'imp_2sf', '{{es-verb form of|mood=imp|num=s|pers=2|formal=y|ending=er|tener}}'),
+('tenía', 'impf_1s', '{{es-verb form of|mood=ind|tense=imp|num=s|pers=1|ending=er|tener}}'),
+('tenía', 'impf_2sf', '{{es-verb form of|mood=ind|tense=imp|num=s|pers=2|formal=y|ending=er|tener}}'),
+('tenía', 'impf_3s', '{{es-verb form of|mood=ind|tense=imp|num=s|pers=3|ending=er|tener}}'),
+('tenéis', 'pres_2p', '{{es-verb form of|mood=ind|tense=pres|num=p|pers=2|formal=n|ending=er|tener}}'),
+('tenías', 'impf_2s', '{{es-verb form of|mood=ind|tense=imp|num=s|pers=2|formal=n|ending=er|tener}}'),
+('teníamos', 'impf_1p', '{{es-verb form of|mood=ind|tense=imp|num=p|pers=1|ending=er|tener}}'),
+('teníais', 'impf_2p', '{{es-verb form of|mood=ind|tense=imp|num=p|pers=2|formal=n|ending=er|tener}}'),
+('tenían', 'impf_2pf', '{{es-verb form of|mood=ind|tense=imp|num=p|pers=2|formal=y|ending=er|tener}}'),
+('tenían', 'impf_3p', '{{es-verb form of|mood=ind|tense=imp|num=p|pers=3|ending=er|tener}}'),
+('tuve', 'pret_1s', '{{es-verb form of|mood=ind|tense=pret|num=s|pers=1|ending=er|tener}}'),
+('tuviste', 'pret_2s', '{{es-verb form of|mood=ind|tense=pret|num=s|pers=2|formal=n|ending=er|tener}}'),
+('tuvimos', 'pret_1p', '{{es-verb form of|mood=ind|tense=pret|num=p|pers=1|ending=er|tener}}'),
+('tuvisteis', 'pret_2p', '{{es-verb form of|mood=ind|tense=pret|num=p|pers=2|formal=n|ending=er|tener}}'),
+('tuvieron', 'pret_2pf', '{{es-verb form of|mood=ind|tense=pret|num=p|pers=2|formal=y|ending=er|tener}}'),
+('tuvieron', 'pret_3p', '{{es-verb form of|mood=ind|tense=pret|num=p|pers=3|ending=er|tener}}'),
+('tendré', 'fut_1s', '{{es-verb form of|mood=ind|tense=fut|num=s|pers=1|ending=er|tener}}'),
+('tendrás', 'fut_2s', '{{es-verb form of|mood=ind|tense=fut|num=s|pers=2|formal=n|ending=er|tener}}'),
+('tendrá', 'fut_2sf', '{{es-verb form of|mood=ind|tense=fut|num=s|pers=2|formal=y|ending=er|tener}}'),
+('tendrá', 'fut_3s', '{{es-verb form of|mood=ind|tense=fut|num=s|pers=3|ending=er|tener}}'),
+('tendremos', 'fut_1p', '{{es-verb form of|mood=ind|tense=fut|num=p|pers=1|ending=er|tener}}'),
+('tendréis', 'fut_2p', '{{es-verb form of|mood=ind|tense=fut|num=p|pers=2|formal=n|ending=er|tener}}'),
+('tendrán', 'fut_2pf', '{{es-verb form of|mood=ind|tense=fut|num=p|pers=2|formal=y|ending=er|tener}}'),
+('tendrán', 'fut_3p', '{{es-verb form of|mood=ind|tense=fut|num=p|pers=3|ending=er|tener}}'),
+('tendría', 'cond_1s', '{{es-verb form of|mood=ind|tense=cond|num=s|pers=1|ending=er|tener}}'),
+('tendría', 'cond_2sf', '{{es-verb form of|mood=ind|tense=cond|num=s|pers=2|formal=y|ending=er|tener}}'),
+('tendría', 'cond_3s', '{{es-verb form of|mood=ind|tense=cond|num=s|pers=3|ending=er|tener}}'),
+('tendrías', 'cond_2s', '{{es-verb form of|mood=ind|tense=cond|num=s|pers=2|formal=n|ending=er|tener}}'),
+('tendríamos', 'cond_1p', '{{es-verb form of|mood=ind|tense=cond|num=p|pers=1|ending=er|tener}}'),
+('tendríais', 'cond_2p', '{{es-verb form of|mood=ind|tense=cond|num=p|pers=2|formal=n|ending=er|tener}}'),
+('tendrían', 'cond_2pf', '{{es-verb form of|mood=ind|tense=cond|num=p|pers=2|formal=y|ending=er|tener}}'),
+('tendrían', 'cond_3p', '{{es-verb form of|mood=ind|tense=cond|num=p|pers=3|ending=er|tener}}'),
+('tengas', 'pres_sub_2s', '{{es-verb form of|mood=subj|tense=pres|num=s|pers=2|formal=n|ending=er|tener}}'),
+('tengas', 'neg_imp_2s', '{{es-verb form of|mood=imp|num=s|pers=2|formal=n|sense=-|ending=er|tener}}'),
+('tengamos', 'pres_sub_1p', '{{es-verb form of|mood=subj|tense=pres|num=p|pers=1|ending=er|tener}}'),
+('tengamos', 'imp_1p', '{{es-verb form of|mood=imp|num=p|pers=1|ending=er|tener}}'),
+('tengáis', 'pres_sub_2p', '{{es-verb form of|mood=subj|tense=pres|num=p|pers=2|formal=n|ending=er|tener}}'),
+('tengáis', 'neg_imp_2p', '{{es-verb form of|mood=imp|num=p|pers=2|formal=n|sense=-|ending=er|tener}}'),
+('tengan', 'pres_sub_2pf', '{{es-verb form of|mood=subj|tense=pres|num=p|pers=2|formal=y|ending=er|tener}}'),
+('tengan', 'pres_sub_3p', '{{es-verb form of|mood=subj|tense=pres|num=p|pers=3|ending=er|tener}}'),
+('tengan', 'imp_2pf', '{{es-verb form of|mood=imp|num=p|pers=2|formal=y|ending=er|tener}}'),
+('tuviera', 'impf_sub_ra_1s', '{{es-verb form of|mood=subj|tense=imp|sera=ra|num=s|pers=1|ending=er|tener}}'),
+('tuviera', 'impf_sub_ra_2sf', '{{es-verb form of|mood=subj|tense=imp|sera=ra|num=s|pers=2|formal=y|ending=er|tener}}'),
+('tuviera', 'impf_sub_ra_3s', '{{es-verb form of|mood=subj|tense=imp|sera=ra|num=s|pers=3|ending=er|tener}}'),
+('tuvieras', 'impf_sub_ra_2s', '{{es-verb form of|mood=subj|tense=imp|sera=ra|num=s|pers=2|formal=n|ending=er|tener}}'),
+('tuviéramos', 'impf_sub_ra_1p', '{{es-verb form of|mood=subj|tense=imp|sera=ra|num=p|pers=1|ending=er|tener}}'),
+('tuvierais', 'impf_sub_ra_2p', '{{es-verb form of|mood=subj|tense=imp|sera=ra|num=p|pers=2|formal=n|ending=er|tener}}'),
+('tuvieran', 'impf_sub_ra_2pf', '{{es-verb form of|mood=subj|tense=imp|sera=ra|num=p|pers=2|formal=y|ending=er|tener}}'),
+('tuvieran', 'impf_sub_ra_3p', '{{es-verb form of|mood=subj|tense=imp|sera=ra|num=p|pers=3|ending=er|tener}}'),
+('tuviese', 'impf_sub_se_1s', '{{es-verb form of|mood=subj|tense=imp|sera=se|num=s|pers=1|ending=er|tener}}'),
+('tuviese', 'impf_sub_se_2sf', '{{es-verb form of|mood=subj|tense=imp|sera=se|num=s|pers=2|formal=y|ending=er|tener}}'),
+('tuviese', 'impf_sub_se_3s', '{{es-verb form of|mood=subj|tense=imp|sera=se|num=s|pers=3|ending=er|tener}}'),
+('tuvieses', 'impf_sub_se_2s', '{{es-verb form of|mood=subj|tense=imp|sera=se|num=s|pers=2|formal=n|ending=er|tener}}'),
+('tuviésemos', 'impf_sub_se_1p', '{{es-verb form of|mood=subj|tense=imp|sera=se|num=p|pers=1|ending=er|tener}}'),
+('tuvieseis', 'impf_sub_se_2p', '{{es-verb form of|mood=subj|tense=imp|sera=se|num=p|pers=2|formal=n|ending=er|tener}}'),
+('tuviesen', 'impf_sub_se_2pf', '{{es-verb form of|mood=subj|tense=imp|sera=se|num=p|pers=2|formal=y|ending=er|tener}}'),
+('tuviesen', 'impf_sub_se_3p', '{{es-verb form of|mood=subj|tense=imp|sera=se|num=p|pers=3|ending=er|tener}}'),
+('tuviere', 'fut_sub_1s', '{{es-verb form of|mood=subj|tense=fut|num=s|pers=1|ending=er|tener}}'),
+('tuviere', 'fut_sub_2sf', '{{es-verb form of|mood=subj|tense=fut|num=s|pers=2|formal=y|ending=er|tener}}'),
+('tuviere', 'fut_sub_3s', '{{es-verb form of|mood=subj|tense=fut|num=s|pers=3|ending=er|tener}}'),
+('tuvieres', 'fut_sub_2s', '{{es-verb form of|mood=subj|tense=fut|num=s|pers=2|formal=n|ending=er|tener}}'),
+('tuviéremos', 'fut_sub_1p', '{{es-verb form of|mood=subj|tense=fut|num=p|pers=1|ending=er|tener}}'),
+('tuviereis', 'fut_sub_2p', '{{es-verb form of|mood=subj|tense=fut|num=p|pers=2|formal=n|ending=er|tener}}'),
+('tuvieren', 'fut_sub_2pf', '{{es-verb form of|mood=subj|tense=fut|num=p|pers=2|formal=y|ending=er|tener}}'),
+('tuvieren', 'fut_sub_3p', '{{es-verb form of|mood=subj|tense=fut|num=p|pers=3|ending=er|tener}}'),
+('tened', 'imp_2p', '{{es-verb form of|mood=imp|num=p|pers=2|formal=n|sense=+|ending=er|tener}}'),
+('teniendo', 'gerund', '{{es-verb form of|mood=ger|ending=er|tener}}'),
+('tenés', 'pres_2sv', '{{es-verb form of|formal=no|person=second-person|number=singular|tense=present|mood=indicative|ending=er|tener|voseo=yes|region=Latin America}}'),
+('tenida', 'pp_fs', '{{es-verb form of|mood=par|gen=f|num=s|ending=er|tener}}'),
+('tenidas', 'pp_fp', '{{es-verb form of|mood=par|gen=f|num=p|ending=er|tener}}'),
+('tenidos', 'pp_mp', '{{es-verb form of|mood=par|gen=m|num=p|ending=er|tener}}'),
+('tengás', 'pres_sub_2sv', '{{es-verb form of|mood=subj|tense=pres|num=s|pers=2|formal=n|voseo=yes|ending=er|tener}}'),
+] #}
+
+    conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj}}", "tener").split(";")}
+    print("len", len(conj))
+#    print(conj)
+
+    for inflection, expected_slot, template in test:
+        slot = re.match(r'(\S*) of "', _expand(template)).group(1)
+        assert slot == expected_slot
+
+        if "neg_"  in slot and not inflection.startswith("no "):
+            inflection = "no " + inflection
+
+#        if "f" in slot: # formal is really just 3rd person
+#            slot = re.sub(r"2(.)f", r"3\1", slot)
+
+        if conj[slot] != inflection:
+            print(slot)
+        assert conj[slot] == inflection
+
+    #conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj}}", "comer").split(";")}
+    #print({k:v for k,v in conj.items() if v=="cómelo"})
+    #assert False

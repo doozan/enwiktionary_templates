@@ -36,7 +36,7 @@ class Template():
     lang2 = {}
     #lang2["es"] = _es
 
-    from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp, es_suffix
+    from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp, es_suffix, es_verb_form_of
 
     @staticmethod
     def _default(t, title):
@@ -128,6 +128,7 @@ class Template():
     compound = affix
     com = affix
     confix = affix
+    con = affix
     circumfix = affix
 
 
@@ -502,7 +503,8 @@ class Template():
 
     @staticmethod
     def inflection_of(t, title):
-        pos = ""
+
+        pos = None
         if t.has("POS"):
             pos = Template.inflection_pos_type[str(t.get("POS").value)]
         if t.has("p"):
@@ -543,6 +545,7 @@ class Template():
             qualifiers = ["inflection"]
             #qualifiers = [pos, "form"]
 
+
         res = qualifiers
         res.append("of")
         res.append('"' + str(t.get(2).value) + '"')
@@ -571,19 +574,6 @@ class Template():
     def verb_form_of(t, title):
         t.add("p", "v")
         return Template.inflection_of(t, title)
-
-    @staticmethod
-    def es_verb_form_of(t, title):
-        return f'inflection of "{t.get(1)}"'
-#        t.add("1", "es")
-#        t.add("p", "v")
-#        return Template.inflection_of(t, title)
-
-#    @staticmethod
-#    def es_adj_form_of(t, title):
-#        t.add("1", "es")
-#        t.add("p", "a")
-#        return Template.inflection_of(t, title)
 
     @staticmethod
     def inh_(t, title):
@@ -810,6 +800,10 @@ class Template():
     q = i = qual = qualifier
 
     @staticmethod
+    def quoted_term(t, title):
+        return '“' + str(t.get(1)) + '”'
+
+    @staticmethod
     def rebracketing(t, title):
         return Template.__etyl_misc_variant(t, title, "rebracketing of")
 
@@ -838,6 +832,10 @@ class Template():
     def sense(t, title):
         return "(" + str(t.get(1)) + ")"
     s = sense
+
+    @staticmethod
+    def sic(t, title):
+        return "(sic)"
 
     @staticmethod
     def suffix(t, title):
@@ -888,6 +886,7 @@ ignore = {
     "catlangname",
     "catlangcode",
     "cite",
+    "cite-av",
     "Cite book",
     "cite-book",
     "cite book",
@@ -1052,6 +1051,7 @@ form_of_alt = {
     "altspell": "alternative spelling of",
     "altspelling": "alternative spelling of",
     "ao": "abbreviation of",
+    "aug of": "augmentative of",
     "back-form": "back formation from",
     "cmn-erhua form of": "Mandarin erhua form of",
     "cretan dialect form of": "Cretan dialect form of",

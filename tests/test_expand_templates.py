@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import re
 import pytest
 import enwiktionary_templates
 import mwparserfromhell
@@ -47,9 +48,6 @@ def test_expand_template():
 
     template = next(mwparserfromhell.parse("{{ellipsis of |es|Antigua Guatemala|nocap=1}}").ifilter_templates())
     assert expand_template(template, "test") == 'ellipsis of "Antigua Guatemala"'
-
-    template = next(mwparserfromhell.parse("# {{es-compound of|adelgaz|ar|adelgazar|las|mood=inf}}").ifilter_templates())
-    assert expand_template(template, "test") == 'compound form of "adelgazar"+"las"'
 
 #def test_indtr():
 #    template = next(mwparserfromhell.parse("{{indtr|es|en|.also|.figurative}}").ifilter_templates())
@@ -296,8 +294,4 @@ def test_inflections():
 
     assert _expand("{{form of|es||-torio}}") == 'form of "-torio"'
     assert _expand("{{form of|es|plural|-torio}}") == 'plural of "-torio"'
-
-
-def test_es_verb():
-    assert _expand("{{es-verb form of|ending=ar|mood=subjunctive|tense=imperfect|sera=se|pers=1|number=plural|abadernar}}") == 'inflection of "abadernar"'
 
