@@ -273,6 +273,8 @@ class Template():
     bor = borrowed
     inherited = derived
     inh = derived
+    inh_lite = derived
+    der_lite = derived
 
     def cognate(t, title):
         return Template.__lang2_etyl(t, title, offset=0)
@@ -659,7 +661,9 @@ class Template():
             gloss = " (" + str(gloss) + ")"
 
         return str(display)+gloss
-    l = ll = link
+    l = link
+    ll = link
+    l_lite = link
 
     @staticmethod
     def m(t, title):
@@ -682,6 +686,7 @@ class Template():
 
         return " ".join(res)
     mention = m
+    m_lite = m
 
     @staticmethod
     def mention_gloss(t, title):
