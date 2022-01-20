@@ -79,6 +79,9 @@ def test_expand_templates():
     assert _expand("{{suffix|en|do|ing}}") == "do + -ing"
     assert _expand("{{suffix|en|do|-ing}}") == "do + -ing"
 
+def test_acronym_of():
+    assert _expand("{{acronym of|es||Universidad Católica Andrés Bello}}") == 'acronym of "Universidad Católica Andrés Bello"'
+
 def test_af():
     assert _expand("{{af|en|volley|ball}}") == "volley + ball"
     assert _expand("{{affix|en|pest|-i-|-cide}}") == "pest + -i- + -cide"

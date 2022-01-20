@@ -23,6 +23,15 @@ def test_es_compound_of():
 
     assert _expand("{{es-compound of|abraz|ar|abraza|los|mood=imperative|person=tú}}") == 'imp_2s_comb_los of "abrazar"'
 
+    assert _expand("{{es-compound of|achaparr|ar|achaparrar|os|mood=inf}}") == 'infinitive_comb_os of "achaparrar"'
+    assert _expand("{{es-compound of|achaparr|ar|achaparrar|os|mood=infinitive}}") == 'infinitive_comb_os of "achaparrar"'
+
+    assert _expand("{{es-compound of|achaparr|ar|achaparrando|lo|mood=part}}") == 'gerund_comb_lo of "achaparrar"'
+    assert _expand("{{es-compound of|achaparr|ar|achaparrando|lo|mood=gerund}}") == 'gerund_comb_lo of "achaparrar"'
+    assert _expand("{{es-compound of|achic|ar|achicar|se|mood=infinitive}}") == 'gerund_comb_lo of "achaparrar"'
+
+
+
 def test_es_conj():
 
     conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj}}", "decir").split(";")}

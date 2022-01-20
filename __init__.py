@@ -49,7 +49,8 @@ class Template():
         res = [text]
         if not t.has(2):
             raise ValueError("missing paramater 2", t)
-        res.append(f'"{t.get(2)}"')
+        display = next((str(t.get(p).value) for p in [3, 2] if t.has(p) and str(t.get(p).value)), None)
+        res.append(f'"{display}"')
         gloss = next((str(t.get(p).value) for p in ["t", "gloss", 4] if t.has(p) and str(t.get(p).value)), None)
         if gloss and gloss != "-":
             res.append("(“" + str(gloss) + "”)")
@@ -80,7 +81,7 @@ class Template():
 
     @staticmethod
     def abbrev(t, title):
-        return Template.__etyl_misc_variant(t, title, "acronym of")
+        return Template.__etyl_misc_variant(t, title, "abbreviation of")
     abbreviation = abbrev
 
     @staticmethod
@@ -197,7 +198,7 @@ class Template():
 
     @staticmethod
     def __etyl_misc_variant(t, title, pre_text=None):
-        display = next((str(t.get(p).value) for p in ["alt", "2", "3"] if t.has(p) and str(t.get(p).value)), title)
+        display = next((str(t.get(p).value) for p in ["alt", "3", "2"] if t.has(p) and str(t.get(p).value)), title)
         gloss = next((str(t.get(p).value) for p in ["gloss", "t", "4"] if t.has(p) and str(t.get(p).value)), None)
         return Template.__format_etyl(t, pre_text, None, display, gloss)
 
