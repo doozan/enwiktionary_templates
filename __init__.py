@@ -399,6 +399,8 @@ class Template():
     def gloss(t, title):
         return "(" + ", ".join(map(str.strip, map(str, t.params))) + ")"
     gl = gloss
+    gloss_lite = gloss
+    gl_lite = gloss
 
     @staticmethod
     def given_name(t, title):
@@ -740,6 +742,7 @@ class Template():
     def non_gloss_definition(t, title):
         return str(t.get(1))
     non_gloss = ngd = n_g = non_gloss_definition
+    n_g_lite = non_gloss_definition
 
     @staticmethod
     def onomatopoeic(t, title):
@@ -804,6 +807,7 @@ class Template():
         params = [ str(p.value) for p in t.params if str(p.name).isdigit() ]
         return "(" + ", ".join(params) + ")"
     q = i = qual = qualifier
+    q_lite = qualifier
 
     @staticmethod
     def quoted_term(t, title):
@@ -838,6 +842,7 @@ class Template():
     def sense(t, title):
         return "(" + str(t.get(1)) + ")"
     s = sense
+    sense_lite = sense
 
     @staticmethod
     def sic(t, title):
