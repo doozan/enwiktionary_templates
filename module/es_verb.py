@@ -19,8 +19,7 @@ GENERATE_ALL_COMBINATIONS=True
 Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module%3Aes%2Dverb
-Revision 64087460, 10:39, 2 October 2021
-
+Revision 65081359, 01:34, 30 December 2021
 forms values
   string
   list
@@ -108,7 +107,7 @@ C = com.C # consonant regex class
 # replace "--" with "#"
 # in every rsub, add final param with number of expected elements
 
-fut_sub_note = "[mostly obsolete form, now mainly used in legal jargon]"
+fut_sub_note = "[mostly obsolete, now mainly used in legal language]"
 pres_sub_voseo_note = "[Argentine and Uruguayan " + link_term("voseo", "term") + " prefers the " + \
     link_term("tú", "term") + " form for the present subjunctive]"
 

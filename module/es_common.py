@@ -80,7 +80,7 @@ def apply_vowel_alternation(stem, alternation):
     ret, err = None, None
     # Treat final -gu, -qu as a consonant, so the previous vowel can alternate (e.g. conseguir -> consigo).
     # This means a verb in -guar can't have a u-ú alternation but I don't think there are any verbs like that.
-    stem = rsub(stem, "([gq])u$", "%1" + TEMPC1)
+    stem = rsub(stem, "([gq])u$", r"\1" + TEMPC1)
     before_last_vowel, last_vowel, after_last_vowel = rmatch(stem, "^(.*)(" + V + ")(.*?)$", 3)
 
     if alternation == "ie":
@@ -158,8 +158,8 @@ def syllabify(word):
     word = rsub_repeatedly(word, "(" + V + ")(" + C + W + "?" + V + ")", r"\1.\2")
     word = rsub_repeatedly(word, "(" + V + C + ")(" + C + V + ")", r"\1.\2")
     word = rsub_repeatedly(word, "(" + V + C + "+)(" + C + C + V + ")", r"\1.\2")
-    word = rsub(word, "([pbcktdg])%.([lr])", r".\1\2")
-    word = rsub_repeatedly(word, "(" + C + ")%.s(" + C + ")", r"\1s.\2")
+    word = rsub(word, r"([pbcktdg])\.([lr])", r".\1\2")
+    word = rsub_repeatedly(word, "(" + C + r")\.s(" + C + ")", r"\1s.\2")
     # Any aeo, or stressed iu, should be syllabically divided from a following aeo or stressed iu.
     word = rsub_repeatedly(word, "([aeoáéíóúý])([aeoáéíóúý])", r"\1.\2")
     word = rsub_repeatedly(word, "([ií])([ií])", r"\1.\2")

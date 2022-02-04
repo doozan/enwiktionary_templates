@@ -7,7 +7,7 @@ def test_syllabify():
 
     assert syllabify("paranoia") == ["pa", "ra", "no", "ia"]
     assert syllabify("baiano") == ["ba", "ia", "no"]
-    assert syllabify("abreuense") == ["ab", "re", "uen", "se"]
+    assert syllabify("abreuense") == ["a", "bre", "uen", "se"]
 
     assert syllabify("ankylosaurio") == ["an", "ky", "lo", "sau", "rio"]
     assert syllabify("cryptomeria") == ["cryp", "to", "me", "ria"]

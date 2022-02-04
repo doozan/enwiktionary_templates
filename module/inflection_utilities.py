@@ -91,7 +91,7 @@ footnote_abbrevs = {
 
 def remove_redundant_links(text):
     # remove redundant link surrounding entire form
-    return rsub(text, "^%[%[([^%[%]|]*)%]%]$", "%1")
+    return rsub(text, r"^\[\[([^\[\]|]*)\]\]$", r"\1")
 
 def error(err):
     raise ValueError(err)
@@ -339,7 +339,7 @@ def insert_form_into_list(_list, form):
                 #require("Module:debug").track("inflection-utilities/combining-footnotes")
                 any_footnotes_with_bang = False
                 for footnote in form["footnotes"]:
-                    if rfind(footnote, "^%[!"):
+                    if rfind(footnote, r"^\[!"):
                         any_footnotes_with_bang = True
                         break
 
