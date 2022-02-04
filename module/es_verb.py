@@ -1291,7 +1291,7 @@ def parse_indicator_spec(angle_bracket_spec, lemma):
                 else:
                     base["vowel_alt"] = []
 
-                base["vowel_alt"] = [{"form": alt, "footnotes": fetch_footnotes(comma_separated_groups[j])}]
+                base["vowel_alt"] += [{"form": alt, "footnotes": fetch_footnotes(comma_separated_groups[j])}]
 
         elif (first_element == "no_pres_stressed" or first_element == "no_pres1_and_sub" or \
                 first_element == "only3s" or first_element == "only3sp"):
@@ -1307,7 +1307,7 @@ def parse_indicator_spec(angle_bracket_spec, lemma):
 
 
 # Normalize all lemmas, substituting the pagename for blank lemmas and adding links to multiword lemmas.
-def normalize_all_lemmas(alternant_multiword_spec):
+def normalize_all_lemmas(alternant_multiword_spec, PAGENAME):
 
     # (1) Add links to all before and after text.
     if not alternant_multiword_spec["args"].get("noautolinktext"):
@@ -1322,7 +1322,7 @@ def normalize_all_lemmas(alternant_multiword_spec):
 
     def f(base):
         if base.get("lemma", "") == "":
-            base["lemma"] = lua_or(alternant_multiword_spec["args"]["pagename"], alternant_multiword_spec["args"].get("head",[None])[0])
+            base["lemma"] = lua_or(alternant_multiword_spec["args"].get("pagename",None), alternant_multiword_spec["args"].get("head",None))
             if not base["lemma"]:
                 #PAGENAME = mw.title.getCurrentTitle().text
                 base["lemma"] = PAGENAME
@@ -1616,7 +1616,7 @@ def do_generate_forms(args, from_headword, d, PAGENAME):
     alternant_multiword_spec["pos"] = lua_or(pos, "verbs")
     alternant_multiword_spec["args"] = args
 
-    normalize_all_lemmas(alternant_multiword_spec)
+    normalize_all_lemmas(alternant_multiword_spec, PAGENAME)
 
     detect_all_indicator_specs(alternant_multiword_spec, from_headword)
     inflect_props = {
