@@ -28,8 +28,7 @@ def test_es_compound_of():
 
     assert _expand("{{es-compound of|achaparr|ar|achaparrando|lo|mood=part}}") == 'gerund_comb_lo of "achaparrar"'
     assert _expand("{{es-compound of|achaparr|ar|achaparrando|lo|mood=gerund}}") == 'gerund_comb_lo of "achaparrar"'
-    assert _expand("{{es-compound of|achic|ar|achicar|se|mood=infinitive}}") == 'gerund_comb_lo of "achaparrar"'
-
+    assert _expand("{{es-compound of|achic|ar|achicar|se|mood=infinitive}}") == 'infinitive_comb_se of "achicar"'
 
 
 def test_es_conj():

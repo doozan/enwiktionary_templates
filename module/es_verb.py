@@ -249,7 +249,7 @@ def _irreg_match_brir(verb):
     # Only match abrir, cubrir and compounds, and don't match desabrir/jabrir
     if not prefix:
         return
-    elif not prefix.endswith("a") or prefix.endswith("cu"):
+    elif not (prefix.endswith("a") or prefix.endswith("cu")):
         return
     elif prefix == "desa" or prefix == "ja":
         return

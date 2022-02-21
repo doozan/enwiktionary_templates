@@ -41,8 +41,8 @@ class Template():
     @staticmethod
     def _default(t, title):
         print(f"{title} uses unknown template: {t}", file=sys.stderr)
-        #return str(t)
-        return ""
+        return str(t)
+        #return ""
 
     @staticmethod
     def _form_of(t, title, text):
