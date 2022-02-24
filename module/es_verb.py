@@ -797,7 +797,7 @@ def combine_stem_ending(base, slot, stem, ending, is_combining_ending):
         if stem.endswith("gü"):
             # transfer the y to the stem to avoid gü -> gu below in front/back conversions
             stem = rsub(stem, "ü$", "uy")
-            ending = rsub(stem, "^i", "")
+            ending = rsub(ending, "^i", "")
 
         # (5) initial i absorbed after ñ, ll, y: tañer -> tañó, tañera, tañendo; bullir -> bulló, bullera, bullendo
         if rfind(stem, "[ñy]$") or rfind(stem, "ll$"):
