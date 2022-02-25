@@ -37,3 +37,9 @@ def es_conj(t, title):
             items.append(f"{k}={v}")
 
     return "; ".join(sorted(items))
+
+# Not a real template, used internally for generating the 'regular' conjugations of verbs
+# to identify which forms are irregular
+def es_conj_reg(t, title):
+    t.add("force_regular", True)
+    return es_conj(t, title)

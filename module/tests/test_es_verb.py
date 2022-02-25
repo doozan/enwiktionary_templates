@@ -173,3 +173,9 @@ def test_generate_forms():
     joined = M.concat_forms(forms, d)
     compare(baseline, joined)
 
+    args = { 1: None, "force_regular": True }
+    PAGENAME = "tener"
+    forms = M.do_generate_forms(args, from_headword, d, PAGENAME)
+    joined = M.concat_forms(forms, d)
+    assert forms["forms"]["pres_1s"][0]["form"] == "teno"
+

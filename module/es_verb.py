@@ -768,6 +768,9 @@ def combine_stem_ending(base, slot, stem, ending, is_combining_ending):
     if not is_combining_ending:
         return stem + ending
 
+    if base["args"].get("force_regular"):
+        return stem + ending
+
     if base["stems"].get("raising_conj") and (rfind(ending, "^i" + V) or \
         slot == "pres_sub_1p" or slot == "pres_sub_2p" or slot == "pres_sub_2sv"):
             # need to raise e -> i, o -> u: dormir -> durmió, durmiera, durmiendo, durmamos
@@ -1429,7 +1432,11 @@ def detect_indicator_spec(base):
     base["basic_overrides"] = {}
     base["basic_reflexive_only_overrides"] = {}
     base["combined_overrides"] = {}
+    base["non_prefixed_verb"] = None
     for irreg_conj in irreg_conjugations:
+        if base["args"].get("force_regular"):
+            continue
+
         if callable(irreg_conj.get("match")):
             res = irreg_conj["match"](base["verb"])
             if not res:
@@ -1668,6 +1675,3 @@ def concat_forms(alternant_multiword_spec, include_props):
 def generate_forms(args, include_props):
     alternant_multiword_spec = do_generate_forms(args)
     return concat_forms(alternant_multiword_spec, include_props)
-
-
-

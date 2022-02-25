@@ -64,6 +64,9 @@ def test_es_conj():
     conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj}}", "hacer").split(";")}
     assert [k for k,v in conj.items() if v=="házmelo"] == ["imp_2s_comb_melo"]
 
+    conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj-reg}}", "hacer").split(";")}
+    assert [v for k,v in conj.items() if k=="pres_1s"] == ["haco"]
+
 def test_es_noun():
     template = next(mwparserfromhell.parse("{{es-noun|m}}").ifilter_templates())
     assert expand_template(template, "testo") == 'pl=testos'
