@@ -41,8 +41,8 @@ class Template():
     @staticmethod
     def _default(t, title):
         print(f"{title} uses unknown template: {t}", file=sys.stderr)
-        return str(t)
-        #return ""
+        #return str(t)
+        return ""
 
     @staticmethod
     def _form_of(t, title, text):
@@ -745,6 +745,10 @@ class Template():
     n_g_lite = non_gloss_definition
 
     @staticmethod
+    def not_used(t, title):
+        return "Not used"
+
+    @staticmethod
     def onomatopoeic(t, title):
         if t.has("title"):
             return str(t.get("title").value)
@@ -827,6 +831,33 @@ class Template():
             return "---- " + str(t.get(1).value) + " ----"
         else:
             return "----"
+
+    @staticmethod
+    def t(t, title):
+        display = next((str(t.get(p).value) for p in ["alt", "2"] if t.has(p) and str(t.get(p).value)), title)
+
+        gender_params = [ str(p.value).strip() for p in t.params if str(p.name).isdigit() and int(str(p.name)) > 2 ]
+        if gender_params:
+            genders = " or ".join(gender_params)
+            genders = re.sub("p", "pl", genders)
+            genders = re.sub("-", " ", genders)
+
+            return f"{display} ({genders})"
+
+        return display
+    t_ = t
+    tt = t
+    tt_ = t
+    t_simple = t
+
+    @staticmethod
+    def t_check(t, title):
+        return "(unverified) " + Template.t(t, title)
+    t__check = t_check
+
+    @staticmethod
+    def t_needed(t, title):
+        return ""
 
     @staticmethod
     def semantic_loan(t, title):
