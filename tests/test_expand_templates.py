@@ -298,3 +298,4 @@ def test_inflections():
     assert _expand("{{form of|es||-torio}}") == 'form of "-torio"'
     assert _expand("{{form of|es|plural|-torio}}") == 'plural of "-torio"'
 
+    assert _expand("{{inflection of|es|éste|gloss=this||n|s}}") == 'neuter singular of "éste"'

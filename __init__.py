@@ -528,7 +528,11 @@ class Template():
 
         qualifiers = []
 
+        if "n" in params:
+            qualifiers.append("neuter")
         if "m" in params:
+            if qualifiers:
+                print("ERROR: double gender", title, t, file=sys.stderr)
             qualifiers.append("masculine")
         if "f" in params:
             if qualifiers:
