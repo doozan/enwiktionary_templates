@@ -41,14 +41,12 @@ class Template():
     @staticmethod
     def _default(t, title):
         print(f"{title} uses unknown template: {t}", file=sys.stderr)
-        #return str(t)
+        return str(t)
         return ""
 
     @staticmethod
     def _form_of(t, title, text):
         res = [text]
-        if not t.has(2):
-            raise ValueError("missing paramater 2", t)
         display = next((str(t.get(p).value) for p in [3, 2] if t.has(p) and str(t.get(p).value)), None)
         res.append(f'"{display}"')
         gloss = next((str(t.get(p).value) for p in ["t", "gloss", 4] if t.has(p) and str(t.get(p).value)), None)
@@ -81,12 +79,12 @@ class Template():
 
     @staticmethod
     def abbrev(t, title):
-        return Template.__etyl_misc_variant(t, title, "abbreviation of")
+        return Template.__etyl_misc_variant(t, title, "abbreviation")
     abbreviation = abbrev
 
     @staticmethod
     def acronym(t, title):
-        return Template.__etyl_misc_variant(t, title, "acronym of")
+        return Template.__etyl_misc_variant(t, title, "acronym")
 
     @staticmethod
     def affix(t, title):
@@ -183,7 +181,7 @@ class Template():
             res.append(lang)
 
         if display and display != "-":
-            res.append(f'"{display}"')
+            res.append(display)
         if gloss and gloss != "-":
             res.append("(“" + str(gloss) + "”)")
 
@@ -193,18 +191,22 @@ class Template():
     def __lang2_etyl(t, title, pre_text=None, offset=1):
         source = Template._get_lang(str(t.get(1+offset).value))
         display = next((str(t.get(p).value) for p in ["alt", 3+offset, 2+offset] if t.has(p) and str(t.get(p).value)), None)
+        if display and display != "-":
+            display = f'"{display}"'
         gloss = next((str(t.get(p).value) for p in ["t", "gloss", 4+offset] if t.has(p) and str(t.get(p).value)), None)
         return Template.__format_etyl(t, pre_text, source, display, gloss)
 
     @staticmethod
-    def __etyl_misc_variant(t, title, pre_text=None):
-        display = next((str(t.get(p).value) for p in ["alt", "3", "2"] if t.has(p) and str(t.get(p).value)), title)
+    def __etyl_misc_variant(t, title, pre_text=None, separator="of"):
+        display = next((str(t.get(p).value) for p in ["alt", "3", "2"] if t.has(p) and str(t.get(p).value)), None)
+        if display and display != "-":
+            display = f'{separator} "{display}"'
         gloss = next((str(t.get(p).value) for p in ["gloss", "t", "4"] if t.has(p) and str(t.get(p).value)), None)
         return Template.__format_etyl(t, pre_text, None, display, gloss)
 
     @staticmethod
     def back_formation(t, title):
-        return Template.__etyl_misc_variant(t, title, "back formation of")
+        return Template.__etyl_misc_variant(t, title, "back formation", "from")
     back_form = back_formation
     bf = back_formation
 
@@ -229,8 +231,14 @@ class Template():
     clq = calque
 
     @staticmethod
+    def century(t, title):
+        if t.has(2):
+            return f"{t.get(1)}c-{t.get(2)}c"
+        return f"{t.get(1)}c"
+
+    @staticmethod
     def clipping(t, title):
-        return Template.__etyl_misc_variant(t, title, "clipping of")
+        return Template.__etyl_misc_variant(t, title, "clipping")
     clip = clipping
     clipping_of = clipping
 
@@ -287,7 +295,7 @@ class Template():
 
     @staticmethod
     def deverbal(t, title):
-        return Template.__etyl_misc_variant(t, title, "deverbal of")
+        return Template.__etyl_misc_variant(t, title, "deverbal")
 
     @staticmethod
     def doublet(t, title):
@@ -307,7 +315,7 @@ class Template():
 
     @staticmethod
     def ellipsis(t, title):
-        return Template.__etyl_misc_variant(t, title, "ellipsis of")
+        return Template.__etyl_misc_variant(t, title, "ellipsis")
     ellipsis_of = ellipsis
 
     @staticmethod
@@ -510,12 +518,11 @@ class Template():
     def inflection_of(t, title):
 
         pos = None
-        if t.has("POS"):
-            pos = Template.inflection_pos_type[str(t.get("POS").value)]
-        if t.has("p"):
-            if pos:
-                raise ValueError("Multiple POS")
-            pos = Template.inflection_pos_type.get(str(t.get("p").value), str(t.get("p").value))
+        for k in ["POS", "p"]:
+            if t.has(k):
+                if pos:
+                    print("ERROR: Multiple POS", title, t, file=sys.stderr)
+                pos = Template.inflection_pos_type.get(str(t.get(k).value), str(t.get(k).value))
 
         if not pos:
             pos = "inflection"
@@ -753,6 +760,10 @@ class Template():
         return "Not used"
 
     @staticmethod
+    def nuclide(t, title):
+        return f"{t.get(1)}/{t.get(2)}" + str(t.get(3)) if t.has(3) else ""
+
+    @staticmethod
     def onomatopoeic(t, title):
         if t.has("title"):
             return str(t.get("title").value)
@@ -823,11 +834,11 @@ class Template():
 
     @staticmethod
     def rebracketing(t, title):
-        return Template.__etyl_misc_variant(t, title, "rebracketing of")
+        return Template.__etyl_misc_variant(t, title, "rebracketing")
 
     @staticmethod
     def reduplication(t, title):
-        return Template.__etyl_misc_variant(t, title, "reduplication of")
+        return Template.__etyl_misc_variant(t, title, "reduplication")
 
     @staticmethod
     def rel_top(t, title):
@@ -950,6 +961,45 @@ ignore = {
     "DEFAULTSORT",
     "dercat",
     "elements",
+    "en-noun",
+    "en-adj",
+    "en-verb",
+    "en-proper noun",
+    "en-adv",
+    "en-interj",
+    "en-plural noun",
+    "en-prop",
+    "en-proper-noun",
+    "en-prefix",
+    "en-ipl",
+    "en-prep",
+    "en-proverb",
+    "en-cont",
+    "en-pron",
+    "en-PP",
+    "en-intj",
+    "en-ing form of",
+    "en-suffix",
+    "en-interjection",
+    "en-pronoun",
+    "en-adjective",
+    "en-con",
+    "en-det",
+    "en-contraction",
+    "en-preposition",
+    "en-prep phrase",
+    "en-adverb",
+    "en-conjunction",
+    "en-pp",
+    "en-particle",
+    "en-obsolete past participle of",
+    "en-plural-noun",
+    "en-symbol",
+    "en-propn",
+    "en-usage-verb-particle-solid",
+    "en-part",
+    "en-letter",
+    "en-ing",
     "es-adj-inv",
     "es-adv",
     "es-adverb",
@@ -975,8 +1025,16 @@ ignore = {
     "etymid",
     "etystub",
     "ISBN",
+    "lena",
     "nbsp",
     "nonlemma",
+    "PIE word",
+    "pl-adj",
+    "pl-adv",
+    "pl-noun",
+    "pl-prep",
+    "pl-proper noun",
+    "pl-verb",
     "rel-bottom",
     "rfc",
     "rfclarify",
@@ -994,10 +1052,16 @@ ignore = {
     "rfv-sense",
     "root",
     "senseid",
-    "tea room sense",
+    "swp",
     "t2i-Egyd",
+    "tea room sense",
     "top",
     "topics",
+    "translation only",
+    "trans-bottom"
+    "trans-mid",
+    "trans-top",
+    "U:en:plurals of letters",
     "U:es:relative pronouns",
     "Wikipedia",
     "wikipedia",
@@ -1039,7 +1103,6 @@ p1 = {
     "smallcaps",
     "spelink",
     "sub",
-    "swp",
     "taxlink",
     "taxlink2",
     "taxlinknew",
@@ -1078,6 +1141,7 @@ quote1_with = {
     "fr-post-1990": "post-1990 spelling of",
     "fr-post-1990-plural": "post-1990 plural of",
     "pt-verb-form-of": "inflection of",
+    "pt-verb form of": "inflection of",
     "pt-apocopic-verb": "apocopic (used preceding the pronouns lo, la, los or las) form of",
 }
 
@@ -1098,7 +1162,6 @@ form_of_alt = {
     "altspelling": "alternative spelling of",
     "ao": "abbreviation of",
     "aug of": "augmentative of",
-    "back-form": "back formation from",
     "cmn-erhua form of": "Mandarin erhua form of",
     "cretan dialect form of": "Cretan dialect form of",
     "cs-imperfective form of": "imperfective form of",
@@ -1328,6 +1391,7 @@ replace_with = {
     "es-note-noun-f-starting-with-stressed-a": "* The feminine noun {{PAGENAME}} is like other feminine nouns starting with a stressed ''a'' sound in that it takes the definite article ''el'' (normally reserved for masculine nouns) in the singular when there is no intervening adjective:\n:: ''el {{PAGENAME}}''\n* However, if an adjective, even one that begins with a stressed ''a'' sound such as ''alta'' or ''ancha'', intervenes between the article and the noun, the article reverts to ''la''.",
     "es-demonstrative-accent-usage": "The unaccented form can function as a pronoun if it can be unambiguously deduced as such from context.",
     "es-note-noun-mf": "The noun {{PAGENAME}} is like most Spanish nouns with a human referent.  The masculine forms are used when the referent is known to be male, a group of males, a group of mixed or unknown gender, or an individual of unknown or unspecified gender.  The feminine forms are used if the referent is known to be female or a group of females.",
+    "nb...": " […]",
     "sup": "^",
     "unk": "Unknown",
     "unknown": "Unknown",
@@ -1344,13 +1408,18 @@ def expand_template(t, title):
     name = str(t.name).strip() #.lower()
 
     if name == "1":
-        return str(t.get(1)).capitalize().strip()
+        display = str(t.get(1)) if t.has(1) else title
+        return display.capitalize().strip()
     if name in ignore or name.startswith("R:"):
         return ""
     if name in replace_with:
         return replace_with[name]
     if name in p1:
-        return str(t.get(1)).strip()
+        if not t.has(1):
+            print("\n\n", title, t, "\n\n", file=sys.stderr)
+        display = str(t.get(1)) if t.has(1) else title
+        return display
+
     if name in p2:
         return str(t.get(2)).strip()
 

@@ -79,6 +79,10 @@ def test_expand_templates():
     assert _expand("{{suffix|en|do|ing}}") == "do + -ing"
     assert _expand("{{suffix|en|do|-ing}}") == "do + -ing"
 
+    assert _expand("{{back-form|en}}") == "Back formation"
+
+    assert _expand("From {{inh|es|la|-andus}}. Compare {{cog|it|-}} and {{cog|pt|-ando}}, {{cog|ro|-ând}}, {{cog|fr|-ant}}.") == 'From Latin "-andus". Compare Italian and Portuguese "-ando", Romanian "-ând", French "-ant".'
+
 def test_acronym_of():
     assert _expand("{{acronym of|es||Universidad Católica Andrés Bello}}") == 'acronym of "Universidad Católica Andrés Bello"'
 
