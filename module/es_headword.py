@@ -562,9 +562,12 @@ def do_noun(pagename, args, data, tracking_categories=[]):
         # Check for special plural signals
         mode = None
 
-        if plurals and (plurals[0] in ["?", "!", "-", "~"]):
-            mode = plurals[0]
-            plurals.pop(0) # Remove the mode parameter
+        if plurals and len(plurals[0]) == 1:
+            if plurals[0] in ["?", "!", "-", "~"]:
+                mode = plurals[0]
+                plurals.pop(0) # Remove the mode parameter
+            else:
+                raise ValueError("Unexpected plural character")
 
         if mode == "?":
             # Plural is unknown

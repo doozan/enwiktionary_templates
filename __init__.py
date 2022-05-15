@@ -41,7 +41,7 @@ class Template():
     @staticmethod
     def _default(t, title):
         print(f"{title} uses unknown template: {t}", file=sys.stderr)
-        return str(t)
+        return str(t).replace("\n", "\\n")
         return ""
 
     @staticmethod
@@ -1106,6 +1106,7 @@ p1 = {
     "taxlink",
     "taxlink2",
     "taxlinknew",
+    "underline",
     "unsupported",
     "upright",
     "vern",
