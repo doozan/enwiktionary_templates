@@ -19,7 +19,7 @@ GENERATE_ALL_COMBINATIONS=True
 Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module%3Aes%2Dverb
-Revision 65081359, 01:34, 30 December 2021
+Revision 67342897, 17:59, 11 June 2022
 forms values
   string
   list
@@ -1515,10 +1515,9 @@ def detect_indicator_spec(base):
 def detect_all_indicator_specs(alternant_multiword_spec, from_headword):
     # Propagate some settings up or down.
     def f1(base):
-        if base.get("refl"):
-            alternant_multiword_spec["refl"] = True
-        if base.get("clitic"):
-            alternant_multiword_spec["clitic"] = True
+        for prop in ["refl", "clitic", "only3s", "only3sp"]:
+            if base.get("prop"):
+                alternant_multiword_spec["refl"] = True
         base["from_headword"] = from_headword
         base["args"] = alternant_multiword_spec["args"]
         # If fixed clitic, don't include combined forms.
