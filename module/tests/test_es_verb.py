@@ -179,3 +179,9 @@ def test_generate_forms():
     joined = M.concat_forms(forms, d)
     assert forms["forms"]["pres_1s"][0]["form"] == "teno"
 
+    PAGENAME = "erguir"
+    args = { 1: None }
+    forms = M.do_generate_forms(args, from_headword, d, PAGENAME)
+#    assert len(forms["forms"]) == 309
+    assert forms["forms"]["pres_sub_1p"][0]["form"] == "irgamos"
+    assert forms["forms"]["pres_sub_1p"][1]["form"] == "yergamos"

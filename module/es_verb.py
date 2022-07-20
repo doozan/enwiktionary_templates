@@ -20,6 +20,10 @@ Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module%3Aes%2Dverb
 Revision 67342897, 17:59, 11 June 2022
+
+Note: this does not include the changes from July 17, 2022 that refactor
+with support for Module:es-inflections
+
 forms values
   string
   list
@@ -361,6 +365,19 @@ irreg_conjugations = [
         # elegir, reelegir; not preelegir, per RAE
         "match": match_against_verbs("elegir", ["", "re"]),
         "forms": {"vowel_alt": "i", "pp": ["elegid", "elect"]}
+    },
+    {
+        # erguir
+        "match": "^erguir",
+        "forms": {
+            "vowel_alt": {"i", "ye-i"},
+            # We would not need to make this verb irregular except for the alternative unstressed present subjunctive forms
+            # in yerg-. We can't use pres_sub_unstressed = {"irgu", "yergu"} because the "i" and "ye-i" vowel alternations
+            # are e->i raising in the unstressed present subjunctive and we wrongly get irgamos/yirgamos etc.
+            "pres_sub_2sv": {"irgás", "yergás"},
+            "pres_sub_1p": {"irgamos", "yergamos"},
+            "pres_sub_2p": {"irgáis", "yergáis"},
+        },
     },
     {
         "match": "^estar",
