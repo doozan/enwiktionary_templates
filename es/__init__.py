@@ -197,7 +197,7 @@ _es_verb_params.update({k:k for k in _es_verb_form_of_params.keys() if not k.sta
 @staticmethod
 def es_verb_form_of(t, title):
 
-    #return f'inflection of "{t.get(1)}"'
+    verb = t.get(1).partition("<")[0].strip()
 
     d = {}
 
@@ -207,6 +207,9 @@ def es_verb_form_of(t, title):
             continue
         v = _es_verb_form_of_params[pdest].get("_alt_values", {}).get(v, v)
         d[pdest] = v
+
+    if not d:
+        return f'smart inflection of "{verb}"'
 
     slot = ""
 
