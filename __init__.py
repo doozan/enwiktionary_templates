@@ -284,6 +284,8 @@ class Template():
     inh = derived
     inh_lite = derived
     der_lite = derived
+    uder = derived
+    der_ = derived
 
     def cognate(t, title):
         return Template.__lang2_etyl(t, title, offset=0)
@@ -1162,6 +1164,7 @@ form_of_alt = {
     "altspell": "alternative spelling of",
     "altspelling": "alternative spelling of",
     "ao": "abbreviation of",
+    "aphetic form": "aphetic form of",
     "aug of": "augmentative of",
     "cmn-erhua form of": "Mandarin erhua form of",
     "cretan dialect form of": "Cretan dialect form of",
