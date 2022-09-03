@@ -209,6 +209,7 @@ def es_verb_form_of(t, title):
         d[pdest] = v
 
     if not d:
+        # TODO: better implementation, or just leave it simple?
         return f'smart inflection of "{verb}"'
 
     slot = ""

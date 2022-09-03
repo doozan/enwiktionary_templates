@@ -796,6 +796,11 @@ class Template():
     pclq = partial_calque
 
     @staticmethod
+    def phono_semantic_matching(t, title):
+        return Template.__lang2_etyl(t, title, "phono-semantic matching of")
+    psm = phono_semantic_matching
+
+    @staticmethod
     def place(t, title):
         return place(t, title)
 
@@ -810,9 +815,8 @@ class Template():
     pre = prefix
 
     @staticmethod
-    def phono_semantic_matching(t, title):
-        return Template.__lang2_etyl(t, title, "phono-semantic matching of")
-    psm = phono_semantic_matching
+    def pseudo_loan(t, title):
+        return Template.__lang2_etyl(t, title, "Pseudo-loan from")
 
     @staticmethod
     def qf(t, title):
@@ -904,6 +908,11 @@ class Template():
     suf = suffix
 
     @staticmethod
+    def surface_analysis(t, title):
+        return "By surface analysis, " + Template.affix(t, title)
+    surf = surface_analysis
+
+    @staticmethod
     def surname(t, title):
         return "surname"
 
@@ -931,7 +940,7 @@ class Template():
             if t.has(p):
                 res.append(str(t.get(p).value))
         return " ― ".join(res)
-    eg = uxi = usex = ux
+    eg = ux_lite = uxi = usex = ux
 
 ignore = {
     ",",
@@ -1164,6 +1173,7 @@ form_of_alt = {
     "alt-sp": "alternative spelling of",
     "altspell": "alternative spelling of",
     "altspelling": "alternative spelling of",
+    "alt spelling of": "alternative spelling of",
     "ao": "abbreviation of",
     "aphetic form": "aphetic form of",
     "aug of": "augmentative of",
