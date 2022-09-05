@@ -655,6 +655,8 @@ class Template():
 
         return res
 
+    latn_def_lite = latn_def
+
     @staticmethod
     def learned_borrowing(t, title):
         return Template.__lang2_etyl(t, title, "learned borrowing from")
@@ -1170,6 +1172,7 @@ form_of_alt = {
     "alternative form": "alternative form of",
     "altname": "alternative name of",
     "alt sp": "alternative spelling of",
+    "alt sp of": "alternative spelling of",
     "alt-sp": "alternative spelling of",
     "altspell": "alternative spelling of",
     "altspelling": "alternative spelling of",
