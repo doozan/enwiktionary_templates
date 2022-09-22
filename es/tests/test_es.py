@@ -67,6 +67,11 @@ def test_es_conj():
     conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj-reg}}", "hacer").split(";")}
     assert [v for k,v in conj.items() if k=="pres_1s"] == ["haco"]
 
+    conj = {x.split("=")[0].strip():x.split("=")[1].strip() for x in _expand("{{es-conj}}", "adentrarse").split(";")}
+    assert conj["gerund"] == "adentrándose"
+    assert conj["gerund_comb_se"] == "adentrándose"
+    assert conj["gerund_without_se"] == "adentrando"
+
 def test_es_noun():
     template = next(mwparserfromhell.parse("{{es-noun|m}}").ifilter_templates())
     assert expand_template(template, "testo") == 'pl=testos'

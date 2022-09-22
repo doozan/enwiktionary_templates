@@ -57,6 +57,7 @@ import re
 import sys
 import enwiktionary_templates.module.inflection_utilities as iut
 import enwiktionary_templates.module.es_common as com
+from copy import deepcopy
 
 lang = {} #require("Module:languages").getByCode("es")
 
@@ -182,6 +183,7 @@ verb_slots_basic = {
     "pp_fs": "f|s|past|part",
     "pp_mp": "m|p|past|part",
     "pp_fp": "f|p|past|part",
+    "gerund_without_se": "",  # Custom override for reflexive verbs
 }
 
 verb_slots_combined = {}
@@ -1124,6 +1126,10 @@ def process_slot_overrides(base, do_basic, reflexive_only=False):
 # forms where it is not joined and precedes the form.
 def add_reflexive_or_fixed_clitic_to_forms(base, do_reflexive, do_joined):
     for slot, accel in verb_slots_basic.items():
+
+        if slot == "gerund_without_se":
+            continue
+
         clitic = None
         if not do_reflexive:
             clitic = base["clitic"]
@@ -1232,6 +1238,10 @@ def conjugate_verb(base):
     add_non_present(base)
     # This should happen before add_combined_forms() so overrides of basic forms end up part of the combined forms.
     process_slot_overrides(base, "do basic") # do basic slot overrides
+
+    if base.get("refl"):
+        base["forms"]["gerund_without_se"] = deepcopy(base["forms"]["gerund"])
+
     # This should happen after process_slot_overrides() in case a derived slot is based on an override (as with the
     # imp_3s of [[dar]], [[estar]]).
     copy_subjunctives_to_imperatives(base)
@@ -1641,6 +1651,7 @@ def do_generate_forms(args, from_headword, d, PAGENAME):
     normalize_all_lemmas(alternant_multiword_spec, PAGENAME)
 
     detect_all_indicator_specs(alternant_multiword_spec, from_headword)
+
     inflect_props = {
         "slot_list": all_verb_slots,
         "lang": lang,
