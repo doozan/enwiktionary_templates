@@ -12,6 +12,7 @@ def test_check_slots():
     assert len(M.verb_slots_combined) == 217
     assert len(M.all_verb_slots) == 292
 
+
 #    assert len(list(x for x in M.verb_slots_combined.keys() if re.match(r".*_(.*)", x).group(1) not in extended_combos)) == 67
 #    assert len(list(x for x in M.all_verb_slots.keys() if re.match(r".*_(.*)", x).group(1) not in extended_combos)) == 141
 
@@ -173,6 +174,17 @@ def test_generate_forms():
     joined = M.concat_forms(forms, d)
     compare(baseline, joined)
 
+    # https://en.wiktionary.org/w/api.php?action=expandtemplates&format=json&prop=wikitext&text=%7B%7BUser%3AJeffDoozan/es-verb-generate-forms%7Ccolorir%253Cno_pres_stressed%253E%7D%7D'
+    PAGENAME = "colorir"
+    args = { 1: "<no_pres_stressed>" }
+    forms = M.do_generate_forms(args, from_headword, d, PAGENAME)
+    baseline = "infinitive=colorir|infinitive_linked=colorir|gerund=coloriendo|pp_ms=colorido|pp_fs=colorida|pp_mp=coloridos|pp_fp=coloridas|pres_2sv=colorís|pres_1p=colorimos|pres_2p=colorís|impf_1s=coloría|impf_2s=colorías|impf_3s=coloría|impf_1p=coloríamos|impf_2p=coloríais|impf_3p=colorían|pret_1s=colorí|pret_2s=coloriste|pret_3s=colorió|pret_1p=colorimos|pret_2p=coloristeis|pret_3p=colorieron|fut_1s=coloriré|fut_2s=colorirás|fut_3s=colorirá|fut_1p=coloriremos|fut_2p=coloriréis|fut_3p=colorirán|cond_1s=coloriría|cond_2s=colorirías|cond_3s=coloriría|cond_1p=coloriríamos|cond_2p=coloriríais|cond_3p=colorirían|impf_sub_ra_1s=coloriera|impf_sub_ra_2s=colorieras|impf_sub_ra_3s=coloriera|impf_sub_ra_1p=coloriéramos|impf_sub_ra_2p=colorierais|impf_sub_ra_3p=colorieran|impf_sub_se_1s=coloriese|impf_sub_se_2s=colorieses|impf_sub_se_3s=coloriese|impf_sub_se_1p=coloriésemos|impf_sub_se_2p=colorieseis|impf_sub_se_3p=coloriesen|fut_sub_1s=coloriere|fut_sub_2s=colorieres|fut_sub_3s=coloriere|fut_sub_1p=coloriéremos|fut_sub_2p=coloriereis|fut_sub_3p=colorieren|imp_2sv=colorí|imp_2p=colorid|infinitive_comb_me=colorirme|infinitive_comb_te=colorirte|infinitive_comb_se=colorirse|infinitive_comb_nos=colorirnos|infinitive_comb_os=coloriros|infinitive_comb_lo=colorirlo|infinitive_comb_la=colorirla|infinitive_comb_le=colorirle|infinitive_comb_los=colorirlos|infinitive_comb_las=colorirlas|infinitive_comb_les=colorirles|gerund_comb_me=coloriéndome|gerund_comb_te=coloriéndote|gerund_comb_se=coloriéndose|gerund_comb_nos=coloriéndonos|gerund_comb_os=coloriéndoos|gerund_comb_lo=coloriéndolo|gerund_comb_la=coloriéndola|gerund_comb_le=coloriéndole|gerund_comb_los=coloriéndolos|gerund_comb_las=coloriéndolas|gerund_comb_les=coloriéndoles|imp_2p_comb_me=coloridme|imp_2p_comb_nos=coloridnos|imp_2p_comb_os=coloríos|imp_2p_comb_lo=coloridlo|imp_2p_comb_la=coloridla|imp_2p_comb_le=coloridle|imp_2p_comb_los=coloridlos|imp_2p_comb_las=coloridlas|imp_2p_comb_les=coloridles"
+    forms = M.do_generate_forms(args, from_headword, d, PAGENAME)
+    joined = M.concat_forms(forms, d)
+    compare(baseline, joined)
+    assert "pres_sub_1p" not in forms["forms"]
+
+
     args = { 1: None, "force_regular": True }
     PAGENAME = "tener"
     forms = M.do_generate_forms(args, from_headword, d, PAGENAME)
@@ -183,5 +195,13 @@ def test_generate_forms():
     args = { 1: None }
     forms = M.do_generate_forms(args, from_headword, d, PAGENAME)
 #    assert len(forms["forms"]) == 309
-    assert forms["forms"]["pres_sub_1p"][0]["form"] == "irgamos"
-    assert forms["forms"]["pres_sub_1p"][1]["form"] == "yergamos"
+    assert sorted([
+        forms["forms"]["pres_sub_1p"][0]["form"],
+        forms["forms"]["pres_sub_1p"][1]["form"]]) == ["irgamos", "yergamos"]
+
+
+
+    PAGENAME = "salir"
+    args = { 1: "" }
+    forms = M.do_generate_forms(args, from_headword, d, PAGENAME)
+    "imp_2s_comb_le" not in forms["forms"]

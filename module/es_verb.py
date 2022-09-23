@@ -595,8 +595,8 @@ irreg_conjugations = [
             # use 'salgu' because we're in a front environment; if we use 'salg', we'll get '#saljo'
             "pres1_and_sub": "salgu", "fut": "saldr", "imp_2s": "sal",
             # These don't exist per the RAE.
-            "imp_2s_comb_lo": [], "imp_2s_comb_los": [], "imp_2s_comb_la": [], "imp_2s_comb_las": [],
-            "imp_2s_comb_le": [], "imp_2s_comb_les": [],
+            "imp_2s_comb_lo": None, "imp_2s_comb_los": None, "imp_2s_comb_la": None, "imp_2s_comb_las": None,
+            "imp_2s_comb_le": None, "imp_2s_comb_les": None,
         },
     },
     {
@@ -715,10 +715,10 @@ reflexive_forms = {
 
 def skip_slot(base, slot, allow_overrides=False):
     if not allow_overrides and (
-        (base.get("basic_overrides") and base["basic_overrides"].get(slot)) or \
-        (base.get("combined_overrides") and base["combined_overrides"].get(slot)) or \
+        (base.get("basic_overrides") and slot in base["basic_overrides"]) or \
+        (base.get("combined_overrides") and slot in base["combined_overrides"]) or \
         base.get("refl") and \
-        (base.get("reflexive_only_overrides") and base["reflexive_only_overrides"].get(slot))
+        (base.get("reflexive_only_overrides") and slot in base["reflexive_only_overrides"])
         ):
     # Skip any slots for which there are overrides.
               return True
@@ -1413,6 +1413,7 @@ def construct_stems(base):
         pass
     # If no_pres_stressed given, pres_stressed stem should be empty so no forms are generated.
     elif base.get("no_pres_stressed"):
+        stems["pres_stressed"] = None
         pass
     else:
         stems["pres_stressed"] = \
@@ -1423,9 +1424,11 @@ def construct_stems(base):
         pass
     # If no_pres_stressed given, the entire subjunctive is missing.
     elif base.get("no_pres_stressed"):
+        stems["pres1_and_sub"] = None
         pass
    # If no_pres1_and_sub given, pres1 and entire subjunctive are missing.
-    elif base.get("no_pres_stressed"):
+    elif base.get("no_pres1_and_sub"):
+        stems["pres1_and_sub"] = None
         pass
     else:
         pass
@@ -1442,7 +1445,7 @@ def construct_stems(base):
     stems["impf_sub_ra"] = stems.get("impf_sub_ra", stems.get("pret"))
     stems["impf_sub_se"] = stems.get("impf_sub_se", stems.get("pret"))
     stems["fut_sub"] = stems.get("fut_sub", stems.get("pret"))
-    stems["pp"] = stems.get("pp", 
+    stems["pp"] = stems.get("pp",
         combine_stem_ending(base, "pp_ms", base.get("inf_stem"), "ad", "is combining ending")
         if base.get("conj") == "ar" else
     #    # use combine_stem_ending esp. so we get reído, caído, etc.
