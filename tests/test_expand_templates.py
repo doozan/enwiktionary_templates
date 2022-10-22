@@ -303,3 +303,9 @@ def test_inflections():
     assert _expand("{{form of|es|plural|-torio}}") == 'plural of "-torio"'
 
     assert _expand("{{inflection of|es|éste|gloss=this||n|s}}") == 'neuter singular of "éste"'
+
+
+def test_forms():
+    from enwiktionary_parser.utils import nest_aware_iterator
+
+    assert _expand("{{forms|a|b}}") == 'form=a; form=b'

@@ -379,6 +379,12 @@ class Template():
 
         return "".join(res)
 
+    # Custom method, not used in en.wiktionary
+    @staticmethod
+    def forms(t, title):
+        forms = map(str,t.params)
+        return "; ".join([f"form={f}" for f in forms])
+
     @staticmethod
     def frac(t, title):
         if t.has(3):
