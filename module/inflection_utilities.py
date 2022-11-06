@@ -18,10 +18,11 @@
 Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module:inflection_utilities
-Revision 67575439, 02:41, 29 June 2022
+Revision 67644689, 05:33, 5 July 2022
 """
 
 import re
+import enwiktionary_templates.module.parse_utilities as put
 
 #export = {}
 
@@ -101,226 +102,15 @@ def error(err):
 #--                                             PARSING CODE                                               --
 #------------------------------------------------------------------------------------------------------------
 
-"""
-In order to understand the following parsing code, you need to understand how inflected text specs work. They are
-intended to work with inflected text where individual words to be inflected may be followed by inflection specs in
-angle brackets. The format of the text inside of the angle brackets is up to the individual language and part-of-speech
-specific implementation. A real-world example is as follows: "[[медичний|меди́чна]]<+> [[сестра́]]<*,*#.pr>". This is the inflection of a multiword expression "меди́чна сестра́", which means "nurse" in Ukrainian (literally "medical sister"),
-consisting of two words: the adjective меди́чна ("medical" in the feminine singular) and the noun сестра́ ("sister"). The
-specs in angle brackets follow each word to be inflected; for example, <+> means that the preceding word should be
-declined as an adjective.
-
-The code below works in terms of balanced expressions, which are bounded by delimiters such as < > or [ ]. The
-intention is to allow separators such as spaces to be embedded inside of delimiters; such embedded separators will not
-be parsed as separators. For example, Ukrainian noun specs allow footnotes in brackets to be inserted inside of angle
-brackets; something like "меди́чна<+> сестра́<pr.[this is a footnote]>" is legal, as is
-"[[медичний|меди́чна]]<+> [[сестра́]]<pr.[this is an <i>italicized footnote</i>]>", and the parsing code should not be
-confused by the embedded brackets, spaces or angle brackets.
-
-The parsing is done by two functions, which work in close concert: parse_balanced_segment_run() and
-split_alternating_runs(). To illustrate, consider the following:
-
-parse_balanced_segment_run("foo<M.proper noun> bar<F>", "<", ">") =
-  {"foo", "<M.proper noun>", " bar", "<F>", ""}
-
-then
-
-split_alternating_runs({"foo", "<M.proper noun>", " bar", "<F>", ""}, " ") =
-  {{"foo", "<M.proper noun>", ""}, {"bar", "<F>", ""}}
-
-Here, we start out with a typical inflected text spec "foo<M.proper noun> bar<F>", call parse_balanced_segment_run() on
-it, and call split_alternating_runs() on the result. The output of parse_balanced_segment_run() is a list where
-even-numbered segments are bounded by the bracket-like characters passed into the function, and odd-numbered segments
-consist of the surrounding text. split_alternating_runs() is called on this, and splits *only* the odd-numbered
-segments, grouping all segments between the specified character. Note that the inner lists output by
-split_alternating_runs() are themselves in the same format as the output of parse_balanced_segment_run(), with
-bracket-bounded text in the even-numbered segments. Hence, such lists can be passed again to split_alternating_runs().
-"""
-
-# Parse a string containing matched instances of parens, brackets or the like. Return a list of strings, alternating
-# between textual runs not containing the open/close characters and runs beginning and ending with the open/close
-# characters. For example,
-#
-# parse_balanced_segment_run("foo(x(1)), bar(2)", "(", ")") = {"foo", "(x(1))", ", bar", "(2)", ""}.
-def parse_balanced_segment_run(segment_run, _open, _close):
-    break_on_open_close = m_string_utilities_capturing_split(segment_run, rf"([\{_open}\{_close}])")
-    text_and_specs = []
-    level = 0
-    seg_group = []
-    for i, seg in enumerate(break_on_open_close):
-        if i % 2 == 1:
-            if seg == _open:
-                seg_group.append(seg)
-                level = level + 1
-            else:
-                assert(seg == _close)
-                seg_group.append(seg)
-                level = level - 1
-                if level < 0:
-                    error("Unmatched " + _close + " sign: '" + segment_run + "'")
-                elif level == 0:
-                    text_and_specs.append("".join(seg_group))
-                    seg_group = []
-
-        elif level > 0:
-            seg_group.append(seg)
-        else:
-            text_and_specs.append(seg)
-
-    if level > 0:
-        error("Unmatched " + _open + " sign: '" + segment_run + "'")
-
-    return text_and_specs
-
-
-
-# Like parse_balanced_segment_run() but accepts multiple sets of delimiters. For example,
-#
-# parse_multi_delimiter_balanced_segment_run("foo[bar(baz[bat])], quux<glorp>", {{"[", "]"}, {"(", ")"}, {"<", ">"}}) =
-#        {"foo", "[bar(baz[bat])]", ", quux", "<glorp>", ""}.
-def parse_multi_delimiter_balanced_segment_run(segment_run, delimiter_pairs):
-    open_to_close_map = {}
-    open_close_items = []
-    for open_close in delimiter_pairs:
-        _open, _close = open_close
-        open_to_close_map[_open] = _close
-        table.insert(open_close_items, rf"\{_open}")
-        table.insert(open_close_items, rf"\{_close}")
-
-    open_close_pattern = "([" + "".join(open_close_items) + "])"
-    break_on_open_close = m_string_utilities_capturing_split(segment_run, open_close_pattern)
-    text_and_specs = []
-    level = 0
-    seg_group = []
-    open_at_level_zero = None
-    for i, seg in enumerate(break_on_open_close):
-        if i % 2 == 1:
-            seg_group.append(seg)
-            if level == 0:
-                if not seg in open_to_close_map:
-                    error("Unmatched " + seg + " sign: '" + segment_run + "'")
-
-                assert(open_at_level_zero == None)
-                open_at_level_zero = seg
-                level = level + 1
-            elif seg == open_at_level_zero:
-                level = level + 1
-            elif seg == open_to_close_map[open_at_level_zero]:
-                level = level - 1
-                assert(level >= 0)
-                if level == 0:
-                    text_and_specs.append("".join(seg_group))
-                    seg_group = []
-                    open_at_level_zero = None
-
-
-        elif level > 0:
-            seg_group.append(seg)
-        else:
-            text_and_specs.append(seg)
-
-
-    if level > 0:
-        error("Unmatched " + open_at_level_zero + " sign: '" + segment_run + "'")
-
-    return text_and_specs
-
-
-
-"""
-Split a list of alternating textual runs of the format returned by `parse_balanced_segment_run` on `splitchar`. This
-only splits the odd-numbered textual runs (the portions between the balanced open/close characters).  The return value
-is a list of lists, where each list contains an odd number of elements, where the even-numbered elements of the sublists
-are the original balanced textual run portions. For example, if we do
-
-parse_balanced_segment_run("foo<M.proper noun> bar<F>", "<", ">") =
-  {"foo", "<M.proper noun>", " bar", "<F>", ""}
-
-then
-
-split_alternating_runs({"foo", "<M.proper noun>", " bar", "<F>", ""}, " ") =
-  {{"foo", "<M.proper noun>", ""}, {"bar", "<F>", ""}}
-
-Note that we did not touch the text "<M.proper noun>" even though it contains a space in it, because it is an
-even-numbered element of the input list. This is intentional and allows for embedded separators inside of
-brackets/parens/etc. Note also that the inner lists in the return value are of the same form as the input list (i.e.
-they consist of alternating textual runs where the even-numbered segments are balanced runs), and can in turn be passed
-to split_alternating_runs().
-
-If `preserve_splitchar` is passed in, the split character is included in the output, as follows:
-
-split_alternating_runs({"foo", "<M.proper noun>", " bar", "<F>", ""}, " ", true) =
-  {{"foo", "<M.proper noun>", ""}, {" "}, {"bar", "<F>", ""}}
-
-Consider what happens if the original string has multiple spaces between brackets, and multiple sets of brackets
-without spaces between them.
-
-parse_balanced_segment_run("foo[dated][low colloquial] baz-bat quux xyzzy[archaic]", "[", "]") =
-  {"foo", "[dated]", "", "[low colloquial]", " baz-bat quux xyzzy", "[archaic]", ""}
-
-then
-
-split_alternating_runs({"foo", "[dated]", "", "[low colloquial]", " baz-bat quux xyzzy", "[archaic]", ""}, "[ %-]") =
-  {{"foo", "[dated]", "", "[low colloquial]", ""}, {"baz"}, {"bat"}, {"quux"}, {"xyzzy", "[archaic]", ""}}
-
-If `preserve_splitchar` is passed in, the split character is included in the output,
-as follows:
-
-split_alternating_runs({"foo", "[dated]", "", "[low colloquial]", " baz bat quux xyzzy", "[archaic]", ""}, "[ %-]", true) =
-  {{"foo", "[dated]", "", "[low colloquial]", ""}, {" "}, {"baz"}, {"-"}, {"bat"}, {" "}, {"quux"}, {" "}, {"xyzzy", "[archaic]", ""}}
-
-As can be seen, the even-numbered elements in the outer list are one-element lists consisting of the separator text.
-"""
-def split_alternating_runs(segment_runs, splitchar, preserve_splitchar=False):
-    grouped_runs = []
-    run = []
-    for i, seg in enumerate(segment_runs):
-        if i % 2 == 1:
-            run.append(seg)
-        else:
-            parts = m_string_utilities_capturing_split(seg, "(" + splitchar + ")") if preserve_splitchar else rsplit(seg, splitchar)
-            run.append(parts[0])
-            for j in range(1,len(parts)):
-                grouped_runs.append(run)
-                run = [parts[j]]
-
-    if run:
-        grouped_runs.append(run)
-
-    return grouped_runs
-
-def strip_spaces(text):
-    return rsub(text, r"^\s*(.-)\s*$", r"\1")
+parse_balanced_segment_run = put.parse_balanced_segment_run
+parse_multi_delimiter_balanced_segment_run = put.parse_multi_delimiter_balanced_segment_run
+split_alternating_runs = put.split_alternating_runs
 
 # Like split_alternating_runs() but strips spaces from both ends of the odd-numbered elements (only in
 # odd-numbered runs if preserve_splitchar is given). Effectively we leave alone the footnotes and splitchars
 # themselves, but otherwise strip extraneous spaces. Spaces in the middle of an element are also left alone.
 def split_alternating_runs_and_strip_spaces(segment_runs, splitchar, preserve_splitchar):
-    split_runs = split_alternating_runs(segment_runs, splitchar, preserve_splitchar)
-    for run in split_runs:
-        if not preserve_splitchar or i % 2 == 1:
-            for x, element in enumerate(run,1):
-                if j % 2 == 1:
-                    run[j] = strip_spaces(element)
-    return split_runs
-
-
-# Given a list of forms (each of which is a table of the form
-# {form=FORM, translit=MANUAL_TRANSLIT, footnotes=FOOTNOTES}), concatenate into a
-# SLOT=FORM//TRANSLIT,FORM//TRANSLIT,... string (or SLOT=FORM,FORM,... if no translit),
-# replacing embedded | signs with <!>.
-def concat_forms_in_slot(forms):
-    if forms:
-        new_vals = []
-        for v in forms:
-            form = v["form"]
-            if v.get("translit"):
-                form = form + "//" + v["translit"]
-
-            new_vals.append(form.replace("|", "<!>"))
-
-        return ",".join(new_vals)
-
+    return put.split_alternating_runs_and_frob_raw_text(segment_runs, splitchar, put.strip_spaces, preserve_splitchar)
 
 #------------------------------------------------------------------------------------------------------------
 #--                                             INFLECTION CODE                                            --
@@ -722,11 +512,11 @@ def parse_before_or_post_text(props, text, segments, lemma_is_last):
     # -ir verb rather than a hyphen + irregular [[ir]].
     is_suffix = rfind(text, r"^\-")
     # Call parse_balanced_segment_run() to keep multiword links together.
-    bracketed_runs = parse_balanced_segment_run(text, "[", "]")
+    bracketed_runs = put.parse_balanced_segment_run(text, "[", "]")
     # Split on space or hyphen. Use preserve_splitchar so we know whether the separator was
     # a space or hyphen.
     splitchar = " " if is_suffix else r"[ \-]"
-    space_separated_groups = split_alternating_runs(bracketed_runs,
+    space_separated_groups = put.split_alternating_runs(bracketed_runs,
         splitchar, "preserve splitchar")
 
     parsed_components = []
@@ -876,8 +666,8 @@ where MULTIWORD_SPEC describes a given alternant and is as returned by parse_mul
 def parse_alternant(alternant, props):
     parsed_alternants = []
     alternant_text = rmatch(alternant, r"^\(\((.*)\)\)$")
-    segments = parse_balanced_segment_run(alternant_text, "<", ">")
-    comma_separated_groups = split_alternating_runs(segments, r"\s*,\s*")
+    segments = put.parse_balanced_segment_run(alternant_text, "<", ">")
+    comma_separated_groups = put.split_alternating_runs(segments, r"\s*,\s*")
     alternant_spec = {"alternants": []}
     for _, comma_separated_group in ipairs(comma_separated_groups):
         table.insert(alternant_spec["alternants"], parse_multiword_spec(comma_separated_group, props))
@@ -944,7 +734,7 @@ def parse_inflected_text(text, props):
     last_post_text, last_post_text_no_links, last_post_text_translit = None, None, None
     for i in range(len(alternant_segments)):
         if i % 2 == 0:
-            segments = parse_balanced_segment_run(alternant_segments[i], "<", ">")
+            segments = put.parse_balanced_segment_run(alternant_segments[i], "<", ">")
             # Disable allow_default_indicator if alternants are present and we're processing
             # the non-alternant text. Otherwise we will try to treat the non-alternant text
             # surrounding the alternants as an inflected word rather than as raw text.
@@ -1390,3 +1180,18 @@ def show_forms(forms, props):
             table.insert(all_notes, symbol + entry)
 
     forms.footnote = "<br />".join(all_notes)
+
+# Given a list of forms (each of which is a table of the form
+# {form=FORM, translit=MANUAL_TRANSLIT, footnotes=FOOTNOTES}), concatenate into a
+# SLOT=FORM//TRANSLIT,FORM//TRANSLIT,... string (or SLOT=FORM,FORM,... if no translit),
+# replacing embedded | signs with <!>.
+def concat_forms_in_slot(forms):
+    if forms:
+        new_vals = []
+        for v in forms:
+            form = v["form"]
+            if v.get("translit"):
+                form = form + "//" + v["translit"]
+            new_vals.append(rsub(form, "[|]", "<!>"))
+
+        return ",".join(new_vals)
