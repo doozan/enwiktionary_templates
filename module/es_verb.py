@@ -19,7 +19,7 @@ GENERATE_ALL_COMBINATIONS=True
 Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module%3Aes%2Dverb
-Revision 68441417, 23:02, 23 July 2022
+Revision 68442321, 04:37, 24 July 2022
 
 forms values
   string
@@ -145,12 +145,8 @@ for p1 in ["me", "te", "se", "nos", "os"]:
 
 person_number_list_basic = [ "1s", "2s", "3s", "1p", "2p", "3p" ]
 person_number_list_voseo = [ "1s", "2s", "2sv", "3s", "1p", "2p", "3p" ]
+imp_person_number_list = [ "2s", "2sv", "3s", "1p", "2p", "3p" ]
 neg_imp_person_number_list = [ "2s", "3s", "1p", "2p", "3p" ]
-# local persnum_to_index = {}
-# for k, v in pairs(person_number_list) do
-#     persnum_to_index[v: k
-# end
-imp_person_number_list = [ "2s", "2p" ]
 
 person_number_to_reflexive_pronoun = {
     "1s": "me",
@@ -170,8 +166,11 @@ verb_slots_basic = {
     "pp_fs": "f|s|past|part",
     "pp_mp": "m|p|past|part",
     "pp_fp": "f|p|past|part",
-    "gerund_without_se": "",  # Custom override for reflexive verbs
 }
+
+if GENERATE_ALL_COMBINATIONS:
+    # Custom override for reflexive verbs
+    verb_slots_basic["gerund_without_se"] = ""
 
 # For 1s|ger, 2p|inf, etc.
 verb_slots_personal_nonfinite = {}
@@ -213,36 +212,44 @@ add_slot_personal(verb_slots_basic, "pres_sub", "pres|sub", person_number_list_v
 add_slot_personal(verb_slots_basic, "impf_sub_ra", "impf|sub", person_number_list_basic)
 add_slot_personal(verb_slots_basic, "impf_sub_se", "impf|sub", person_number_list_basic)
 add_slot_personal(verb_slots_basic, "fut_sub", "fut|sub", person_number_list_basic)
-add_slot_personal(verb_slots_basic, "imp", "imp", {"2s", "2sv", "3s", "1p", "2p", "3p"})
+add_slot_personal(verb_slots_basic, "imp", "imp", imp_person_number_list)
 add_slot_personal(verb_slots_basic, "neg_imp", "neg|imp", neg_imp_person_number_list, "no accel")
 add_slot_personal(verb_slots_basic, "infinitive", "inf", person_number_list_basic)
 add_slot_personal(verb_slots_basic, "gerund", "ger", person_number_list_basic)
 
-def add_combined_slot(basic_slot, slot_prefix, pronouns1, pronouns2):
+third_person_object_clitics = ["lo", "la", "le", "los", "las", "les"]
+
+def add_combined_slot(basic_slot, slot_prefix, clitics):
+
+    clitics_with_object = clitics + third_person_object_clitics
 
     # NOTE: custom modification to generate all possible clitics instead of just
     # those displayed in the wikitionary table
-    pronouns = pronouns1 + pronouns2
     if GENERATE_ALL_COMBINATIONS:
-        for p1 in pronouns1:
-            for p2 in pronouns2:
-                pronouns.append(p1 + p2)
+        for c1 in clitics:
+            for c2 in third_person_object_clitics:
+                clitics_with_object.append(c1 + c2)
 
-    for pronoun in pronouns:
-        slot = basic_slot + "_comb_" + pronoun
+    for clitic in clitics_with_object:
+        slot = basic_slot + "_comb_" + clitic
         # You have to pass this through full_link() to get a Spanish-specific link
-        accel = slot_prefix + "|combined with [[" + pronoun + "]]"
+        accel = slot_prefix + "|combined with [[" + clitic + "]]"
         verb_slots_combined[slot] = accel
 
-    verb_slot_combined_rows[basic_slot] = pronouns
+    verb_slot_combined_rows[basic_slot] = clitics_with_object
 
-add_combined_slot("infinitive", "inf", ["me", "te", "se", "nos", "os"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("gerund", "gerund", ["me", "te", "se", "nos", "os"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("imp_2s", "2s|imp", ["me", "te", "nos"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("imp_3s", "3s|imp", ["me", "se", "nos"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("imp_1p", "1p|imp", ["te", "nos", "os"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("imp_2p", "2p|imp", ["me", "nos", "os"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("imp_3p", "3p|imp", ["me", "se", "nos"], ["lo", "la", "le", "los", "las", "les"])
+add_combined_slot("infinitive", "inf", ["me", "te", "se", "nos", "os"])
+add_combined_slot("gerund", "gerund", ["me", "te", "se", "nos", "os"])
+
+def add_combined_imp_slot(persnum, personal_clitics):
+    add_combined_slot("imp_" + persnum, all_persons_numbers[persnum] + "|imp", personal_clitics)
+
+add_combined_imp_slot("2s",  ["me", "te", "nos"])
+add_combined_imp_slot("2sv", ["me", "te", "nos"])
+add_combined_imp_slot("3s",  ["me", "se", "nos"])
+add_combined_imp_slot("1p",  ["te", "nos", "os"])
+add_combined_imp_slot("2p",  ["me", "nos", "os"])
+add_combined_imp_slot("3p",  ["me", "se", "nos"])
 
 all_verb_slots = { **verb_slots_basic, **verb_slots_combined}
 
@@ -1095,7 +1102,7 @@ def add_forms_with_clitic(base, base_slot, clitics, store_cliticized_form):
             syllables = com.syllabify(formobj["form"])
             sylno = com.stressed_syllable(syllables)
             syllables.append("me")
-            if len(clitic) > 3:
+            if GENERATE_ALL_COMBINATIONS and len(clitic) > 3:
                 syllables.append("lo")
             needs_accent = com.accent_needed(syllables, sylno)
             if needs_accent:
@@ -1103,7 +1110,7 @@ def add_forms_with_clitic(base, base_slot, clitics, store_cliticized_form):
             else:
                 syllables[sylno] = com.remove_accent_from_syllable(syllables[sylno])
             syllables.pop() # remove added clitic pronoun
-            if len(clitic) > 3:
+            if GENERATE_ALL_COMBINATIONS and len(clitic) > 3:
                 syllables.pop() # remove added clitic pronoun
             reaccented_form = "".join(syllables)
 
@@ -1123,10 +1130,6 @@ def add_forms_with_clitic(base, base_slot, clitics, store_cliticized_form):
                 cliticized_form = reaccented_form + clitic
 
             store_cliticized_form(clitic, formobj, cliticized_form)
-
-            if cliticized_form == "dimelo":
-                raise ValueError(reaccented_form, clitic, needs_accent, sylno)
-
 
 
 # Generate the combinations of verb form (infinitive, gerund or various imperatives) + clitic pronoun.
@@ -1157,7 +1160,7 @@ def process_slot_overrides(base, do_basic, reflexive_only=False):
 def add_reflexive_or_fixed_clitic_to_forms(base, do_reflexive, do_joined):
     for slot, accel in verb_slots_basic.items():
 
-        if slot == "gerund_without_se":
+        if GENERATE_ALL_COMBINATIONS and slot == "gerund_without_se":
             continue
 
         clitic = None
@@ -1174,14 +1177,15 @@ def add_reflexive_or_fixed_clitic_to_forms(base, do_reflexive, do_joined):
                 # do nothing with reflexive past participles or with infinitive linked (handled at the end)
                 pass
 
+            elif slot.startswith("neg_imp_"):
+                raise ValueError("Internal error: Should not have forms set for negative imperative at this stage")
+
             elif "infinitive" in slot or "gerund" in slot or slot.startswith("imp_"):
                 if do_joined:
                     def store_cliticized_form(clitic, formobj, cliticized_form):
                         formobj["form"] = cliticized_form
-                    add_forms_with_clitic(base, slot, store_cliticized_form)
+                    add_forms_with_clitic(base, slot, [clitic], store_cliticized_form)
 
-            elif slot.startswith("neg_imp_"):
-                raise ValueError("Internal error: Should not have forms set for negative imperative at this stage")
             elif not do_joined:
                 # Add clitic as separate word before all other forms. Check whether form already has brackets
                 # (as will be the case if the form has a fixed clitic).
@@ -1266,8 +1270,8 @@ def conjugate_verb(base):
     # This should happen before add_combined_forms() so overrides of basic forms end up part of the combined forms.
     process_slot_overrides(base, "do basic") # do basic slot overrides
 
-    if base.get("refl"):
-        base["forms"]["gerund_without_se"] = deepcopy(base["forms"]["gerund"])
+    if GENERATE_ALL_COMBINATIONS and base.get("refl"):
+        base["forms"]["gerund_without_se"] = deepcopy(base["forms"]["gerund_1p"])
 
     # This should happen after process_slot_overrides() in case a derived slot is based on an override (as with the
     # imp_3s of [[dar]], [[estar]]).
@@ -1741,6 +1745,7 @@ def do_generate_forms(args, from_headword, from_verb_form_of, PAGENAME):
     # copy 3s and 3p slots to 2sf and 2pf slots
     alternant_multiword_spec["forms"].update({k.replace("3p", "2pf").replace("3s", "2sf"):v for k,v in alternant_multiword_spec["forms"].items() if "3" in k})
 
+
     #compute_categories_and_annotation(alternant_multiword_spec, from_headword)
     return alternant_multiword_spec
 
@@ -1767,4 +1772,5 @@ def concat_forms(alternant_multiword_spec, include_props):
 # additional properties (currently, none). This is for use by bots.
 def generate_forms(args, include_props):
     alternant_multiword_spec = do_generate_forms(args)
+
     return concat_forms(alternant_multiword_spec, include_props)
