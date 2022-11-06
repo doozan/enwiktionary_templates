@@ -19,7 +19,7 @@ GENERATE_ALL_COMBINATIONS=True
 Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module%3Aes%2Dverb
-Revision 68153451, 06:01, 18 July 2022
+Revision 68423720, 05:03, 21 July 2022
 
 forms values
   string
@@ -145,6 +145,7 @@ for p1 in ["me", "te", "se", "nos", "os"]:
 
 person_number_list_basic = [ "1s", "2s", "3s", "1p", "2p", "3p" ]
 person_number_list_voseo = [ "1s", "2s", "2sv", "3s", "1p", "2p", "3p" ]
+neg_imp_person_number_list = [ "2s", "3s", "1p", "2p", "3p" ]
 # local persnum_to_index = {}
 # for k, v in pairs(person_number_list) do
 #     persnum_to_index[v: k
@@ -172,8 +173,13 @@ verb_slots_basic = {
     "gerund_without_se": "",  # Custom override for reflexive verbs
 }
 
+# For 1s|ger, 2p|inf, etc.
+verb_slots_personal_nonfinite = {}
+
 verb_slots_combined = {}
 
+# For generating combined forms. This is a list of lists of the form {BASIC_SLOT, CLITICS} where BASIC_SLOT is the
+# slot to add the clitic pronouns to (e.g. "gerund" or "imp_2s") and CLITICS is a list of the clitic pronouns to add.
 verb_slot_combined_rows = {}
 
 # Accelerators for use in {{es-verb form of}} when we set the accelerator in all_verb_slots to "-".
@@ -208,7 +214,9 @@ add_slot_personal(verb_slots_basic, "impf_sub_ra", "impf|sub", person_number_lis
 add_slot_personal(verb_slots_basic, "impf_sub_se", "impf|sub", person_number_list_basic)
 add_slot_personal(verb_slots_basic, "fut_sub", "fut|sub", person_number_list_basic)
 add_slot_personal(verb_slots_basic, "imp", "imp", {"2s", "2sv", "3s", "1p", "2p", "3p"})
-add_slot_personal(verb_slots_basic, "neg_imp", "neg|imp", {"2s", "3s", "1p", "2p", "3p"}, "no_accel")
+add_slot_personal(verb_slots_basic, "neg_imp", "neg|imp", neg_imp_person_number_list, "no accel")
+add_slot_personal(verb_slots_basic, "infinitive", "inf", person_number_list_basic)
+add_slot_personal(verb_slots_basic, "gerund", "ger", person_number_list_basic)
 
 def add_combined_slot(basic_slot, slot_prefix, pronouns1, pronouns2):
 
@@ -735,12 +743,20 @@ def skip_slot(base, slot, allow_overrides=False):
     if base.get("nofinite"):
         return True
 
-    if base.get("only3s") and (not "3s" in slot or slot.startswith("imp_") or slot.startswith("neg_imp_")):
+    if (base.get("only3s") or base.get("only3sp") or base.get("only3p")) \
+            and (slot.startswith("imp_") or slot.startswith("neg_imp_")):
+        return True
+
+    if base.get("only3s") and not "3s" in slot:
         # diluviar, atardecer, neviscar
         return True
 
-    if base.get("only3sp") and (not ("3s" in slot or "3p" in slot) or slot.startswith("imp_") or slot.startswith("^neg_imp_")):
+    if base.get("only3sp") and (not ("3s" in slot or "3p" in slot)):
         # atañer, concernir
+        return True
+
+    if base.get("only3p") and not "3p" in slot:
+        # [[caer cuatro gotas]], [[caer chuzos de punta]], [[entrarle los siete males]]
         return True
 
     return False
@@ -974,7 +990,7 @@ def add_imper(base):
     else:
         error("Internal error: Unrecognized conjugation " + base["conj"])
 
-def add_non_present(base):
+def add_finite_non_present(base):
     def add_tense(slot, stem, s1, s2, s3, p1, p2, p3):
         add_single_stem_tense(base, slot, stem, s1, s2, s3, p1, p2, p3)
 
@@ -1007,16 +1023,33 @@ def add_non_present(base):
     add_tense("fut", stems.get("fut"), "é", "ás", "á", "emos", "éis", "án")
     add_tense("cond", stems.get("cond"), "ía", "ías", "ía", "íamos", "íais", "ían")
 
-    # Do the participles.
+
+def add_non_finite_forms(base):
+    stems = base["stems"]
+
     def addit(slot, stems, ending):
         add3(base, slot, base["prefix"], stems, ending)
     insert_form(base, "infinitive", {"form": base["verb"]})
-    # TODO: wtf is this lua syntax
-    addit("gerund", stems.get("pres_unstressed"), base["conj"] == "ar" and "ando" or "iendo")
+
+    for persnum in person_number_list_basic:
+        insert_form(base, "infinitive_" + persnum, {"form": base["verb"]})
+
+    ger_ending = "ando" if base["conj"] == "ar" else "iendo"
+    addit("gerund", stems["pres_unstressed"], ger_ending)
+    for persnum in person_number_list_basic:
+        addit("gerund_" + persnum, stems.get("pres_unstressed"), ger_ending)
+
     addit("pp_ms", stems.get("pp"), "o")
     addit("pp_fs", stems.get("pp"), "a")
     addit("pp_mp", stems.get("pp"), "os")
     addit("pp_fp", stems.get("pp"), "as")
+
+def copy_subjunctives_to_imperatives(base):
+    # Copy subjunctives to imperatives, unless there's an override for the given slot (as with the imp_1p of [[ir]]).
+    for persnum in ["3s", "1p", "3p"]:
+        _from = "pres_sub_" + persnum
+        _to = "imp_" + persnum
+        insert_forms(base, _to, iut.map_forms(base["forms"].get(_from), lambda form, translit: [form, translit]))
 
 
 # Remove monosyllabic accents (e.g. the 3sg preterite of fiar is fio not #fió). Note that there are a
@@ -1043,27 +1076,26 @@ def remove_monosyllabic_accents(base):
 
 
 
-# Add the clitic pronouns in `pronouns` to the forms in `base_slot`. If `do_combined_slots` is given,
-# store the results into the appropriate combined slots, e.g. `imp_2s_comb_lo` for second singular imperative + lo.
-# Otherwise, directly modify `base_slot`. The latter case is used for handling reflexive verbs, and in that case
-# `pronouns` should contain only a single pronoun.
-def add_forms_with_clitic(base, base_slot, pronouns, do_combined_slots=False):
+# Add the appropriate clitic pronouns in `clitics` to the forms in `base_slot`. `store_cliticized_form` is a function
+# of three arguments (clitic, formobj, cliticized_form) and should store the cliticized form for the specified clitic
+# and form object.
+def add_forms_with_clitic(base, base_slot, clitics, store_cliticized_form):
     if not base["forms"].get(base_slot):
-        # This can happen, e.g. in only3s/only3sp verbs.
+        # This can happen, e.g. in only3s/only3sp/only3p verbs.
         return
-    for form in base["forms"][base_slot]:
-        # Figure out that correct accenting of the verb when a clitic pronoun is attached to it. We may need to
+    for formobj in base["forms"][base_slot]:
+        # Figure out the correct accenting of the verb when a clitic pronoun is attached to it. We may need to
         # add or remove an accent mark:
-        # (1) No accent mark currently, none needed: infinitive sentar because of sentarlo; imperative singular
-        #     ten because of tenlo;
-        # (2) Accent mark currently, still needed: infinitive oír because of oírlo;
-        # (3) No accent mark currently, accent needed: imperative singular siente -> siénte because of siéntelo;
-        # (4) Accent mark currently, not needed: imperative singular está -> estálo, sé -> selo.
-        for pronoun in pronouns:
-            syllables = com.syllabify(form["form"])
+        # (1) No accent mark currently, none needed: infinitive sentar -> sentarlo; imperative singular
+        #     ten -> tenlo;
+        # (2) Accent mark currently, still needed: infinitive oír -> oírlo;
+        # (3) No accent mark currently, accent needed: imperative singular siente -> siéntelo;
+        # (4) Accent mark currently, not needed: imperative singular está -> estalo, sé -> selo.
+        for clitic in clitics:
+            syllables = com.syllabify(formobj["form"])
             sylno = com.stressed_syllable(syllables)
             syllables.append("me")
-            if len(pronoun) > 3:
+            if len(clitic) > 3:
                 syllables.append("lo")
             needs_accent = com.accent_needed(syllables, sylno)
             if needs_accent:
@@ -1071,41 +1103,38 @@ def add_forms_with_clitic(base, base_slot, pronouns, do_combined_slots=False):
             else:
                 syllables[sylno] = com.remove_accent_from_syllable(syllables[sylno])
             syllables.pop() # remove added clitic pronoun
-            if len(pronoun) > 3:
+            if len(clitic) > 3:
                 syllables.pop() # remove added clitic pronoun
-            reaccented_verb = "".join(syllables)
+            reaccented_form = "".join(syllables)
 
-            cliticized_verb = None
+            cliticized_form = None
             # Some further special cases.
-            if base_slot == "imp_1p" and (pronoun == "nos" or pronoun == "os"):
+            if base_slot == "imp_1p" and (clitic == "nos" or clitic == "os"):
                 # Final -s disappears: sintamos + nos -> sintámonos, sintamos + os -> sintámoos
-                cliticized_verb = rsub(reaccented_verb, "s$", "") + pronoun
-            elif base_slot == "imp_2p" and pronoun == "os":
+                cliticized_form = rsub(reaccented_form, "s$", "") + clitic
+            elif base_slot == "imp_2p" and clitic == "os":
                 # Final -d disappears, which may cause an accent to be required:
                 # haced + os -> haceos, sentid + os -> sentíos
-                if reaccented_verb.endswith("id"):
-                    cliticized_verb = rsub(reaccented_verb, "id$", "íos")
+                if reaccented_form.endswith("id"):
+                    cliticized_form = rsub(reaccented_form, "id$", "íos")
                 else:
-                    cliticized_verb = rsub(reaccented_verb, "d$", "os")
+                    cliticized_form = rsub(reaccented_form, "d$", "os")
             else:
-                cliticized_verb = reaccented_verb + pronoun
-            if do_combined_slots:
-                insert_form(base, base_slot + "_comb_" + pronoun,
-                        {"form": cliticized_verb, "footnotes": form.get("footnotes", [])})
-            else:
-                form["form"] = cliticized_verb
+                cliticized_form = reaccented_form + clitic
 
-            if cliticized_verb == "dimelo":
-                raise ValueError(reaccented_verb, pronoun, needs_accent, sylno)
+            store_cliticized_form(clitic, formobj, cliticized_form)
+
+            if cliticized_form == "dimelo":
+                raise ValueError(reaccented_form, clitic, needs_accent, sylno)
+
 
 
 # Generate the combinations of verb form (infinitive, gerund or various imperatives) + clitic pronoun.
 def add_combined_forms(base):
-    for base_slot, pronouns in verb_slot_combined_rows.items():
-        # Skip non-infinitive/gerund combinations for reflexive verbs. We will copy the appropriate imperative
-        # combinations later.
-        if not base.get("refl") or base_slot == "infinitive" or base_slot == "gerund":
-            add_forms_with_clitic(base, base_slot, pronouns, "do combined slots")
+    for base_slot, clitics in verb_slot_combined_rows.items():
+        def store_cliticized_form(clitic, formobj, cliticized_form):
+            insert_form(base, base_slot + "_comb_" + clitic, {"form": cliticized_form, "footnotes": formobj.get("footnotes")})
+        add_forms_with_clitic(base, base_slot, clitics, store_cliticized_form)
 
 def process_slot_overrides(base, do_basic, reflexive_only=False):
     overrides = {}
@@ -1141,12 +1170,16 @@ def add_reflexive_or_fixed_clitic_to_forms(base, do_reflexive, do_joined):
             clitic = "se"
 
         if base["forms"].get(slot):
-            if slot == "infinitive" or slot == "gerund" or slot.startswith("imp_"):
-                if do_joined:
-                    add_forms_with_clitic(base, slot, [clitic])
-            elif do_reflexive and slot.startswith("pp_") or slot == "infinitive_linked":
+            if do_reflexive and slot.startswith("pp_") or slot == "infinitive_linked":
                 # do nothing with reflexive past participles or with infinitive linked (handled at the end)
                 pass
+
+            elif "infinitive" in slot or "gerund" in slot or slot.startswith("imp_"):
+                if do_joined:
+                    def store_cliticized_form(clitic, formobj, cliticized_form):
+                        formobj["form"] = cliticized_form
+                    add_forms_with_clitic(base, slot, store_cliticized_form)
+
             elif slot.startswith("neg_imp_"):
                 raise ValueError("Internal error: Should not have forms set for negative imperative at this stage")
             elif not do_joined:
@@ -1162,14 +1195,6 @@ def add_reflexive_or_fixed_clitic_to_forms(base, do_reflexive, do_joined):
                         else:
                             form["form"] = clitic_pref + "[[" + form["form"] + "]]"
 
-
-
-def copy_subjunctives_to_imperatives(base):
-    # Copy subjunctives to imperatives, unless there's an override for the given slot (as with the imp_1p of [[ir]]).
-    for persnum in ["3s", "1p", "3p"]:
-        _from = "pres_sub_" + persnum
-        _to = "imp_" + persnum
-        insert_forms(base, _to, iut.map_forms(base["forms"].get(_from), lambda form, translit: [form, translit]))
 
 
 def handle_infinitive_linked(base):
@@ -1198,7 +1223,7 @@ def generate_negative_imperatives(base):
             return "[[no]] [[" + form + "]]", None
 
     # Copy subjunctives to negative imperatives, preceded by "no".
-    for persnum in ["2s", "3s", "1p", "2p", "3p"]:
+    for persnum in neg_imp_person_number_list:
         _from = "pres_sub_" + persnum
         _to = "neg_imp_" + persnum
         insert_forms(base, _to, iut.map_forms(base["forms"].get(_from), f))
@@ -1236,7 +1261,8 @@ def conjugate_verb(base):
     add_present_indic(base)
     add_present_subj(base)
     add_imper(base)
-    add_non_present(base)
+    add_finite_non_present(base)
+    add_non_finite_forms(base)
     # This should happen before add_combined_forms() so overrides of basic forms end up part of the combined forms.
     process_slot_overrides(base, "do basic") # do basic slot overrides
 
@@ -1250,7 +1276,7 @@ def conjugate_verb(base):
     # removed. (This happens e.g. for most present indicative forms of [[ver]], which have accents in them for the
     # prefixed derived verbs, but the accents shouldn't be present in the base verb.)
     remove_monosyllabic_accents(base)
-    if not base.get("nocomb"):
+    if not base.get("nocomb") and not base.get("refl"):
         # This should happen before add_reflexive_pronouns() because the combined forms of reflexive verbs don't have
         # the reflexive attached.
         add_combined_forms(base)
@@ -1324,7 +1350,7 @@ def parse_indicator_spec(angle_bracket_spec, lemma):
                 base["vowel_alt"] += [{"form": alt, "footnotes": fetch_footnotes(comma_separated_groups[j])}]
 
         elif (first_element == "no_pres_stressed" or first_element == "no_pres1_and_sub" or \
-                first_element == "only3s" or first_element == "only3sp"):
+                first_element == "only3s" or first_element == "only3sp" or first_element == "only3p"):
             if len(comma_separated_groups[0]) > 1:
                 parse_err("No footnotes allowed with '" + first_element + "' spec")
             if base.get(first_element):
@@ -1457,8 +1483,8 @@ def detect_indicator_spec(base):
     base["forms"] = {}
     base["stems"] = {}
 
-    if base.get("only3s") and base.get("only3sp"):
-        raise ValueError("'only3s' and 'only3sp' cannot both be specified")
+    if sum([bool(base.get("only3s")), bool(base.get("only3sp")), bool(base.get('only3p'))]) > 1:
+        raise ValueError("Only one of 'only3s', 'only3sp' and 'only3p' can be specified")
 
     base["basic_overrides"] = {}
     base["basic_reflexive_only_overrides"] = {}
@@ -1546,7 +1572,7 @@ def detect_indicator_spec(base):
 def detect_all_indicator_specs(alternant_multiword_spec, from_headword):
     # Propagate some settings up or down.
     def f1(base):
-        for prop in ["refl", "clitic", "only3s", "only3sp"]:
+        for prop in ["refl", "clitic", "only3s", "only3sp", "only3p"]:
             if base.get("prop"):
                 alternant_multiword_spec["refl"] = True
         base["from_headword"] = from_headword
