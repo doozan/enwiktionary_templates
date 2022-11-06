@@ -18,7 +18,7 @@
 Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module:inflection_utilities
-Revision 65694576, 01:41, 7 February 2022
+Revision 65971863, 03:29, 26 February 2022
 """
 
 import re
@@ -318,6 +318,13 @@ def concat_forms_in_slot(forms):
         return ",".join(new_vals)
 
 
+def extract_footnote_modifiers(footnote):
+    footnote_mods, footnote_without_mods = rmatch(footnote, r"^\[([!*+]?)(.*)\]$")
+    if not footnote_mods:
+        raise ValueError(f"Saw footnote '{footnote }' not surrounded by brackets")
+    return footnote_mods, footnote_without_mods
+
+
 # Insert a form (an object of the form {form=FORM, translit=MANUAL_TRANSLIT, footnotes=FOOTNOTES}) into a list of such
 # forms. If the form is already present, the footnotes of the existing and new form might be combined (specifically,
 # footnotes in the new form beginning with ! will be combined).
@@ -332,30 +339,8 @@ def insert_form_into_list(_list, form):
         if listform["form"] == form["form"] and listform.get("translit") == form.get("translit"):
             # Form already present; maybe combine footnotes.
             if form.get("footnotes"):
-                # The behavior here has changed; track cases where the old behavior might
-                # be needed by adding ! to the footnote.
-                #require("Module:debug").track("inflection-utilities/combining-footnotes")
-                any_footnotes_with_bang = False
-                for footnote in form["footnotes"]:
-                    if rfind(footnote, r"^\[!"):
-                        any_footnotes_with_bang = True
-                        break
-
-                if any_footnotes_with_bang:
-                    if not listform.get("footnotes"):
-                        listform["footnotes"] = []
-
-                    for footnote in form["footnotes"]:
-                        already_seen = False
-                        if rfind(footnote, r"^\[!"):
-                            for existing_footnote in listform["footnotes"]:
-                                if rsub(existing_footnote, r"^\[!", "") == rsub(footnote, r"^\[!", ""):
-                                    already_seen = True
-                                    break
-
-                            if not already_seen:
-                                listform["footnotes"].append(footnote)
-
+                # Unimplemented
+                pass
             return
 
     # Form not found.
@@ -489,7 +474,7 @@ def combine_footnotes(notes1, notes2):
 # {text = TEXT, name = NAME, group = GROUP} if the footnote is a reference and `no_parse_refs` is not given, otherwise
 # nil). Unless `return_raw` is given, the returned footnote string is capitalized and has a final period added.
 
-def expand_footnote(note):
+def expand_footnote_or_references(note, return_raw, no_parse_refs):
     notetext = rmatch(note, r"^\[!?(.*)\]$")
     if not notetext:
         error("Internal error: Footnote should be surrounded by brackets: " + note)
@@ -503,6 +488,10 @@ def expand_footnote(note):
 def expand_footnote(note):
     return expand_footnote_or_references(note, False, "no parse refs")
 
+
+def fetch_headword_qualifiers_and_references(footnotes):
+    # Unimplemented
+    return None
 
 # Combine a form (either a string or a table {form = FORM, footnotes = FOOTNOTES, ...}) with footnotes.
 # Do the minimal amount of work; e.g. if FOOTNOTES is None, just return FORM.
