@@ -19,10 +19,7 @@ GENERATE_ALL_COMBINATIONS=True
 Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module%3Aes%2Dverb
-Revision 67342897, 17:59, 11 June 2022
-
-Note: this does not include the changes from July 17, 2022 that refactor
-with support for Module:es-inflections
+Revision 68153451, 06:01, 18 July 2022
 
 forms values
   string
@@ -85,7 +82,7 @@ def rsub(string, pattern, replacement):
 def rsplit(string, pattern):
     return re.split(pattern, string)
 
-def link_term(term, face):
+def link_term(term):
     return term
 
 def m_links_remove_links(string):
@@ -113,8 +110,8 @@ C = com.C # consonant regex class
 # in every rsub, add final param with number of expected elements
 
 fut_sub_note = "[mostly obsolete, now mainly used in legal language]"
-pres_sub_voseo_note = "[Argentine and Uruguayan " + link_term("voseo", "term") + " prefers the " + \
-    link_term("tú", "term") + " form for the present subjunctive]"
+pres_sub_voseo_note = "[Argentine and Uruguayan " + link_term("voseo") + " prefers the " + \
+    link_term("tú") + " form for the present subjunctive]"
 
 vowel_alternants = ("ie", "ie-i", "ye", "ye-i", "ue", "ue-u", "hue", "i", "í", "ú", "+")
 vowel_alternant_to_desc = {
@@ -140,17 +137,6 @@ all_persons_numbers = {
     "1p": "1|p",
     "2p": "2|p",
     "3p": "3|p",
-    "me": "me",
-    "te": "te",
-    "se": "se",
-    "nos": "nos",
-    "os": "os",
-    "lo": "lo",
-    "la": "la",
-    "le": "le",
-    "los": "los",
-    "las": "las",
-    "les": "les",
 }
 
 for p1 in ["me", "te", "se", "nos", "os"]:
@@ -190,20 +176,27 @@ verb_slots_combined = {}
 
 verb_slot_combined_rows = {}
 
+# Accelerators for use in {{es-verb form of}} when we set the accelerator in all_verb_slots to "-".
+overriding_slot_accel = {}
+
 # Add entries for a slot with person/number variants.
 # `verb_slots` is the table to add to.
 # `slot_prefix` is the prefix of the slot, typically specifying the tense/aspect.
-# `tag_suffix` is the set of inflection tags to add after the person/number tags,
+# `tag_suffix` is the set of inflection tags to add after the person/number tags.
+# `no_accel` indicates that no accelerator entry should be generated.
 # or "-" to use "-" as the inflection tags (which indicates that no accelerator entry
 # should be generated).
-def add_slot_personal(verb_slots, slot_prefix, tag_suffix, person_number_list):
+def add_slot_personal(verb_slots, slot_prefix, tag_suffix, person_number_list, no_accel=None):
     for persnum in person_number_list:
         persnum_tag = all_persons_numbers[persnum]
         slot = slot_prefix + "_" + persnum
-        if tag_suffix == "-":
+        accel = persnum_tag + "|" + tag_suffix
+
+        if no_accel:
             verb_slots[slot] = "-"
+            overriding_slot_accel[slot] = accel
         else:
-            verb_slots[slot] = persnum_tag + "|" + tag_suffix
+            verb_slots[slot] = accel
 
 add_slot_personal(verb_slots_basic, "pres", "pres|ind", person_number_list_voseo)
 add_slot_personal(verb_slots_basic, "impf", "impf|ind", person_number_list_basic)
@@ -215,25 +208,33 @@ add_slot_personal(verb_slots_basic, "impf_sub_ra", "impf|sub", person_number_lis
 add_slot_personal(verb_slots_basic, "impf_sub_se", "impf|sub", person_number_list_basic)
 add_slot_personal(verb_slots_basic, "fut_sub", "fut|sub", person_number_list_basic)
 add_slot_personal(verb_slots_basic, "imp", "imp", {"2s", "2sv", "3s", "1p", "2p", "3p"})
-add_slot_personal(verb_slots_basic, "neg_imp", "-", {"2s", "3s", "1p", "2p", "3p"})
+add_slot_personal(verb_slots_basic, "neg_imp", "neg|imp", {"2s", "3s", "1p", "2p", "3p"}, "no_accel")
 
 def add_combined_slot(basic_slot, slot_prefix, pronouns1, pronouns2):
+
+    # NOTE: custom modification to generate all possible clitics instead of just
+    # those displayed in the wikitionary table
     pronouns = pronouns1 + pronouns2
     if GENERATE_ALL_COMBINATIONS:
         for p1 in pronouns1:
             for p2 in pronouns2:
                 pronouns.append(p1 + p2)
 
-    add_slot_personal(verb_slots_combined, basic_slot + "_comb", slot_prefix + "|combined", pronouns)
+    for pronoun in pronouns:
+        slot = basic_slot + "_comb_" + pronoun
+        # You have to pass this through full_link() to get a Spanish-specific link
+        accel = slot_prefix + "|combined with [[" + pronoun + "]]"
+        verb_slots_combined[slot] = accel
+
     verb_slot_combined_rows[basic_slot] = pronouns
 
 add_combined_slot("infinitive", "inf", ["me", "te", "se", "nos", "os"], ["lo", "la", "le", "los", "las", "les"])
 add_combined_slot("gerund", "gerund", ["me", "te", "se", "nos", "os"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("imp_2s", "imp|2s", ["me", "te", "nos"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("imp_3s", "imp|3s", ["me", "se", "nos"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("imp_1p", "imp|1p", ["te", "nos", "os"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("imp_2p", "imp|2p", ["me", "nos", "os"], ["lo", "la", "le", "los", "las", "les"])
-add_combined_slot("imp_3p", "imp|3p", ["me", "se", "nos"], ["lo", "la", "le", "los", "las", "les"])
+add_combined_slot("imp_2s", "2s|imp", ["me", "te", "nos"], ["lo", "la", "le", "los", "las", "les"])
+add_combined_slot("imp_3s", "3s|imp", ["me", "se", "nos"], ["lo", "la", "le", "los", "las", "les"])
+add_combined_slot("imp_1p", "1p|imp", ["te", "nos", "os"], ["lo", "la", "le", "los", "las", "les"])
+add_combined_slot("imp_2p", "2p|imp", ["me", "nos", "os"], ["lo", "la", "le", "los", "las", "les"])
+add_combined_slot("imp_3p", "3p|imp", ["me", "se", "nos"], ["lo", "la", "le", "los", "las", "les"])
 
 all_verb_slots = { **verb_slots_basic, **verb_slots_combined}
 
@@ -1580,7 +1581,7 @@ def compute_categories_and_annotation(alternant_multiword_spec, from_headword):
 # Return value is WORD_SPEC, an object where the conjugated forms are in `WORD_SPEC.forms`
 # for each slot. If there are no values for a slot, the slot key will be missing. The value
 # for a given slot is a list of objects {form=FORM, footnotes=FOOTNOTES}.
-def do_generate_forms(args, from_headword, d, PAGENAME):
+def do_generate_forms(args, from_headword, from_verb_form_of, PAGENAME):
     params = {
         1: {},
         "nocomb": {"type": "boolean"},
@@ -1596,12 +1597,8 @@ def do_generate_forms(args, from_headword, d, PAGENAME):
         params["pret_qual"] = {"list": "pret=_qual", "allow_holes": True}
         params["part"] = {"list": True} # participle
         params["part_qual"] = {"list": "part=_qual", "allow_holes": True}
-        params["pagename"] = {} # for testing
         params["attn"] = {"type": "boolean"}
         params["id"] = {}
-        params["json"] = {}
-        params["pagename"] = {}
-        params["new"] = {} # temporary hack; will remove
 
     #args = require("Module:parameters").process(parent_args, params)
 
