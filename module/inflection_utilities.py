@@ -18,7 +18,7 @@
 Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module:inflection_utilities
-Revision 67644689, 05:33, 5 July 2022
+Revision 68441410, 23:00, 23 July 2022
 """
 
 import re
@@ -365,15 +365,6 @@ def combine_form_and_footnotes(form, footnotes):
 
     else:
         return form
-
-
-
-
-# Older entry point. FIXME: Obsolete me.
-def generate_form(form, footnotes):
-    return combine_form_and_footnotes(form, footnotes)
-
-
 
 # Combine a single form (either a string or object {form = FORM, footnotes = FOOTNOTES, ...}) or a list of same
 # along with footnotes and return a list of forms where each returned form is an object
@@ -759,18 +750,6 @@ def parse_inflected_text(text, props):
     return alternant_multiword_spec
 
 
-
-# Older entry point. FIXME: Convert all uses of this to use parse_inflected_text instead. 
-def parse_alternant_multiword_spec(text, parse_indicator_spec, allow_default_indicator, allow_blank_lemma):
-    props = {
-        "parse_indicator_spec": parse_indicator_spec,
-        "allow_default_indicator": allow_default_indicator,
-        "allow_blank_lemma": allow_blank_lemma,
-    }
-    return parse_inflected_text(text, props)
-
-
-
 # Inflect alternants in ALTERNANT_SPEC (an object as returned by parse_alternant()).
 # This sets the form values in `ALTERNANT_SPEC.forms` for all slots.
 # (If a given slot has no values, it will not be present in `ALTERNANT_SPEC.forms`).
@@ -986,10 +965,6 @@ def inflect_multiword_or_alternant_multiword_spec(multiword_spec, props):
 
 
 
-def decline_multiword_or_alternant_multiword_spec(multiword_spec, props):
-    return inflect_multiword_or_alternant_multiword_spec(multiword_spec, props)
-
-
 def map_word_specs(alternant_multiword_spec, fun):
     for _, alternant_or_word_spec in ipairs(alternant_multiword_spec["alternant_or_word_specs"]):
         if alternant_or_word_spec.get("alternants"):
@@ -1026,6 +1001,7 @@ into strings. Each form list turns into a string consisting of a comma-separated
   create_footnote_obj = nil or FUNCTION_TO_CREATE_FOOTNOTE_OBJ,
   canonicalize = nil or FUNCTION_TO_CANONICALIZE_EACH_FORM,
   transform_link = nil or FUNCTION_TO_TRANSFORM_EACH_LINK,
+  transform_accel_obj = nil or FUNCTION_TO_TRANSFORM_EACH_ACCEL_OBJ,
   join_spans = nil or FUNCTION_TO_JOIN_SPANS,
   allow_footnote_symbols = BOOLEAN,
   footnotes = nil or {"EXTRA_FOOTNOTE", "EXTRA_FOOTNOTE", ...},
@@ -1057,6 +1033,13 @@ arguments (slot, link, link_tr) and should return the transformed link (or if tr
 values, the transformed link and corresponding translit). It can return nil for no change. `transform_link` is used,
 for example, in [[Module:de-verb]], where it adds the appropriate pronoun ([[ich]], [[du]], etc.) to finite verb forms,
 and adds [[dass]] before special subordinate-clause variants of finte verb forms.
+
+`transform_accel_obj` is an optional function of three arguments (slot, formobj, accel_obj) to transform the default
+constructed accelerator object in `accel_obj` into an object that should be passed to full_link() in [[Module:links]].
+It should return the new accelerator object, or nil for no acceleration. It can destructively modify the accelerator
+object passed in. NOTE: This is called even when the passed-in `accel_obj` is nil (either because the accelerator in
+`slot_table` or `slot_list` is "-", or because the form contains links, or because for some reason there is no lemma
+available).
 
 `join_spans` is an optional function of three arguments (slot, orig_spans, tr_spans) where the spans in question are
 after linking and footnote processing. It should return a string (the joined spans) or nil for the default algorithm,
@@ -1123,6 +1106,8 @@ def show_forms(forms, props):
                             "lemma": accel_lemma,
                             "lemma_translit": ternery(props.get("include_translit"), accel_lemma_translit, None),
                         }
+                    if props.get("transform_accel_obj"):
+                        accel_obj = props["transform_accel_obj"](slot, form, accel_obj)
 
                     link = m_links_full_link({"lang": props["lang"], "term": origentry, "tr": "-", "accel": accel_obj})
 
