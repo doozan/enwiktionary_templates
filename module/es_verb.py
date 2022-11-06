@@ -19,7 +19,7 @@ GENERATE_ALL_COMBINATIONS=True
 Data and utilities for processing Spanish sections of enwiktionary
 
 Based on https://en.wiktionary.org/wiki/Module%3Aes%2Dverb
-Revision 68423720, 05:03, 21 July 2022
+Revision 68441417, 23:02, 23 July 2022
 
 forms values
   string
@@ -1314,7 +1314,9 @@ def conjugate_verb(base):
         add_missing_links_to_forms(base)
 
 def parse_indicator_spec(angle_bracket_spec, lemma):
-    base = {}
+
+    # Store the original angle bracket spec so we can reconstruct the overall conj spec with the lemma(s) in them.
+    base = {"angle_bracket_spec": angle_bracket_spec}
     def parse_err(msg):
         raise ValueError(msg + ": " + angle_bracket_spec)
 
@@ -1361,20 +1363,58 @@ def parse_indicator_spec(angle_bracket_spec, lemma):
 
     return base
 
+# Reconstruct the overall verb spec from the output of iut.parse_inflected_text(), so we can use it in
+# [[Module:accel/es]].
+def reconstruct_verb_spec(alternant_multiword_spec):
+    parts = {}
+
+    for alternant_or_word_spec in alternant_multiword_spec["alternant_or_word_specs"]:
+        parts.update(alternant_or_word_spec["user_specified_before_text"])
+        if alternant_or_word_spec.get("alternants"):
+            parts.append("((")
+            for i, multiword_spec in enumerate(alternant_or_word_spec.alternants):
+                if i > 0:
+                    parts.append(",")
+                for  word_spec in multiword_spec["word_specs"]:
+                    parts.append(word_spec["user_specified_before_text"])
+                    parts.append(word_spec["user_specified_lemma"])
+                    parts.append(word_spec["angle_bracket_spec"])
+                parts.append(multiword_spec["user_specified_post_text"])
+            parts.append("))")
+        else:
+            parts.append(alternant_or_word_spec["user_specified_lemma"])
+            parts.append(alternant_or_word_spec["angle_bracket_spec"])
+
+    parts.append(alternant_multiword_spec["user_specified_post_text"])
+
+    # As a special case, if we see e.g. "amar<>", remove the <>. Don't do this if there are spaces, hyphens or
+    # alternants.
+    retval = "".join(parts)
+    if " " not in retval and "-" not in retval and "((" not in retval:
+        if retval.endswith("<>"):
+            return retval[:-2]
+    return retval
+
 
 # Normalize all lemmas, substituting the pagename for blank lemmas and adding links to multiword lemmas.
 def normalize_all_lemmas(alternant_multiword_spec, PAGENAME):
 
-    # (1) Add links to all before and after text.
+    # (1) Add links to all before and after text. Remember the original text so we can reconstruct the verb spec later.
     if not alternant_multiword_spec["args"].get("noautolinktext"):
-        alternant_multiword_spec["post_text"] = com.add_links(alternant_multiword_spec["post_text"], False)
         for alternant_or_word_spec in alternant_multiword_spec["alternant_or_word_specs"]:
+
+            alternant_or_word_spec["user_specified_before_text"] = alternant_or_word_spec["before_text"]
             alternant_or_word_spec["before_text"] = com.add_links(alternant_or_word_spec["before_text"], False)
             if alternant_or_word_spec.get("alternants"):
                 for multiword_spec in alternant_or_word_spec["alternants"]:
-                    multiword_spec["post_text"] = com.add_links(multiword_spec["post_text"])
                     for word_spec in multiword_spec["word_specs"]:
+                        word_spec["user_specified_before_text"] = word_spec["before_text"]
                         word_spec["before_text"] = com.add_links(word_spec["before_text"])
+                    multiword_spec["user_specified_post_text"] = multiword_spec["post_text"]
+                    multiword_spec["post_text"] = com.add_links(multiword_spec["post_text"])
+
+        alternant_multiword_spec["user_specified_post_text"] = alternant_multiword_spec["post_text"]
+        alternant_multiword_spec["post_text"] = com.add_links(alternant_multiword_spec["post_text"])
 
     def f(base):
         if base.get("lemma", "") == "":
