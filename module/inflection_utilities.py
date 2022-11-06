@@ -787,6 +787,7 @@ resulting combination will also be "?". This allows "?" to be used to mean "unkn
 
 def append_forms(props, formtable, slot, forms, before_text, before_text_no_links,
         before_text_translit):
+
     if not forms:
         return
 
@@ -948,8 +949,9 @@ def inflect_multiword_or_alternant_multiword_spec(multiword_spec, props):
                 multiword_spec.get("post_text_no_links"), multiword_spec.get("post_text_translit")
                 )
 
-    is_alternant_multiword = not not multiword_spec.get("alternant_or_word_specs")
-    for _, word_spec in ipairs(ternery(is_alternant_multiword, multiword_spec.get("alternant_or_word_specs"), multiword_spec.get("word_specs"))):
+    is_alternant_multiword = bool(multiword_spec.get("alternant_or_word_specs"))
+    word_specs = multiword_spec["alternant_or_word_specs"] if is_alternant_multiword else multiword_spec["word_specs"]
+    for word_spec in word_specs:
         if word_spec.get("alternants"):
             inflect_alternants(word_spec, props)
         elif props.get("decline_word_spec"):
