@@ -13,7 +13,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # generate all indirect + direct pronoun combinations
-GENERATE_ALL_COMBINATIONS=True
+GENERATE_EXTRA_FORMTYPES=True
 
 """
 Data and utilities for processing Spanish sections of enwiktionary
@@ -168,7 +168,7 @@ verb_slots_basic = {
     "pp_fp": "f|p|past|part",
 }
 
-if GENERATE_ALL_COMBINATIONS:
+if GENERATE_EXTRA_FORMTYPES:
     # Custom override for reflexive verbs
     verb_slots_basic["gerund_without_se"] = ""
 
@@ -225,7 +225,7 @@ def add_combined_slot(basic_slot, slot_prefix, clitics):
 
     # NOTE: custom modification to generate all possible clitics instead of just
     # those displayed in the wikitionary table
-    if GENERATE_ALL_COMBINATIONS:
+    if GENERATE_EXTRA_FORMTYPES:
         for c1 in clitics:
             for c2 in third_person_object_clitics:
                 clitics_with_object.append(c1 + c2)
@@ -1102,7 +1102,7 @@ def add_forms_with_clitic(base, base_slot, clitics, store_cliticized_form):
             syllables = com.syllabify(formobj["form"])
             sylno = com.stressed_syllable(syllables)
             syllables.append("me")
-            if GENERATE_ALL_COMBINATIONS and len(clitic) > 3:
+            if GENERATE_EXTRA_FORMTYPES and len(clitic) > 3:
                 syllables.append("lo")
             needs_accent = com.accent_needed(syllables, sylno)
             if needs_accent:
@@ -1110,7 +1110,7 @@ def add_forms_with_clitic(base, base_slot, clitics, store_cliticized_form):
             else:
                 syllables[sylno] = com.remove_accent_from_syllable(syllables[sylno])
             syllables.pop() # remove added clitic pronoun
-            if GENERATE_ALL_COMBINATIONS and len(clitic) > 3:
+            if GENERATE_EXTRA_FORMTYPES and len(clitic) > 3:
                 syllables.pop() # remove added clitic pronoun
             reaccented_form = "".join(syllables)
 
@@ -1160,7 +1160,7 @@ def process_slot_overrides(base, do_basic, reflexive_only=False):
 def add_reflexive_or_fixed_clitic_to_forms(base, do_reflexive, do_joined):
     for slot, accel in verb_slots_basic.items():
 
-        if GENERATE_ALL_COMBINATIONS and slot == "gerund_without_se":
+        if GENERATE_EXTRA_FORMTYPES and slot == "gerund_without_se":
             continue
 
         clitic = None
@@ -1270,8 +1270,8 @@ def conjugate_verb(base):
     # This should happen before add_combined_forms() so overrides of basic forms end up part of the combined forms.
     process_slot_overrides(base, "do basic") # do basic slot overrides
 
-    if GENERATE_ALL_COMBINATIONS and base.get("refl"):
-        base["forms"]["gerund_without_se"] = deepcopy(base["forms"]["gerund_1p"])
+    if GENERATE_EXTRA_FORMTYPES and base.get("refl"):
+        base["forms"]["gerund_without_se"] = deepcopy(base["forms"]["gerund"])
 
     # This should happen after process_slot_overrides() in case a derived slot is based on an override (as with the
     # imp_3s of [[dar]], [[estar]]).
