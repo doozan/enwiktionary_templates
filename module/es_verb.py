@@ -1738,14 +1738,6 @@ def do_generate_forms(args, from_headword, from_verb_form_of, PAGENAME):
         for form in forms:
             form["form"] = com.strip_redundant_links(form["form"])
 
-    # rename imp_3s to imp_2sf, imp_3p -> imp_2pf
-    alternant_multiword_spec["forms"] = {k.replace("imp_3s", "imp_2sf"):v for k,v in alternant_multiword_spec["forms"].items()}
-    alternant_multiword_spec["forms"] = {k.replace("imp_3p", "imp_2pf"):v for k,v in alternant_multiword_spec["forms"].items()}
-
-    # copy 3s and 3p slots to 2sf and 2pf slots
-    alternant_multiword_spec["forms"].update({k.replace("3p", "2pf").replace("3s", "2sf"):v for k,v in alternant_multiword_spec["forms"].items() if "3" in k})
-
-
     #compute_categories_and_annotation(alternant_multiword_spec, from_headword)
     return alternant_multiword_spec
 
