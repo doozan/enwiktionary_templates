@@ -1036,15 +1036,17 @@ def add_non_finite_forms(base):
 
     def addit(slot, stems, ending):
         add3(base, slot, base["prefix"], stems, ending)
-    insert_form(base, "infinitive", {"form": base["verb"]})
 
-    for persnum in person_number_list_basic:
-        insert_form(base, "infinitive_" + persnum, {"form": base["verb"]})
+    insert_form(base, "infinitive", {"form": base["verb"]})
+    if base.get("refl"):
+        for persnum in person_number_list_basic:
+            insert_form(base, "infinitive_" + persnum, {"form": base["verb"]})
 
     ger_ending = "ando" if base["conj"] == "ar" else "iendo"
     addit("gerund", stems["pres_unstressed"], ger_ending)
-    for persnum in person_number_list_basic:
-        addit("gerund_" + persnum, stems.get("pres_unstressed"), ger_ending)
+    if base.get("refl"):
+        for persnum in person_number_list_basic:
+            addit("gerund_" + persnum, stems.get("pres_unstressed"), ger_ending)
 
     addit("pp_ms", stems.get("pp"), "o")
     addit("pp_fs", stems.get("pp"), "a")
