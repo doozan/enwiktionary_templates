@@ -63,9 +63,6 @@ def compare(baseline, generated):
 
         generated_forms = [x["form"].replace("[","").replace("]", "") for x in generated.get(k, [{"form": ""}])]
         if sorted(base_forms) != sorted(generated_forms):
-            # allow gerund_3s to differ until wiktionary module is patched
-            if k.startswith("gerund_") or k.startswith("infinitive_"):
-                continue
             print("mismatched", k, base_forms, generated_forms)
             values_match = False
     assert values_match
