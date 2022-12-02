@@ -36,16 +36,21 @@ def get_wiki_forms(page, p1=""):
 
     url = "https://en.wiktionary.org/w/api.php?action=expandtemplates&format=json&prop=wikitext&text=" \
          + urllib.parse.quote("{{User:JeffDoozan/es-verb-generate-forms|" + f"{p1}|pagename={page}" + "|json=1}}")
+         #+ urllib.parse.quote("{{es-verb|" + f"{p1}|pagename={page}" + "|json=1}}")
     data = json.loads(get_url(url))
 
     template_json = data["expandtemplates"]["wikitext"]
     forms = json.loads(template_json)["forms"]
     return forms
 
-def get_and_check_forms(page, p1=""):
-    baseline = get_wiki_forms(page, p1)
+def get_forms(page, p1=""):
     args = { 1: p1 }
     forms = M.do_generate_forms(args, None, {}, page)["forms"]
+    return forms
+
+def get_and_check_forms(page, p1=""):
+    forms = get_forms(page, p1)
+    baseline = get_wiki_forms(page, p1)
     compare(baseline, forms)
     return forms
 
@@ -113,14 +118,20 @@ def test_generate_forms():
     forms = get_and_check_forms("salir")
     forms = get_and_check_forms("abalanzar")
 
+    #forms = get_forms("ababillarse")
+    #print(forms)
+    #assert 0
+
     forms = get_and_check_forms("ababillarse")
+    #print(forms)
+    #exit()
     for k, forms in forms.items():
         for f in forms:
             if f["form"] == "ababíllense":
                 print(k, f)
 
     forms = get_and_check_forms("tener")
-    assert len(forms) == 318
+    #assert len(forms) == 318
     assert forms["pres_1p"][0]["form"] == "tenemos"
     assert forms["neg_imp_2s"][0]["form"] == "[[no]] [[tengas]]"
 
@@ -134,6 +145,25 @@ def test_generate_forms():
         for f in forms:
             if f["form"] == "abajarla":
                 print(k, f)
+
+
+    forms = get_and_check_forms("solver")
+    assert forms["pp_ms"][0]["form"] == "suelto"
+
+    args = { 1: "" }
+    all_data = M.do_generate_forms(args, None, {}, "ababillarse")
+#    all_data = all_data["alternant_or_word_specs"][0]
+#    print("$"*30)
+#    print(all_data["alternant_or_word_specs"])
+#    print(len(all_data["alternant_or_word_specs"]))
+#    assert 0
+    for k,v in all_data.items():
+        print(k, type(v))
+        if type(v) == dict:
+            for k2,v2 in v.items():
+                print("    ", k2, type(v2))
+#        print(v)
+    assert 0
 
     PAGENAME = "tener"
     args = { 1: None, "force_regular": True }
