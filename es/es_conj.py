@@ -27,9 +27,9 @@ def es_conj(t, title):
     args[1] = args.pop('1', None)
     args["pagename"] = title
 
-    forms = M.do_generate_forms(args, False, {}, title)
+    forms = M.do_generate_forms(args, title)
     joined = M.concat_forms(forms, {})
-    joined = joined.replace("[[", "").replace("]]", "")
+    joined = joined.replace("[[", "").replace("]]", "").replace("... ", "")
     items = []
     for i in joined.split("|"):
         k, _, values = i.partition("=")

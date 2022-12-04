@@ -13,7 +13,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # generate all indirect + direct pronoun combinations
-GENERATE_EXTRA_FORMTYPES=True
 
 """
 Data and utilities for processing Spanish sections of enwiktionary
@@ -138,10 +137,6 @@ all_persons_numbers = {
     "2p": "2|p",
     "3p": "3|p",
 }
-
-#for p1 in ["me", "te", "se", "nos", "os"]:
-#    for p2 in ["lo", "la", "le", "los", "las", "les"]:
-#        all_persons_numbers[p1+p2] = p1+p2
 
 person_number_list_basic = [ "1s", "2s", "3s", "1p", "2p", "3p" ]
 person_number_list_voseo = [ "1s", "2s", "2sv", "3s", "1p", "2p", "3p" ]
@@ -272,7 +267,6 @@ def add_slots(alternant_multiword_spec):
     add_basic_personal_slot("infinitive", "inf", person_number_list_basic, "no special verb form of")
     add_basic_personal_slot("gerund", "ger", person_number_list_basic, "no special verb form of")
 
-
     third_person_object_clitics = ["lo", "la", "le", "los", "las", "les"]
 
     # Add combined-form slots.
@@ -304,7 +298,12 @@ def add_slots(alternant_multiword_spec):
                                 slot = single_comb_slot + "_" + object_clitic
                                 accel = tag_prefix + "|combined with [[" + personal_clitic + "]] and [[" + object_clitic + "]]"
                                 alternant_multiword_spec["verb_slots_combined"][slot] = accel
-                                alternant_multiword_spec["verb_slot_double_combined_rows"][single_comb_slot] = [object_clitic]
+
+                                if single_comb_slot in alternant_multiword_spec["verb_slot_double_combined_rows"]:
+                                    alternant_multiword_spec["verb_slot_double_combined_rows"][single_comb_slot].append(object_clitic)
+                                else:
+                                    alternant_multiword_spec["verb_slot_double_combined_rows"][single_comb_slot] = [object_clitic]
+#                                print("double comb", basic_slot, personal_clitic, object_clitic)
                                 break
 
         add_combined_slot_row("infinitive", "inf", ["me", "te", "se", "nos", "os"])
@@ -1183,16 +1182,12 @@ def add_forms_with_clitic(base, base_slot, clitics, store_cliticized_form):
             syllables = com.syllabify(formobj["form"])
             sylno = com.stressed_syllable(syllables)
             syllables.append("me")
-            if GENERATE_EXTRA_FORMTYPES and len(clitic) > 3:
-                syllables.append("lo")
             needs_accent = com.accent_needed(syllables, sylno)
             if needs_accent:
                 syllables[sylno] = com.add_accent_to_syllable(syllables[sylno])
             else:
                 syllables[sylno] = com.remove_accent_from_syllable(syllables[sylno])
             syllables.pop() # remove added clitic pronoun
-            if GENERATE_EXTRA_FORMTYPES and len(clitic) > 3:
-                syllables.pop() # remove added clitic pronoun
             reaccented_form = "".join(syllables)
 
             cliticized_form = None
@@ -1289,8 +1284,8 @@ def add_reflexive_or_fixed_clitic_to_forms(base, do_reflexive, do_joined):
                     # pronoun.
                     insert_forms(base, slot + "_non_reflexive", deepcopy(base["forms"][slot]))
                     if slot_has_suffixed_clitic:
-                        insert_forms(base, slot + "_variant", iut.map_forms(base.forms[slot], lambda form:
-                            add_clitic_to_form(base, clitic, " ... ", form)
+                        insert_forms(base, slot + "_variant", iut.map_forms(base["forms"][slot], lambda form, translit:
+                            (add_clitic_to_form(base, clitic, " ... ", form), None)
                         ))
                 if slot_has_suffixed_clitic:
                     if do_joined:
@@ -1372,9 +1367,6 @@ def conjugate_verb(base):
     add_non_finite_forms(base)
     # This should happen before add_combined_forms() so overrides of basic forms end up part of the combined forms.
     process_slot_overrides(base, "do basic") # do basic slot overrides
-
-    if GENERATE_EXTRA_FORMTYPES and base.get("refl"):
-        base["forms"]["gerund_without_se"] = deepcopy(base["forms"]["gerund"])
 
     # This should happen after process_slot_overrides() in case a derived slot is based on an override (as with the
     # imp_3s of [[dar]], [[estar]]).
@@ -1717,18 +1709,17 @@ def detect_all_indicator_specs(alternant_multiword_spec):
         for prop in ["refl", "clitic", "only3s", "only3sp", "only3p"]:
             if base.get("prop"):
                 alternant_multiword_spec[prop] = True
+
         base["alternant_multiword_spec"] = alternant_multiword_spec
         # If fixed clitic, don't include combined forms.
         alternant_multiword_spec["nocomb"] = alternant_multiword_spec.get("nocomb") or base.get("clitic") or base.get("refl")
 
     iut.map_word_specs(alternant_multiword_spec, f1)
-
     add_slots(alternant_multiword_spec)
 
     def f2(base):
         base["nocomb"] = alternant_multiword_spec["args"].get("nocomb")
         base["force_regular"] = alternant_multiword_spec["args"].get("force_regular")
-        print("force_regular:", base["force_regular"])
         detect_indicator_spec(base)
         construct_stems(base)
 
@@ -1742,36 +1733,25 @@ def compute_categories_and_annotation(alternant_multiword_spec):
 # Return value is WORD_SPEC, an object where the conjugated forms are in `WORD_SPEC.forms`
 # for each slot. If there are no values for a slot, the slot key will be missing. The value
 # for a given slot is a list of objects {form=FORM, footnotes=FOOTNOTES}.
-def do_generate_forms(args, from_headword, from_verb_form_of, PAGENAME):
-    params = {
-        1: {},
-        "nocomb": {"type": "boolean"},
-        "noautolinktext": {"type": "boolean"},
-        "noautolinkverb": {"type": "boolean"},
-    }
+def do_generate_forms(args, PAGENAME):
 
-    if from_headword:
-        params["head"] = {"list": True}
-        params["pres"] = {"list": True} # present
-        params["pres_qual"] = {"list": "pres=_qual", "allow_holes": True}
-        params["pret"] = {"list": True} # preterite
-        params["pret_qual"] = {"list": "pret=_qual", "allow_holes": True}
-        params["part"] = {"list": True} # participle
-        params["part_qual"] = {"list": "part=_qual", "allow_holes": True}
-        params["attn"] = {"type": "boolean"}
-        params["id"] = {}
+    GENERATE_EXTRA_FORMTYPES = True
+    if GENERATE_EXTRA_FORMTYPES:
+        all_double_combined_forms = []
+        for personal_clitic in ["me", "te", "se", "nos", "os"]:
+            for object_clitic in ["lo", "la", "le", "los", "las", "les"]:
+                all_double_combined_forms.append((personal_clitic, object_clitic))
 
-    #args = require("Module:parameters").process(parent_args, params)
+        double_combined_forms_to_include = all_double_combined_forms
+    else:
+        double_combined_forms_to_include = []
 
-    arg1 = args[1]
-    if not arg1 and from_headword:
-        arg1 = args.pagename or args.head[1]
+    from_headword = False
+    from_verb_form_of = True
 
+    arg1 = args.get(1)
     if not arg1:
-        if PAGENAME == "es-conj" or PAGENAME == "es-verb":
-            arg1 = d or "licuar<+,ú>"
-        else:
-            arg1 = PAGENAME
+        arg1 = PAGENAME
 
     if " " in arg1 and not "<" in arg1:
         # If multiword lemma without <> already, try to add it after the first word.
@@ -1805,9 +1785,11 @@ def do_generate_forms(args, from_headword, from_verb_form_of, PAGENAME):
 
     escaped_arg1 = escape_reflexive_indicators(arg1)
     alternant_multiword_spec = iut.parse_inflected_text(escaped_arg1, parse_props)
-    pos = None
-    alternant_multiword_spec["pos"] = lua_or(pos, "verbs")
+    alternant_multiword_spec["pos"] = "verbs"
     alternant_multiword_spec["args"] = args
+    alternant_multiword_spec["from_headword"] = from_headword
+    alternant_multiword_spec["from_verb_form_of"] = from_verb_form_of
+    alternant_multiword_spec["double_combined_forms_to_include"] = double_combined_forms_to_include
 
     normalize_all_lemmas(alternant_multiword_spec, PAGENAME)
 
@@ -1831,3 +1813,22 @@ def do_generate_forms(args, from_headword, from_verb_form_of, PAGENAME):
 
     #compute_categories_and_annotation(alternant_multiword_spec)
     return alternant_multiword_spec
+
+def concat_forms(alternant_multiword_spec, include_props):
+    ins_text = []
+    #for slot in all_verb_slots:
+    #    formtext = iut.concat_forms_in_slot(alternant_multiword_spec["forms"].get(slot))
+    #    if formtext:
+    #        ins_text.append(slot + "=" + formtext)
+
+    forms = alternant_multiword_spec["forms"]
+    extra_forms = alternant_multiword_spec["alternant_or_word_specs"][0]["forms"]
+
+    all_forms = extra_forms | forms
+
+    for slot, value in all_forms.items():
+        formtext = iut.concat_forms_in_slot(value)
+        if formtext:
+            ins_text.append(slot + "=" + formtext)
+    return "|".join(ins_text)
+
