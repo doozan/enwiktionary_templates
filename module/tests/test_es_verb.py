@@ -45,8 +45,10 @@ def get_wiki_forms(page, p1=""):
 
 def get_forms(page, p1=""):
     args = { 1: p1 }
-    forms = M.do_generate_forms(args, None, {}, page)["forms"]
-    return forms
+    all_data = M.do_generate_forms(args, page)
+    forms = all_data["forms"]
+    extra_forms = all_data["alternant_or_word_specs"][0]["forms"]
+    return extra_forms | forms
 
 def get_and_check_forms(page, p1=""):
     forms = get_forms(page, p1)
@@ -72,12 +74,13 @@ def compare(baseline, generated):
             values_match = False
     assert values_match
 
-    no_extra = True
-    for k in sorted(generated.keys()):
-        if k != "gerund_without_se" and "_comb_" not in k and k not in baseline:
-            print("generated extra form", k, generated[k])
-            no_extra = False
-    assert no_extra
+#    no_extra = True
+#    for k in sorted(generated.keys()):
+#        if not k.endswith("_non_reflexive") and "_comb_" not in k:
+##        if k != "gerund_without_se" and "_comb_" not in k and k not in baseline:
+#            print("generated extra form", k, generated[k])
+#            no_extra = False
+#    assert no_extra
 
 
 
@@ -118,17 +121,13 @@ def test_generate_forms():
     forms = get_and_check_forms("salir")
     forms = get_and_check_forms("abalanzar")
 
-    #forms = get_forms("ababillarse")
-    #print(forms)
-    #assert 0
-
     forms = get_and_check_forms("ababillarse")
-    #print(forms)
-    #exit()
-    for k, forms in forms.items():
-        for f in forms:
+    for k, _forms in forms.items():
+        for f in _forms:
             if f["form"] == "ababíllense":
                 print(k, f)
+    assert forms["gerund_non_reflexive"][0]["form"] == "[[ababillando]]"
+    assert forms["infinitive_non_reflexive"][0]["form"] == "[[ababillar]]"
 
     forms = get_and_check_forms("tener")
     #assert len(forms) == 318
@@ -141,31 +140,56 @@ def test_generate_forms():
         forms["pres_sub_1p"][1]["form"]]) == ["irgamos", "yergamos"]
 
     forms = get_and_check_forms("abajar")
-    for k, forms in forms.items():
-        for f in forms:
+    for k, _forms in forms.items():
+        for f in _forms:
             if f["form"] == "abajarla":
                 print(k, f)
+
 
 
     forms = get_and_check_forms("solver")
     assert forms["pp_ms"][0]["form"] == "suelto"
 
-    args = { 1: "" }
-    all_data = M.do_generate_forms(args, None, {}, "ababillarse")
+#    args = { 1: "" }
+#    all_data = M.do_generate_forms(args, "ababillarse")
+
+#    import json
+#    data = all_data["alternant_or_word_specs"][0]["alternant_multiword_spec"]
+#    for k,v in data.items():
+#        print(k)
+#        print(json.dumps(v, indent=4))
+
+#    print(all_data)
+#    assert 0
 #    all_data = all_data["alternant_or_word_specs"][0]
 #    print("$"*30)
+#    print(all_data["forms"])
+#    assert 0
 #    print(all_data["alternant_or_word_specs"])
 #    print(len(all_data["alternant_or_word_specs"]))
 #    assert 0
-    for k,v in all_data.items():
-        print(k, type(v))
-        if type(v) == dict:
-            for k2,v2 in v.items():
-                print("    ", k2, type(v2))
-#        print(v)
-    assert 0
+#    for k,v in all_data.items():
+#        print(k, type(v))
+#        if type(v) == dict:
+#            for k2,v2 in v.items():
+#                print("    ", k2, type(v2))
+##        print(v)
+#    assert 0
 
     PAGENAME = "tener"
     args = { 1: None, "force_regular": True }
-    forms = M.do_generate_forms(args, from_headword, d, PAGENAME)
+    forms = M.do_generate_forms(args, PAGENAME)
     assert forms["forms"]["pres_1s"][0]["form"] == "teno"
+
+
+def test_XXX():
+    print("XXX")
+    forms = get_and_check_forms("arrepentirse", "")
+    print(forms.keys())
+    for k, _forms in forms.items():
+        for f in _forms:
+            if "arrepentió" in f["form"]:
+                print(k, f)
+    assert 0
+
+

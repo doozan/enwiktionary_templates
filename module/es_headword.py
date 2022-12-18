@@ -84,7 +84,7 @@ def get_special_indicator(form):
     if "+" in form:
         form = rsub(form, r"^.*?\+", "")
         if not form in allowed_special_indicators:
-            raise ValueError("Special inflection indicator beginning with '+' can only be ", indicators.sorted(), ": +", form)
+            raise ValueError("Special inflection indicator beginning with '+' can only be ", allowed_special_indicators, ": +", form)
         return form
 
 def add_endings(bases, endings):

@@ -1,6 +1,3 @@
-#
-# Copyright (c) 2021 Jeff Doozan
-#
 # This is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -511,8 +508,8 @@ def parse_before_or_post_text(props, text, segments, lemma_is_last):
         # If the text begins with a hyphen, include the hyphen in the set of allowed characters
         # for an inflected segment. This way, e.g. conjugating "-ir" is treated as a regular
         # -ir verb rather than a hyphen + irregular [[ir]].
-        is_suffix = rfind(text, "^\-")
-        split_pattern = is_suffix and " " or "[ \-]"
+        is_suffix = rfind(text, r"^\-")
+        split_pattern = is_suffix and " " or r"[ \-]"
         space_separated_groups = put.split_alternating_runs(bracketed_runs, split_pattern, "preserve splitchar")
 
     parsed_components = []
