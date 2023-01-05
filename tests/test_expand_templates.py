@@ -22,8 +22,6 @@ import mwparserfromhell
 expand_template = enwiktionary_templates.expand_template
 expand_templates = enwiktionary_templates.expand_templates
 
-from enwiktionary_parser.languages.all_ids import languages as all_langs
-
 def _expand(text, pagename="test"):
     wikt = mwparserfromhell.parse(text)
     expand_templates(wikt, pagename)

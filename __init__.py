@@ -24,7 +24,7 @@ import mwparserfromhell
 import re
 import sys
 
-from enwiktionary_parser.languages.all_ids import languages as all_langs
+from enwiktionary_parser.languages.all_ids import ALL_LANG_IDS
 from .etydata import data as ety_langs
 from .labeldata import data as labeldata
 from .get_template_params import get_template_params
@@ -161,7 +161,7 @@ class Template():
     @staticmethod
     def _get_lang(lang_id):
         lang_id = lang_id.strip('\n .')
-        src_lang = all_langs.get(lang_id.lower())
+        src_lang = ALL_LANG_IDS.get(lang_id.lower())
         if not src_lang:
             src_lang = ety_langs.get(lang_id, {}).get("canonicalName")
         if not src_lang:
@@ -323,7 +323,7 @@ class Template():
     @staticmethod
     def etyl(t, title):
         src_lang_id = str(t.get(1)).strip('\n .')
-        src_lang = all_langs.get(src_lang_id.lower())
+        src_lang = ALL_LANG_IDS.get(src_lang_id.lower())
         if not src_lang:
             src_lang = ety_langs.get(src_lang_id, {}).get("canonicalName")
         if not src_lang:
