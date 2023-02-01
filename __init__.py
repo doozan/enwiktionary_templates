@@ -40,6 +40,8 @@ class Template():
 
     @staticmethod
     def _default(t, title):
+        #with open("unknown_templates.txt", "a") as outfile:
+        #    print(f"{t.name.strip()}", file=outfile)
         print(f"{title} uses unknown template: {t}", file=sys.stderr)
         return str(t).replace("\n", "\\n")
         return ""
@@ -47,9 +49,9 @@ class Template():
     @staticmethod
     def _form_of(t, title, text):
         res = [text]
-        display = next((str(t.get(p).value) for p in [3, 2] if t.has(p) and str(t.get(p).value)), None)
+        display = next((str(t.get(p).value).strip() for p in [3, 2] if t.has(p) and str(t.get(p).value).strip()), None)
         res.append(f'"{display}"')
-        gloss = next((str(t.get(p).value) for p in ["t", "gloss", 4] if t.has(p) and str(t.get(p).value)), None)
+        gloss = next((str(t.get(p).value).strip() for p in ["t", "gloss", 4] if t.has(p) and str(t.get(p).value).strip()), None)
         if gloss and gloss != "-":
             res.append("(“" + str(gloss) + "”)")
         return " ".join(res)
@@ -279,7 +281,8 @@ class Template():
         return Template.__lang2_etyl(t, title)
     der = derived
     borrowed = derived
-    bor = borrowed
+    bor = derived
+    bor_lite = derived
     inherited = derived
     inh = derived
     inh_lite = derived
@@ -294,6 +297,7 @@ class Template():
     nc = cognate
     ncog = cognate
     noncog = cognate
+    cog_lite = cognate
 
     @staticmethod
     def deverbal(t, title):
@@ -330,6 +334,31 @@ class Template():
             src_lang = src_lang_id
 
         return src_lang
+
+    @staticmethod
+    def etydate(t, title):
+
+        offset = 1
+
+        t1 = str(t.get(1))
+        if t1 == "c":
+            c = "c. "
+            offset = 2
+        else:
+            c = ""
+
+        if t.get(offset) == "r":
+            date = f"{t.get(offset+1)}-{t.get(offset+2)}"
+            offset += 3
+        else:
+            date = f"{t.get(offset)}"
+            offset += 1
+
+        if t.has(offset):
+            return f"First attested in {c}{date}, but in common usage only as of {t.get(offset)}"
+
+        return f"First attested in {c}{date}"
+
 
     @staticmethod
     def u_es_false_friend(t, title):
@@ -762,7 +791,7 @@ class Template():
     @staticmethod
     def non_gloss_definition(t, title):
         return str(t.get(1))
-    non_gloss = ngd = n_g = non_gloss_definition
+    non_gloss = ng = ngd = n_g = non_gloss_definition
     n_g_lite = non_gloss_definition
 
     @staticmethod
@@ -889,6 +918,15 @@ class Template():
         return ""
 
     @staticmethod
+    def transliteration(t, title):
+        return Template.__lang2_etyl(t, title, "transliteration of")
+    trans = transliteration
+
+    @staticmethod
+    def translit_name(t, title):
+        return Template.__lang2_etyl(t, title, "transliteration of") + f" {t.get('type')}"
+
+    @staticmethod
     def semantic_loan(t, title):
         return Template.__lang2_etyl(t, title, "semantic loan from")
     sl = semantic_loan
@@ -910,8 +948,9 @@ class Template():
 
     @staticmethod
     def suffix(t, title):
+        base = str(t.get(2)) if t.has(2) else ""
         suf = str(t.get(3).value).lstrip("-")
-        return f"{t.get(2)} + -{suf}"
+        return f"{base} + -{suf}"
 
     suf = suffix
 
@@ -928,6 +967,26 @@ class Template():
     def unadapted_borrowing(t, title):
         return Template.__lang2_etyl(t, title, "unadapted borrowing from")
     ubor = unadapted_borrowing
+
+    @staticmethod
+    def _text(t, title, text):
+        if t.has("notext"):
+            return ""
+        if t.has("title"):
+            text = t.get("title")
+        if t.has("nocap"):
+            text = text.lower()
+        return text
+
+    @staticmethod
+    def uncertain(t, title):
+        return Template._text(t, title, "Uncertain")
+    unc = uncertain
+
+    @staticmethod
+    def unknown(t, title):
+        return Template._text(t, title, "Unknown")
+    unk = unknown
 
     @staticmethod
     def univerbation(t, title):
@@ -1440,8 +1499,6 @@ def expand_template(t, title):
     if name in replace_with:
         return replace_with[name]
     if name in p1:
-        if not t.has(1):
-            print("\n\n", title, t, "\n\n", file=sys.stderr)
         display = str(t.get(1)) if t.has(1) else title
         return display
 
@@ -1476,10 +1533,15 @@ def expand_template(t, title):
 
 
 def expand_templates(wikt, title):
-    for t in reversed(wikt.filter_templates()):
-        new = expand_template(t, title)
-        new = new.replace("{{PAGENAME}}", str(title))
-        wikt.replace(t, new)
+    try:
+        for t in reversed(wikt.filter_templates()):
+            new = expand_template(t, title)
+            new = new.replace("{{PAGENAME}}", str(title))
+            wikt.replace(t, new)
+
+    except Exception as ex:
+        print(f"{title} failed processing: {wikt}", file=sys.stderr)
+        raise ex
 
 
 def iter_templates(text):

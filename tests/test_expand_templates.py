@@ -307,3 +307,15 @@ def test_forms():
     from enwiktionary_parser.utils import nest_aware_iterator
 
     assert _expand("{{forms|a|b}}") == 'form=a; form=b'
+
+
+def test_etydate():
+
+    assert _expand("{{etydate|1900}}") == 'First attested in 1900'
+    assert _expand("{{etydate|1900|1910}}") == 'First attested in 1900, but in common usage only as of 1910'
+    assert _expand("{{etydate|1900|first half of the 19th century}}") == 'First attested in 1900, but in common usage only as of first half of the 19th century'
+    assert _expand("{{etydate|r|1900|1910}}") == 'First attested in 1900-1910'
+
+    assert _expand("{{etydate|c|1900}}") == 'First attested in c. 1900'
+    assert _expand("{{etydate|c|1900|1990}}") == 'First attested in c. 1900, but in common usage only as of 1990'
+    assert _expand("{{etydate|c|r|1900|1910|1990}}") == 'First attested in c. 1900-1910, but in common usage only as of 1990'
