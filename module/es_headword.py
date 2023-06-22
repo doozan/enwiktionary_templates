@@ -118,7 +118,7 @@ def handle_multiword(form, special, inflect):
         first, space, second, rest = m.groups()
         return add_endings(add_endings(add_endings(inflect(first), space), inflect(second)), rest)
     elif special == "each":
-        terms = rsplit(form, " ")
+        terms = rsplit(form, "[- ]")
         if len(terms) < 2:
             raise ValueError("Special indicator 'each' can only be used with a multiword term: " + form)
 
