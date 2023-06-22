@@ -510,6 +510,7 @@ def do_noun(pagename, args, data, tracking_categories=[]):
         "f-p",
         "mf",
         "mf-p",
+        "mfequiv",
         "mfbysense",
         "mfbysense-p",
     )
