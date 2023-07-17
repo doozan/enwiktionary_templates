@@ -39,19 +39,11 @@ class Template():
     from .es import es_compound_of, es_conj, es_conj_reg, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp, es_suffix, es_verb_form_of
 
     @staticmethod
-    def _default(t, title):
-        #with open("unknown_templates.txt", "a") as outfile:
-        #    print(f"{t.name.strip()}", file=outfile)
-        print(f"{title} uses unknown template: {t}", file=sys.stderr)
-        return str(t).replace("\n", "\\n")
-        return ""
-
-    @staticmethod
     def _form_of(t, title, text):
         res = [text]
-        display = next((str(t.get(p).value).strip() for p in [3, 2] if t.has(p) and str(t.get(p).value).strip()), None)
+        display = next((t[p] for p in [3, 2] if t.get(p)), None)
         res.append(f'"{display}"')
-        gloss = next((str(t.get(p).value).strip() for p in ["t", "gloss", 4] if t.has(p) and str(t.get(p).value).strip()), None)
+        gloss= next((t[p] for p in ["t", "gloss", 4] if t.get(p)), None)
         if gloss and gloss != "-":
             res.append("(“" + str(gloss) + "”)")
         return " ".join(res)
@@ -59,24 +51,24 @@ class Template():
     @staticmethod
     def _and_lit(t, template):
         res = []
-        if t.has("qualifier"):
-            res.append(str(t.get("qualifier")))
+        if "qualifier" in t:
+            res.append(t["qualifier"])
             res.append("used other than figuratively or idiomatically:")
         else:
             res.append("Used other than figuratively or idiomatically:")
 
         x = 2
-        while t.has(x):
-            if t.has(f"alt{x-1}"):
-                res.append(str(t.get(f"alt{x-1}")))
+        while x in t:
+            if f"alt{x-1}" in t:
+                res.append(t[f"alt{x-1}"])
             else:
-                res.append(str(t.get(x)))
+                res.append(t[x])
             x+=1
 
-        if t.has("nodot") and str(t.get("nodot")):
+        if t.get("nodot"):
             return " ".join(res)
         else:
-            dot = str(t.get("dot").value) if t.has("dot") else "."
+            dot = t.get("dot", ".")
             return " ".join(res) + dot
 
     @staticmethod
@@ -93,18 +85,18 @@ class Template():
         res = []
 
         p = 2
-        while t.has(p) and str(t.get(p).value):
+        while t.get(p):
             x = p-1
             val = []
 
-            langid = str(t.get(f"lang{x}").value) if t.has(f"lang{x}") else None
+            langid = t.get(f"lang{x}")
             if langid:
                 val.append(Template._get_lang(langid))
 
-            val.append(str(t.get(p).value))
+            val.append(t[p])
 
-            tr = str(t.get(f"tr{x}").value) if t.has(f"tr{x}") else None
-            gloss = next((str(t.get(p).value) for p in [f"t{x}", f"gloss{x}"] if t.has(p) and str(t.get(p).value)), None)
+            tr = t.get(f"tr{x}")
+            gloss = next((t.get(p) for p in [f"t{x}", f"gloss{x}"] if t.get(p)), None)
             if tr or gloss:
                 item = ["("]
                 if tr:
@@ -136,27 +128,27 @@ class Template():
     @staticmethod
     def ante(t, title):
         res = ["a."]
-        res.append(str(t.get(1).value))
-        if t.has(2):
-            res.append(str(t.get(2).value))
+        res.append(t[1])
+        if 2 in t:
+            res.append(t.get(2))
         return " ".join(res)
 
     @staticmethod
     def ar_root(t, title):
-        if t.has("notext"):
+        if "notext" in t:
             return ""
 
         res = []
         p = 2
-        while t.has(p) and str(t.get(p).value):
-            res.append(str(t.get(p).value))
+        while t.get(p):
+            res.append(t.get(p))
             p += 1
 
         return " ".join(res)
 
     @staticmethod
     def ar_tool_noun(t, title):
-        if t.has("lc"):
+        if "lc" in t:
             return "tool noun"
         return "Tool noun"
 
@@ -173,8 +165,8 @@ class Template():
     @staticmethod
     def __format_etyl(t, pre_text, lang, display, gloss):
         res = []
-        if not t.has("notext") and pre_text:
-            if t.has("nocap"):
+        if "notext" not in t and pre_text:
+            if "nocap" in t:
                 res.append(f"{pre_text}")
             else:
                 res.append(f"{pre_text.capitalize()}")
@@ -191,19 +183,19 @@ class Template():
 
     @staticmethod
     def __lang2_etyl(t, title, pre_text=None, offset=1):
-        source = Template._get_lang(str(t.get(1+offset).value))
-        display = next((str(t.get(p).value) for p in ["alt", 3+offset, 2+offset] if t.has(p) and str(t.get(p).value)), None)
+        source = Template._get_lang(t[1+offset])
+        display = next((t.get(p) for p in ["alt", 3+offset, 2+offset] if t.get(p)), None)
         if display and display != "-":
             display = f'"{display}"'
-        gloss = next((str(t.get(p).value) for p in ["t", "gloss", 4+offset] if t.has(p) and str(t.get(p).value)), None)
+        gloss = next((t.get(p) for p in ["t", "gloss", 4+offset] if t.get(p)), None)
         return Template.__format_etyl(t, pre_text, source, display, gloss)
 
     @staticmethod
     def __etyl_misc_variant(t, title, pre_text=None, separator="of"):
-        display = next((str(t.get(p).value) for p in ["alt", "3", "2"] if t.has(p) and str(t.get(p).value)), None)
+        display = next((t.get(p) for p in ["alt", 3, 2] if t.get(p)), None)
         if display and display != "-":
             display = f'{separator} "{display}"'
-        gloss = next((str(t.get(p).value) for p in ["gloss", "t", "4"] if t.has(p) and str(t.get(p).value)), None)
+        gloss = next((t.get(p) for p in ["gloss", "t", 4] if t.get(p)), None)
         return Template.__format_etyl(t, pre_text, None, display, gloss)
 
     @staticmethod
@@ -214,14 +206,14 @@ class Template():
 
     @staticmethod
     def blend_of(t, title):
-        res = ["Blend of"] if not t.has("notext") else []
+        res = [] if "notext" in t else ["Blend of"]
         res.append(Template.affix(t, title))
         return " ".join(res)
     blend = blend_of
 
     @staticmethod
     def bor_(t, title):
-        if t.has("nocap"):
+        if "nocap" in t:
             return Template.__lang2_etyl(t, title, "borrowed from")
         else:
             return Template.__lang2_etyl(t, title, "Borrowed from")
@@ -234,9 +226,9 @@ class Template():
 
     @staticmethod
     def century(t, title):
-        if t.has(2):
-            return f"{t.get(1)}c-{t.get(2)}c"
-        return f"{t.get(1)}c"
+        if 2 in t:
+            return f"{t[1]}c-{t[2]}c"
+        return f"{t[1]}c"
 
     @staticmethod
     def clipping(t, title):
@@ -246,32 +238,32 @@ class Template():
 
     @staticmethod
     def coinage(t, title):
-        lang = Template._get_lang(str(t.get(1).value))
+        lang = Template._get_lang(t[1])
 
-        coiner = str(t.get("alt").value) if t.has("alt") else str(t.get(2).value)
+        coiner = t.get("alt", t[2])
 
         res = []
-        if not t.has("notext"):
-            if t.has("nocap"):
+        if "notext" not in t:
+            if "nocap" in t:
                 res.append("coined by")
             else:
                 res.append("Coined by")
 
-        if t.has("nationality"):
-            res.append(str(t.get("nationality").value))
-        elif t.has("nat"):
-            res.append(str(t.get("nat").value))
+        if "nationality" in t:
+            res.append(t["nationality"])
+        elif "nat" in t:
+            res.append(t["nat"])
 
-        if t.has("occupation"):
-            res.append(str(t.get("occupation").value))
-        elif t.has("occ"):
-            res.append(str(t.get("occ").value))
+        if "occupation" in t:
+            res.append(t["occupation"])
+        elif "occ" in t:
+            res.append(t["occ"])
         # TODO: handle muliple occupations
 
         res.append(coiner)
 
-        if t.has("in"):
-            res.append("in " + str(t.get("in").value))
+        if "in" in t:
+            res.append("in " + t["in"])
 
         return " ".join(res)
     coin = coinage
@@ -306,13 +298,13 @@ class Template():
     @staticmethod
     def doublet(t, title):
         text = ""
-        if not t.has("notext"):
-            text = "Doublet of " if not t.has("nocap") else "doublet of "
+        if not "notext" in t:
+            text = "doublet of " if "nocap" in t else "Doublet of "
 
         p = 2
         res = []
-        while t.has(p) and str(t.get(p).value):
-            res.append(str(t.get(p).value))
+        while t.get(p):
+            res.append(t[p])
             p += 1
 
         return text + ", ".join(res)
@@ -326,7 +318,7 @@ class Template():
 
     @staticmethod
     def etyl(t, title):
-        src_lang_id = str(t.get(1)).strip('\n .')
+        src_lang_id = t.get(1).strip('\n .')
         src_lang = ALL_LANG_IDS.get(src_lang_id.lower())
         if not src_lang:
             src_lang = ety_langs.get(src_lang_id, {}).get("canonicalName")
@@ -340,7 +332,7 @@ class Template():
 
         offset = 1
 
-        t1 = str(t.get(1))
+        t1 = t.get(1)
         if t1 == "c":
             c = "c. "
             offset = 2
@@ -348,14 +340,14 @@ class Template():
             c = ""
 
         if t.get(offset) == "r":
-            date = f"{t.get(offset+1)}-{t.get(offset+2)}"
+            date = f"{t[offset+1]}-{t[offset+2]}"
             offset += 3
         else:
-            date = f"{t.get(offset)}"
+            date = f"{t[offset]}"
             offset += 1
 
-        if t.has(offset):
-            return f"First attested in {c}{date}, but in common usage only as of {t.get(offset)}"
+        if offset in t:
+            return f"First attested in {c}{date}, but in common usage only as of {t[offset]}"
 
         return f"First attested in {c}{date}"
 
@@ -363,44 +355,44 @@ class Template():
     @staticmethod
     def u_es_false_friend(t, title):
         res = []
-        if t.has("nocap"):
+        if "nocap" in t:
             res.append(title)
         else:
             res.append(title[0].upper() + title[1:])
 
         res.append(" is a false friend and does not mean")
 
-        if t.has("en"):
-            if t.has("gloss"):
+        if "en" in t:
+            if "gloss" in t:
                 res.append(' ')
-                res.append(str(t.get("en").value))
-                res.append(f" in the sense of ''{t.get('gloss').value}''.")
+                res.append(t["en"])
+                res.append(f" in the sense of ''{t['gloss']}''.")
             else:
-                res.append(f" {t.get('en').value}.")
+                res.append(f" {t['en']}.")
 
-        elif t.has("gloss"):
-            res.append(f" ''{t.get('gloss').value}''")
+        elif "gloss" in t:
+            res.append(f" ''{t['gloss']}''")
             res.append(" in Spanish.")
         else:
             res.append(f" the same as the English word for {title}.")
 
-        if t.has(1):
+        if 1 in t:
             res.append("\nThe Spanish word for")
-            if t.has("en"):
+            if "en" in t:
                 res.append(' ')
-                res.append(str(t.get("en").value))
-                if t.has("gloss"):
+                res.append(t["en"])
+                if "gloss" in t:
                     res.append(f" in that sense")
             else:
                 res.append(' ')
                 res.append(title)
 
-            res.append(f" is ''{t.get(1).value}''")
+            res.append(f" is ''{t[1]}''")
 
             i = 2
-            while t.has(f"es{i}"):
+            while f"es{i}" in t:
                 res.append(f" or ''")
-                res.append(str(t.get(f"es{i}").value))
+                res.append(t[f"es{i}"])
                 res.append(f"''")
                 i += 1
 
@@ -411,38 +403,37 @@ class Template():
     # Custom method, not used in en.wiktionary
     @staticmethod
     def forms(t, title):
-        forms = map(str,t.params)
-        return "; ".join([f"form={f}" for f in forms])
+        return "; ".join([f"form={f}" for f in t.values()])
 
     @staticmethod
     def frac(t, title):
-        if t.has(3):
-            return f"{t.get(1)} {t.get(2)}/{t.get(3)}"
-        if t.has(2):
-            return f"{t.get(1)}/{t.get(2)}"
-        return f"1/{t.get(1)}"
+        if 3 in t:
+            return f"{t[1]} {t[2]}/{t[3]}"
+        if 2 in t:
+            return f"{t[1]}/{t[2]}"
+        return f"1/{t[1]}"
 
     @staticmethod
     def form_of(t, title):
-        form = str(t.get(2).value) if str(t.get(2).value) else "form"
+        form = t[2] if t[2] else "form"
 
         gloss = ""
-        for p in ["gloss", "t", "5"]:
-            if t.has(p):
-                gloss = " (" + str(t.get(p).value) + ")"
+        for p in ["gloss", "t", 5]:
+            if p in t:
+                gloss = " (" + t[p] + ")"
 
-        return f'{form} of "{t.get(3)}"{gloss}'
+        return f'{form} of "{t[3]}"{gloss}'
 
     @staticmethod
     def g(t, title):
-        res = "{" + " or ".join(map(str.strip, map(str, t.params))) + "}"
+        res = "{" + " or ".join(t.values()) + "}"
         res = re.sub("p", "pl", res)
         res = re.sub("-", " ", res)
         return res
 
     @staticmethod
     def gloss(t, title):
-        return "(" + ", ".join(map(str.strip, map(str, t.params))) + ")"
+        return "(" + ", ".join(t.values()) + ")"
     gl = gloss
     gloss_lite = gloss
     gl_lite = gloss
@@ -460,19 +451,19 @@ class Template():
         first = True
         andwith = False
 
-        if t.has("intr") and str(t.get("intr").value).strip():
+        if t.get("intr"):
             indtr += "[[Appendix:Glossary#intransitive|intransitive]], or "
 
-        while t.has(i):
-            val = str(t.get(i)).strip()
+        while i in t:
+            val = t[i]
             if val.startswith("."):
                 labels.append(val[1:])
             elif val == ";":
                 andwith = True
-                if not t.has("qual"+str(i-1)) or not str(t.get("qual"+str(i-1)).value).strip():
+                if not t.get(f"qual{i-1}"):
                     indtr += " and with "
                 else:
-                    indtr += " and " + str(t.get("qual"+str(i-1)).value).strip() + " with "
+                    indtr += " and " + t[f"qual{i-1}"] + " with "
             else:
                 if not first:
                     if andwith:
@@ -480,13 +471,13 @@ class Template():
                     else:
                         indtr += " or "
                 else:
-                    if t.has("cop") and t.has("ditr"):
+                    if "cop" in t and "ditr" in t:
                         indtr += "[[Appendix:Glossary#ditransitive|ditransitive]], [[Appendix:Glossary#copulative|copulative]] with "
-                    elif t.has("cop"):
+                    elif "cop" in t:
                         indtr += "[[Appendix:Glossary#copulative|copulative}} with "
-                    elif t.has("ditr"):
+                    elif "ditr" in t:
                         indtr += "[[Appendix:Glossary#ditransitive|ditransitive]] with the indirect object taking "
-                    elif t.has("aux"):
+                    elif "aux" in t:
                         indtr += "[[Appendix:Glossary#auxiliary|auxiliary]] with "
                     else:
                         indtr += "[[Appendix:Glossary#transitive|transitive]] with "
@@ -496,21 +487,21 @@ class Template():
                 else:
                     indtr += "'''[[" + val + "]]'''"
 
-                if t.has("qual"+str(i-1)):
-                    indtr += "(" + str(t.get("qual"+str(i-1)).value).strip() + ")"
+                if f"qual{i-1}" in t:
+                    indtr += "(" + t[f"qual{i-1}"] + ")"
 
             i += 1
-        if t.has("direct") and str(t.get("direct").value).strip():
-            if t.has("ditr") and str(t.get("ditr").value).strip():
+        if t.get("direct"):
+            if t.get("ditr"):
                 indtr += " or no preposition"
             else:
                 indtr += " or with no preposition"
-            if t.has("qualdirect") and str(t.get("qualdirect").value).strip():
-                indtr += " (" + str(t.get("qualdirect").value).strip() + ")"
+            if t.get("qualdirect"):
+                indtr += " (" + t["qualdirect"] + ")"
 
-        if t.has("aux") and str(t.get("aux").value).strip():
-            indtr += " and a verb in the " + str(t.get("aux").value).strip()
-        elif t.has("cop") and t.has("ditr"):
+        if t.get("aux"):
+            indtr += " and a verb in the " + t["aux"]
+        elif "cop" in t and "ditr" in t:
             indtr += " for the second object"
 
         labels.append(indtr)
@@ -556,18 +547,18 @@ class Template():
 
         pos = None
         for k in ["POS", "p"]:
-            if t.has(k):
+            if k in t:
                 if pos:
                     print("ERROR: Multiple POS", title, t, file=sys.stderr)
-                pos = Template.inflection_pos_type.get(str(t.get(k).value), str(t.get(k).value))
+                pos = Template.inflection_pos_type.get(t[k], t[k])
 
         if not pos:
             pos = "inflection"
 
         x = 4
         params = []
-        while t.has(x):
-            params.append(str(t.get(x).value))
+        while x in t:
+            params.append(t[x])
             x+=1
 
         qualifiers = []
@@ -591,7 +582,7 @@ class Template():
             qualifiers.append("infinitive")
 
 
-        if any(x for x in ["1", "2", "3"] if x in params):
+        if any(x in params for x in ["1", "2", "3"] if x in params):
             qualifiers = []
 
         if not qualifiers:
@@ -601,13 +592,13 @@ class Template():
 
         res = qualifiers
         res.append("of")
-        res.append('"' + str(t.get(2).value) + '"')
+        res.append('"' + t[2] + '"')
 
-        if t.has("t"):
-            res.append("(" + str(t.get("t").value) + ")")
+        if "t" in t:
+            res.append("(" + t["t"] + ")")
 
-        if t.has("tr"):
-            res.append("(" + str(t.get("tr").value) + ")")
+        if "tr" in t:
+            res.append("(" + t["tr"] + ")")
 
         return " ".join(res)
 
@@ -615,29 +606,29 @@ class Template():
 
     @staticmethod
     def adj_form_of(t, title):
-        t.add("p", "a")
+        t["p"] = "a"
         return Template.inflection_of(t, title)
 
     @staticmethod
     def noun_form_of(t, title):
-        t.add("p", "n")
+        t["p"] = "n"
         return Template.inflection_of(t, title)
 
     @staticmethod
     def verb_form_of(t, title):
-        t.add("p", "v")
+        t["p"] = "v"
         return Template.inflection_of(t, title)
 
     @staticmethod
     def inh_(t, title):
-        if t.has("nocap"):
+        if "nocap" in t:
             return Template.__lang2_etyl(t, title, "inherited from")
         else:
             return Template.__lang2_etyl(t, title, "Inherited from")
 
     @staticmethod
     def label(t, title):
-        labels = [ str(p.value).strip() for p in t.params if str(p.name).isdigit() and p.name != "1" ]
+        labels = [ v for k,v in t.items() if isinstance(k,int) and k > 1]
         res = Template._joinlabels(labels)
         if not res.strip():
             return ""
@@ -678,11 +669,11 @@ class Template():
         res = ""
         if t.get(2) in ["letter", "name", "diacritic"]:
             res = "letter"
-            if t.has(4):
-                res += ": " + str(t.get(4))
+            if 4 in t:
+                res += ": " + t[4]
             x = 5
-            while t.has(x):
-                res += ", " + str(t.get(x))
+            while x in t:
+                res += ", " + t[x]
                 x+=1
 
 #        if t.get(2) in ["diacritic"]:
@@ -701,15 +692,15 @@ class Template():
     def link(t, title):
         display = ""
         gloss = ""
-        for p in ["2", "3", "tr"]:
-            if t.has(p):
-                text = str(t.get(p).value)
+        for p in [2, 3, "tr"]:
+            if p in t:
+                text = t[p]
                 if text:
-                    display = str(t.get(p).value)
-        #for p in ["gloss", "t", "4"]: # mbcompat, ignore t
-        for p in ["gloss", "4"]:
-            if t.has(p):
-                gloss = str(t.get(p).value)
+                    display = t[p]
+        #for p in ["gloss", "t", 4]: # mbcompat, ignore t
+        for p in ["gloss", 4]:
+            if p in t:
+                gloss = t[p]
         if gloss:
             gloss = " (" + str(gloss) + ")"
 
@@ -722,18 +713,18 @@ class Template():
     def m(t, title):
         res = []
         display = None
-        if t.has(3):
-            display = str(t.get(3))
-        if not display and t.has(2):
-            display = str(t.get(2))
+        if 3 in t:
+            display = t[3]
+        if not display and 2 in t:
+            display = t[2]
 
         if display:
             res.append("''" + display + "''")
 
         gloss = None
-        for p in ["gloss", "t", "4"]:
-            if t.has(p):
-                gloss = str(t.get(p).value)
+        for p in ["gloss", "t", 4]:
+            if t.get(p):
+                gloss = t[p]
         if gloss:
             res.append("(“" + str(gloss) + "”)")
 
@@ -743,54 +734,54 @@ class Template():
 
     @staticmethod
     def mention_gloss(t, title):
-        return '"' + str(t.get(1).value) + '"'
+        return '"' + t[1] + '"'
     m_g = mention_gloss
 
     @staticmethod
     def named_after(t, title):
         res = []
-        if t.has('alt'):
-            res.append(str(t.get('alt').value))
+        if "alt" in t:
+            res.append(t['alt'])
         else:
-            if t.has("nocap"):
+            if "nocap" in t:
                 res.append("named after")
             else:
                 res.append("Named after")
 
-        if t.has("alt"):
-            res.append(str(t.get('alt').value))
+        if "alt" in t:
+            res.append(t['alt'])
         else:
-            if t.has("nationality"):
-                res.append(str(t.get('nationality').value))
-            elif t.has("nat"):
-                res.append(str(t.get('nat').value))
-            if t.has("occupation"):
-                res.append(str(t.get('occupation').value))
-            elif t.has("occ"):
-                res.append(str(t.get('occ').value))
+            if "nationality" in t:
+                res.append(t['nationality'])
+            elif "nat" in t:
+                res.append(t['nat'])
+            if "occupation" in t:
+                res.append(t['occupation'])
+            elif "occ" in t:
+                res.append(t['occ'])
 
-        if t.has(2):
-            res.append(str(t.get(2).value))
+        if 2 in t:
+            res.append(t[2])
         else:
             res.append("an unknown person")
 
-        if t.has("tr"):
-            res.append("(" + str(t.get('tr').value) + ")")
+        if "tr" in t:
+            res.append("(" + t['tr'] + ")")
 
-        if t.has("born") or t.has("died"):
+        if "born" in t or "died" in t:
             lived = ""
-            if t.has("born"):
-                t.lived = str(t.get('born').value) + "-"
+            if "born" in t:
+                lived = t['born']
             else:
-                t.lived = "?-"
-            if t.has("died"):
-                t.lived += "-" + str(t.get('died').value)
+                lived = "?"
+            if "died" in t:
+                lived += "-" + t['died']
 
         return " ".join(res)
 
     @staticmethod
     def non_gloss_definition(t, title):
-        return str(t.get(1))
+        return t[1]
     non_gloss = ng = ngd = n_g = non_gloss_definition
     n_g_lite = non_gloss_definition
 
@@ -800,22 +791,22 @@ class Template():
 
     @staticmethod
     def nuclide(t, title):
-        return f"{t.get(1)}/{t.get(2)}" + str(t.get(3)) if t.has(3) else ""
+        return f"{t[1]}/{t[2]}" + t.get(3, "")
 
     @staticmethod
     def onomatopoeic(t, title):
-        if t.has("title"):
-            return str(t.get("title").value)
-        if t.has("notext"):
+        if "title" in t:
+            return t["title"]
+        if "notext" in t:
             return ""
-        if t.has("nocap"):
+        if "nocap" in t:
             return "onomatopoeic"
         return "Onomatopoeic"
     onom = onomatopoeic
 
     @staticmethod
     def only_in(t, title):
-        return f'Only used in "{t.get(2)}"'
+        return f'Only used in "{t[2]}"'
 
     @staticmethod
     def orthorgraphic_borrowing(t, title):
@@ -844,10 +835,10 @@ class Template():
     @staticmethod
     def prefix(t, title):
         res = []
-        res.append(str(t.get(2).value))
+        res.append(t[2])
         res.append("+")
-        if t.has(3):
-            res.append(str(t.get(3).value))
+        if 3 in t:
+            res.append(t[3])
         return " ".join(res)
     pre = prefix
 
@@ -857,23 +848,23 @@ class Template():
 
     @staticmethod
     def qf(t, title):
-        return "(" + str(t.get(1)) + ")"
+        return "(" + t[1] + ")"
 
     @staticmethod
     def qflit(t, title):
-        return "(literally: " + str(t.get(1)) + ")"
+        return "(literally: " + t[1] + ")"
     lit = qflit
 
     @staticmethod
     def qualifier(t, title):
-        params = [ str(p.value) for p in t.params if str(p.name).isdigit() ]
+        params = [ v for k,v in t.items() if isinstance(k,int) ]
         return "(" + ", ".join(params) + ")"
     q = i = qual = qualifier
     q_lite = qualifier
 
     @staticmethod
     def quoted_term(t, title):
-        return '“' + str(t.get(1)) + '”'
+        return '“' + t[1] + '”'
 
     @staticmethod
     def rebracketing(t, title):
@@ -885,16 +876,16 @@ class Template():
 
     @staticmethod
     def rel_top(t, title):
-        if t.has(1):
-            return "---- " + str(t.get(1).value) + " ----"
+        if 1 in t:
+            return "---- " + t[1] + " ----"
         else:
             return "----"
 
     @staticmethod
     def t(t, title):
-        display = next((str(t.get(p).value) for p in ["alt", "2"] if t.has(p) and str(t.get(p).value)), title)
+        display = next((t.get(p) for p in ["alt", 2] if t.get(p)), None)
 
-        gender_params = [ str(p.value).strip() for p in t.params if str(p.name).isdigit() and int(str(p.name)) > 2 ]
+        gender_params = [ v for k,v in t.items() if isinstance(k, int) and k > 2 ]
         if gender_params:
             genders = " or ".join(gender_params)
             genders = re.sub("p", "pl", genders)
@@ -924,7 +915,7 @@ class Template():
 
     @staticmethod
     def translit_name(t, title):
-        return Template.__lang2_etyl(t, title, "transliteration of") + f" {t.get('type')}"
+        return Template.__lang2_etyl(t, title, "transliteration of") + f" {t['type']}"
 
     @staticmethod
     def semantic_loan(t, title):
@@ -938,7 +929,7 @@ class Template():
 
     @staticmethod
     def sense(t, title):
-        return "(" + str(t.get(1)) + ")"
+        return "(" + t[1] + ")"
     s = sense
     sense_lite = sense
 
@@ -948,8 +939,8 @@ class Template():
 
     @staticmethod
     def suffix(t, title):
-        base = str(t.get(2)) if t.has(2) else ""
-        suf = str(t.get(3).value).lstrip("-")
+        base = t.get(2, "")
+        suf = t[3].lstrip("-")
         return f"{base} + -{suf}"
 
     suf = suffix
@@ -970,11 +961,11 @@ class Template():
 
     @staticmethod
     def _text(t, title, text):
-        if t.has("notext"):
+        if "notext" in t:
             return ""
-        if t.has("title"):
-            text = t.get("title")
-        if t.has("nocap"):
+        if "title" in t:
+            text = t["title"]
+        if "nocap" in t:
             text = text.lower()
         return text
 
@@ -990,13 +981,13 @@ class Template():
 
     @staticmethod
     def univerbation(t, title):
-        if not t.has(2):
+        if not 2 in t:
             return "Univerbation"
 
-        res = [f"Univerbation of {t.get(2)}"]
+        res = [f"Univerbation of {t[2]}"]
         count = 3
-        while t.has(count):
-            res.append(str(t.get(count)))
+        while count in t:
+            res.append(t[count])
             count += 1
         return " + ".join(res)
 
@@ -1004,8 +995,8 @@ class Template():
     def ux(t, title):
         res = []
         for p in (2,3,"t"):
-            if t.has(p):
-                res.append(str(t.get(p).value))
+            if p in t:
+                res.append(t[p])
         return " ― ".join(res)
     eg = ux_lite = uxi = usex = ux
 
@@ -1488,29 +1479,62 @@ handlers = {
     "m+": Template.m,
 }
 
-def expand_template(t, title):
-    name = str(t.name).strip() #.lower()
+@staticmethod
+def get_params(template):
+    params = {}
+    for p in template.params:
+        attribs = []
+        v = p.value.strip()
+        k = p.name.strip()
+        if k.isdigit():
+            k = int(k)
+            # handle positional params with <> attributes: |test<q:foo><t:bar>
+            # This assumes that all templates using <> take a language id as the first parameter
+            if v.endswith(">") and "<" in v:
+                orig_v = v
+                v, _, attrib_string = v.partition("<")
+                for attrib_value in attrib_string.split("<"):
+                    ak, _, av = attrib_value.partition(":")
+                    ak = ak.strip() + str(k-1)
+                    av = av.strip()
+                    av = av.rstrip(" >") if av.endswith(">") else None
+                    if not ak or not av:
+                        v = orig_v
+                        attribs = []
+                        #print("Bad attributes", template, (ak, av))
+                        break
+                    attribs.append((ak,av))
+        params[k] = v
+        for ak, av in attribs:
+            params[ak] = av
+
+    return params
+
+def expand_template(template, title):
+    name = str(template.name).strip() #.lower()
+
+    t = get_params(template)
 
     if name == "1":
-        display = str(t.get(1)) if t.has(1) else title
+        display = t.get(1, title)
         return display.capitalize().strip()
     if name in ignore or name.startswith("R:"):
         return ""
     if name in replace_with:
         return replace_with[name]
     if name in p1:
-        display = str(t.get(1)) if t.has(1) else title
+        display = t.get(1, title)
         return display
 
     if name in p2:
-        return str(t.get(2)).strip()
+        return t[2]
 
     if name in prefix1:
-        return name + " " + str(t.get(1)).strip()
+        return name + " " + t[1]
 
     if name in quote1_with:
         text = quote1_with[name]
-        return text + ' "' + str(t.get(1)).strip() + '"'
+        return text + ' "' + t[1] + '"'
 
     if name in form_of:
         return Template._form_of(t, title, name)
@@ -1528,7 +1552,15 @@ def expand_template(t, title):
             if lang_handler:
                 return lang_handler(t, title)
 
-        handler = getattr(Template, name, getattr(Template, "_default"))
+        handler = getattr(Template, name, None)
+
+    if not handler:
+        #with open("unknown_templates.txt", "a") as outfile:
+        #    print(f"{t.name.strip()}", file=outfile)
+        print(f"{title} uses unknown template: {template}", file=sys.stderr)
+        return str(template).replace("\n", "\\n")
+        return ""
+
     return handler(t, title)
 
 

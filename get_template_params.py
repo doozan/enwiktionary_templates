@@ -20,11 +20,16 @@ import re
 def get_template_params(template):
     params = {}
     param_lists = {}
-    for param in template.params:
-        name = str(param.name).strip()
-        value = str(param.value).strip()
 
-        res = re.match(r"([^0-9]+?)[1-9]+$", str(param.name))
+    if isinstance(template, dict):
+        items = template.items()
+    else:
+        items = [(str(param.name).strip(), str(param.value).strip()) for param in template.params]
+
+    for name, value in items:
+        name = str(name)
+
+        res = re.match(r"([^0-9]+?)[1-9]+$", name)
         if res:
             k = res.group(1)
             if k not in param_lists:

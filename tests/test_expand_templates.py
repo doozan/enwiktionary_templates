@@ -27,6 +27,10 @@ def _expand(text, pagename="test"):
     expand_templates(wikt, pagename)
     return str(wikt)
 
+def test_get_params():
+    template = next(mwparserfromhell.parse("{{test|XX|one<f:foo><b:bar>|two<f:foo>|three<b:bar>}}}").ifilter_templates())
+    assert enwiktionary_templates.get_params(template) == {1: 'XX', 2: 'one', 'f1': 'foo', 'b1': 'bar', 3: 'two', 'f2': 'foo', 4: 'three', 'b3': 'bar'}
+
 def test_expand_template():
 
     template = next(mwparserfromhell.parse("{{XXX_unknown_XXX|test}}}").ifilter_templates())
@@ -92,6 +96,8 @@ def test_af():
     assert _expand("{{af|es|a-|bancal|gloss2=terrace, plot of land|-ar}}") == 'a- + bancal ("terrace, plot of land") + -ar'
 
     assert _expand("{{blend|he|תַּשְׁבֵּץ|tr1=tashbéts|t1=crossword puzzle|חֵץ|t2=arrow|tr2=chets}}") == 'Blend of תַּשְׁבֵּץ (tashbéts, "crossword puzzle") + חֵץ (chets, "arrow")'
+
+    assert _expand("{{af|es|en-|كَرَامَة<lang:ar>|-ar}}") == 'en- + Arabic كَرَامَة + -ar'
 
 def test_doublet():
     assert _expand("{{doublet|en|test}}") == "Doublet of test"

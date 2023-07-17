@@ -9,8 +9,8 @@ def es_compound_of(t,title):
     # TODO: temporarily generating proper form of
 
     mood = None
-    if t.has("mood"):
-        mood = str(t.get("mood").value)
+    if "mood" in t:
+        mood = t["mood"]
         if mood in ["inf", "infinitive"]:
             mood = "infinitive"
         elif mood in ["part", "participle", "adv", "adverbial", "ger", "gerund", "gerundive", "gerundio", "present participle", "present-participle"]:
@@ -21,7 +21,7 @@ def es_compound_of(t,title):
             mood = None
 
     person = None
-    if mood == "imp" and t.has("person"):
+    if mood == "imp" and "person" in t:
         person = {"tú": "2s",
                 "tu": "2s",
                 "inf": "2s",
@@ -35,7 +35,7 @@ def es_compound_of(t,title):
                 "f": "2sf",
                 "ustedes": "2pf",
                 "uds": "2pf",
-                "f-pl": "2pf"}[str(t.get("person").value)]
+                "f-pl": "2pf"}[t["person"]]
 
     if mood == "imp":
         if not person:
@@ -43,19 +43,18 @@ def es_compound_of(t,title):
         else:
             mood = f"imp_{person}"
 
-    part1 = str(t.get(4).value) if t.has(4) else ""
-    part2 = str(t.get(5).value) if t.has(5) else ""
+    part1 = t.get(4, "")
+    part2 = t.get(5, "")
 
     combo = part1+part2
     if mood and combo:
         return f'{mood}_comb_{combo} of "{t.get(1)}{t.get(2)}"'
 
-    if t.has(5):
+    if 5 in t:
         return f'compound form of "{t.get(1)}{t.get(2)}"+"{t.get(4)}"+"{t.get(5)}"'
-    if t.has(4):
+    if 4 in t:
         return f'compound form of "{t.get(1)}{t.get(2)}"+"{t.get(4)}"'
-
-    if t.has(2):
+    if 2 in t:
         return f'compound form of "{t.get(1)}{t.get(2)}"'
 
     return ""
@@ -81,8 +80,8 @@ def es_suffix(t,title):
 
     forms = []
     for p in ["f", "pl", "fpl"]:
-        if t.has(p):
-            forms.append(f"{p}={t.get(p).value}")
+        if p in t:
+            forms.append(f"{p}={t[p]}")
 
     if not forms:
         return ""
@@ -202,7 +201,7 @@ def es_verb_form_of(t, title):
     d = {}
 
     for p, pdest in _es_verb_params.items():
-        v = str(t.get(p).value).strip() if t.has(p) else None
+        v = t.get(p)
         if not v:
             continue
         v = _es_verb_form_of_params[pdest].get("_alt_values", {}).get(v, v)

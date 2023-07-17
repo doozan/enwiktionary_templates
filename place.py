@@ -1034,29 +1034,29 @@ def add_placename(res, placename, placetype, affix_type, article, prep, alt_form
 
 def place(t, title):
 
-    if t.has(2):
+    if 2 in t:
         params = []
-        val = str(t.get(2))
+        val = t[2]
         alt_format = "<<" in val
 
         if alt_format:
-            params = re.split("<<(.*?)>>", str(t.get(2)))
+            params = re.split("<<(.*?)>>", t[2])
         else:
             params = [val]
             x = 3
-            while t.has(x):
-                params.append(str(t.get(x)))
+            while x in t:
+                params.append(t[x])
                 x += 1
 
         res = []
         t_vals = []
         x = 1
-        if t.has("t"):
-            t_vals.append(str(t.get("t").value))
+        if "t" in t:
+            t_vals.append(t["t"])
             x = 2
 
-        while t.has(f"t{x}"):
-            t_vals.append(str(t.get(f"t{x}").value))
+        while f"t{x}" in t:
+            t_vals.append(t[f"t{x}"])
             x += 1
 
         if t_vals:
@@ -1065,8 +1065,8 @@ def place(t, title):
 
         article = None
         if not alt_format:
-            if t.has("a"):
-                article = str(t.get("a").value)
+            if "a" in t:
+                article = str(t["a"])
             else:
                 article = "a" if t_vals else "A"
 
