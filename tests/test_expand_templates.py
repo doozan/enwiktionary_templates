@@ -325,3 +325,23 @@ def test_etydate():
     assert _expand("{{etydate|c|1900}}") == 'First attested in c. 1900'
     assert _expand("{{etydate|c|1900|1990}}") == 'First attested in c. 1900, but in common usage only as of 1990'
     assert _expand("{{etydate|c|r|1900|1910|1990}}") == 'First attested in c. 1900-1910, but in common usage only as of 1990'
+
+
+def test_transclude_sense():
+    lines = """\
+acidaemia:medicine::{{lb|en|medicine}} a medical condition marked by an abnormally high concentration of [[hydrogen]] ions in a person's [[blood]]
+acidimeter:Q110083401::{{lb|en|chemistry}} An [[instrument]] for ascertaining the strength of acids.
+acidimetric:relational::{{lb|en|chemistry}} Describing a [[titration]] in which the [[titrant]] is an [[acid]].
+acidimetrically:chemistry::{{lb|en|chemistry}} By means of, or in terms of, [[acidimetry]].\
+""".splitlines()
+
+    transclude_senses = {}
+    for l in lines:
+        word, senseid, _, sense = l.split(":", 3)
+        transclude_senses[(word,senseid)] = sense.strip()
+
+    wikt = mwparserfromhell.parse("{{transclude sense|es|acidimeter|id=Q110083401}}")
+    expand_templates(wikt, "test", transclude_senses)
+    print(str(wikt))
+
+    assert str(wikt) == "([[chemistry]]) acidimeter (An [[instrument]] for ascertaining the strength of acids.)"

@@ -1510,7 +1510,7 @@ def get_params(template):
 
     return params
 
-def expand_template(template, title):
+def expand_template(template, title, transclude_senses={}):
     name = str(template.name).strip() #.lower()
 
     t = get_params(template)
@@ -1542,6 +1542,29 @@ def expand_template(template, title):
     if name in form_of_alt:
         return Template._form_of(t, title, form_of_alt[name])
 
+    if name == "transclude sense":
+        page = t[2]
+        senseid = t["id"]
+        transcluded = transclude_senses.get((page, senseid))
+        if not transcluded:
+            print(f"{title} transcludes unknown sense: {template}", file=sys.stderr)
+            return str(template).replace("\n", "\\n")
+
+        wikt = mwparserfromhell.parse(transcluded)
+        expand_templates(wikt, page)
+        transcluded_text = str(wikt)
+
+        # handle labels
+        if transcluded_text.startswith("(") and ") " in transcluded_text:
+            labels, transcluded_text = transcluded_text[1:].split(") ", 2)
+        else:
+            labels = None
+
+        if labels:
+            return f"({labels}) {page} ({transcluded_text})"
+
+        return f"{page} ({transcluded_text})"
+
     handler = None
     if name in handlers:
         handler = handlers[name]
@@ -1564,10 +1587,10 @@ def expand_template(template, title):
     return handler(t, title)
 
 
-def expand_templates(wikt, title):
+def expand_templates(wikt, title, transclude_senses={}):
     try:
         for t in reversed(wikt.filter_templates()):
-            new = expand_template(t, title)
+            new = expand_template(t, title, transclude_senses)
             new = new.replace("{{PAGENAME}}", str(title))
             wikt.replace(t, new)
 
