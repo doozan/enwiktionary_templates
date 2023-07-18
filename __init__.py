@@ -89,11 +89,17 @@ class Template():
             x = p-1
             val = []
 
-            langid = t.get(f"lang{x}")
+            # Handle langid:word formatted values
+            if ":" in t[p]:
+                langid, _, word = t[p].partition(":")
+            else:
+                langid = t.get(f"lang{x}")
+                word = t[p]
+
             if langid:
                 val.append(Template._get_lang(langid))
 
-            val.append(t[p])
+            val.append(word)
 
             tr = t.get(f"tr{x}")
             gloss = next((t.get(p) for p in [f"t{x}", f"gloss{x}"] if t.get(p)), None)

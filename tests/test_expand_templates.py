@@ -98,6 +98,7 @@ def test_af():
     assert _expand("{{blend|he|תַּשְׁבֵּץ|tr1=tashbéts|t1=crossword puzzle|חֵץ|t2=arrow|tr2=chets}}") == 'Blend of תַּשְׁבֵּץ (tashbéts, "crossword puzzle") + חֵץ (chets, "arrow")'
 
     assert _expand("{{af|es|en-|كَرَامَة<lang:ar>|-ar}}") == 'en- + Arabic كَرَامَة + -ar'
+    assert _expand("{{af|es|en-|ar:كَرَامَة|-ar}}") == 'en- + Arabic كَرَامَة + -ar'
 
 def test_doublet():
     assert _expand("{{doublet|en|test}}") == "Doublet of test"
