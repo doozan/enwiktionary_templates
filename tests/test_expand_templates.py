@@ -346,3 +346,8 @@ acidimetrically:chemistry::{{lb|en|chemistry}} By means of, or in terms of, [[ac
     print(str(wikt))
 
     assert str(wikt) == "([[chemistry]]) acidimeter (An [[instrument]] for ascertaining the strength of acids.)"
+
+def test_es_verb_obj():
+    assert _expand("{{es-verb-obj|portar<t:to carry>|mortero<t:mortar>}}") == 'Verb-object compound, composed of portar ("to carry") + mortero ("mortar")'
+    assert _expand("{{es-verb-obj|afilar<t:to sharpen>|lápiz<t:pencils><pl:1>}}.") == 'Verb-object compound, composed of afilar ("to sharpen") + lápices ("pencils").'
+    assert _expand("{{es-verb-obj|chupar<t:to suck>|cabra<t:goats><pl:1>|lit=goatsucker}}.") == 'Verb-object compound, composed of chupar ("to suck") + cabras ("goats"), literally "goatsucker".'

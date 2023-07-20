@@ -29,6 +29,8 @@ from .etydata import data as ety_langs
 from .labeldata import data as labeldata
 from .get_template_params import get_template_params
 from .place import place
+from .module.es_headword import make_plural as es_make_plural
+
 
 class Template():
 
@@ -81,10 +83,10 @@ class Template():
         return Template.__etyl_misc_variant(t, title, "acronym")
 
     @staticmethod
-    def affix(t, title):
+    def affix(t, title, start_idx=2):
         res = []
 
-        p = 2
+        p = start_idx
         while t.get(p):
             x = p-1
             val = []
@@ -321,6 +323,25 @@ class Template():
     def ellipsis(t, title):
         return Template.__etyl_misc_variant(t, title, "ellipsis")
     ellipsis_of = ellipsis
+
+    @staticmethod
+    def es_verb_obj(t, title):
+        new_t = {}
+        # generate plurals as needed
+        for k,v in t.items():
+            if isinstance(k, int):
+                idx = "" if k == 1 else k-1
+                if f"pl{idx}" in t:
+                    new_t[k] = es_make_plural(v)[0]
+                    continue
+            new_t[k] = v
+        res = ["Verb-object compound, composed of "]
+        res.append(Template.affix(new_t, title, 1))
+
+        if "lit" in t:
+            res.append(f', literally "{t["lit"]}"')
+
+        return "".join(res)
 
     @staticmethod
     def etyl(t, title):
@@ -1562,7 +1583,7 @@ def expand_template(template, title, transclude_senses={}):
 
         # handle labels
         if transcluded_text.startswith("(") and ") " in transcluded_text:
-            labels, transcluded_text = transcluded_text[1:].split(") ", 2)
+            labels, transcluded_text = transcluded_text[1:].split(") ", 1)
         else:
             labels = None
 
