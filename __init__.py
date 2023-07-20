@@ -1506,7 +1506,6 @@ handlers = {
     "m+": Template.m,
 }
 
-@staticmethod
 def get_params(template):
     params = {}
     for p in template.params:
