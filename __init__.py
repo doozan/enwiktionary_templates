@@ -91,17 +91,18 @@ class Template():
             x = p-1
             val = []
 
-            # Handle langid:word formatted values
-            if ":" in t[p]:
-                langid, _, word = t[p].partition(":")
+            # Handle lang:word formatted values
+            if ":" in t[p] and not t[p].startswith("["):
+                lang_id, _, word = t[p].partition(":")
             else:
-                langid = t.get(f"lang{x}")
+                lang_id = t.get(f"lang{x}")
                 word = t[p]
 
-            if langid:
-                val.append(Template._get_lang(langid))
-
-            val.append(word)
+            if lang_id:
+                lang_name = Template._get_lang(lang_id)
+                val.append(f'{lang_name} "{word}"')
+            else:
+                val.append(word)
 
             tr = t.get(f"tr{x}")
             gloss = next((t.get(p) for p in [f"t{x}", f"gloss{x}"] if t.get(p)), None)
@@ -1570,7 +1571,11 @@ def expand_template(template, title, transclude_senses={}):
 
     if name == "transclude sense":
         page = t[2]
-        senseid = t["id"]
+        senseid = t.get("id")
+        if not senseid:
+            print(f"{title} transcludes sense without id: {template}", file=sys.stderr)
+            return str(template).replace("\n", "\\n")
+
         transcluded = transclude_senses.get((page, senseid))
         if not transcluded:
             print(f"{title} transcludes unknown sense: {template}", file=sys.stderr)
