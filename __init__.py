@@ -1162,6 +1162,7 @@ ignore = {
     "U:es:relative pronouns",
     "Wikipedia",
     "wikipedia",
+    "word",
     "wp",
 }
 
@@ -1569,32 +1570,38 @@ def expand_template(template, title, transclude_senses={}):
     if name in form_of_alt:
         return Template._form_of(t, title, form_of_alt[name])
 
-    if name == "transclude sense":
+    if name in ["transclude sense", "transclude", "tcl"]:
         page = t[2]
-        senseid = t.get("id")
-        if not senseid:
+        senseids = t.get("id")
+        if not senseids:
             print(f"{title} transcludes sense without id: {template}", file=sys.stderr)
             return str(template).replace("\n", "\\n")
 
-        transcluded = transclude_senses.get((page, senseid))
-        if not transcluded:
+        transcludes = [transclude_senses.get((page, sid.strip())) for sid in senseids.split(",")]
+        if not transcludes or not all(t for t in transcludes):
+            #raise ValueError(f"{title} transcludes unknown sense: {template}", transcludes, senseids.split(","))
             print(f"{title} transcludes unknown sense: {template}", file=sys.stderr)
             return str(template).replace("\n", "\\n")
 
-        wikt = mwparserfromhell.parse(transcluded)
-        expand_templates(wikt, page)
-        transcluded_text = str(wikt)
+        res = []
+        for transcluded in transcludes:
+            wikt = mwparserfromhell.parse(transcluded)
+            expand_templates(wikt, page)
+            transcluded_text = str(wikt)
 
-        # handle labels
-        if transcluded_text.startswith("(") and ") " in transcluded_text:
-            labels, transcluded_text = transcluded_text[1:].split(") ", 1)
-        else:
-            labels = None
+            # handle labels
+            if transcluded_text.startswith("(") and ") " in transcluded_text:
+                labels, transcluded_text = transcluded_text[1:].split(") ", 1)
+            else:
+                labels = None
 
-        if labels:
-            return f"({labels}) {page} ({transcluded_text})"
+            if labels:
+                res.append(f"({labels}) {page} ({transcluded_text})")
+            else:
+                res.append(f"{page} ({transcluded_text})")
 
-        return f"{page} ({transcluded_text})"
+        return res[0]
+        return "\\n".join(res)
 
     handler = None
     if name in handlers:
