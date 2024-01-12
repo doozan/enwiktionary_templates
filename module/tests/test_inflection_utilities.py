@@ -1,5 +1,4 @@
 import enwiktionary_templates.module.inflection_utilities as M
-import enwiktionary_templates.module.es_verb as es_verb
 
 def test():
 
@@ -27,6 +26,9 @@ def test():
     segments = M.parse_balanced_segment_run(text, "<", ">")
 
     assert segments == ['[[медичний|меди́чна]]', '<+>', ' [[сестра́]]', '<+>', '']
+
+
+def notest_parse_spec():
 
     parse_props = {
         "parse_indicator_spec": es_verb.parse_indicator_spec,

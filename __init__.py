@@ -38,7 +38,9 @@ class Template():
     lang2 = {}
     #lang2["es"] = _es
 
-    from .es import es_compound_of, es_conj, es_conj_reg, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp, es_suffix, es_verb_form_of
+    from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp, es_suffix, es_verb_form_of
+
+    CACHED_TEMPLATES = [ "es_conj" ]
 
     @staticmethod
     def _form_of(t, title, text):
@@ -1538,7 +1540,7 @@ def get_params(template):
 
     return params
 
-def expand_template(template, title, transclude_senses={}):
+def expand_template(template, title, transclude_senses={}, cache=None):
     name = str(template.name).strip() #.lower()
 
     t = get_params(template)
@@ -1586,7 +1588,7 @@ def expand_template(template, title, transclude_senses={}):
         res = []
         for transcluded in transcludes:
             wikt = mwparserfromhell.parse(transcluded)
-            expand_templates(wikt, page)
+            expand_templates(wikt, page, cache=cache)
             transcluded_text = str(wikt)
 
             # handle labels
@@ -1622,13 +1624,17 @@ def expand_template(template, title, transclude_senses={}):
         return str(template).replace("\n", "\\n")
         return ""
 
+    if name in Template.CACHED_TEMPLATES:
+        assert cache
+        return handler(str(template), title, cache)
+
     return handler(t, title)
 
 
-def expand_templates(wikt, title, transclude_senses={}):
+def expand_templates(wikt, title, transclude_senses={}, cache=None):
     try:
         for t in reversed(wikt.filter_templates()):
-            new = expand_template(t, title, transclude_senses)
+            new = expand_template(t, title, transclude_senses, cache)
             new = new.replace("{{PAGENAME}}", str(title))
             wikt.replace(t, new)
 
