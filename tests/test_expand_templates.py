@@ -92,13 +92,15 @@ def test_af():
     assert _expand("{{af|en|volley|ball}}") == "volley + ball"
     assert _expand("{{affix|en|pest|-i-|-cide}}") == "pest + -i- + -cide"
 
-    assert _expand("{{af|es|lang1=mxi|Galib|t1=victorious|-ez|lit=son of the victorious}}") == 'Mozarabic Galib ("victorious") + -ez'
+    assert _expand("{{af|es|lang1=mxi|Galib|t1=victorious|-ez|lit=son of the victorious}}") == 'Mozarabic "Galib" ("victorious") + -ez'
     assert _expand("{{af|es|a-|bancal|gloss2=terrace, plot of land|-ar}}") == 'a- + bancal ("terrace, plot of land") + -ar'
 
     assert _expand("{{blend|he|תַּשְׁבֵּץ|tr1=tashbéts|t1=crossword puzzle|חֵץ|t2=arrow|tr2=chets}}") == 'Blend of תַּשְׁבֵּץ (tashbéts, "crossword puzzle") + חֵץ (chets, "arrow")'
 
-    assert _expand("{{af|es|en-|كَرَامَة<lang:ar>|-ar}}") == 'en- + Arabic كَرَامَة + -ar'
-    assert _expand("{{af|es|en-|ar:كَرَامَة|-ar}}") == 'en- + Arabic كَرَامَة + -ar'
+    assert _expand("{{af|es|en-|كَرَامَة<lang:ar>|-ar}}") == 'en- + Arabic "كَرَامَة" + -ar'
+    assert _expand("{{af|es|en-|ar:كَرَامَة|-ar}}") == 'en- + Arabic "كَرَامَة" + -ar'
+
+    assert _expand("{{af|es|[[w:Boca Juniors|Boca (Juniors)]]|-ense}}") == "[[w:Boca Juniors|Boca (Juniors)]] + -ense"
 
 def test_doublet():
     assert _expand("{{doublet|en|test}}") == "Doublet of test"
