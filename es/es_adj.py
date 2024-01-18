@@ -18,12 +18,12 @@
 Data and utilities for processing Spanish sections of enwiktionary
 """
 
-from ..get_template_params import get_template_params
+from ..module.convert_template_params import convert_template_params
 from ..module.es_headword import do_adjective
 import sys
 
 def es_adj(t, title):
-    args = get_template_params(t)
+    args = convert_template_params(t)
 
     form_types = {
         "masculine": "m",

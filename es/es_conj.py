@@ -17,11 +17,11 @@
 import re
 import sys
 import enwiktionary_templates.module.es_verb as M
-from ..get_template_params import get_template_params
+from ..module.convert_template_params import convert_template_params
 
 def es_conj(t, title):
     #print(title, t, file=sys.stderr)
-    args = get_template_params(t)
+    args = convert_template_params(t)
     # always generate all combined forms
     args.pop("nocomb",None)
     args[1] = args.pop('1', None)

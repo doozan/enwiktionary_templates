@@ -17,7 +17,9 @@
 
 import re
 
-def get_template_params(template):
+# Convert hash of params like { foo: bar, a: zero, a1: one, a2: two } to { foo: bar, a: [zero, one, two] }
+# for use with es_headword
+def convert_template_params(template):
     params = {}
     param_lists = {}
 
