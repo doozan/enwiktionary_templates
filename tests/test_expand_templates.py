@@ -27,9 +27,6 @@ def _expand(text, pagename="test"):
     expand_templates(wikt, pagename)
     return str(wikt)
 
-def test_get_params():
-    template = next(mwparserfromhell.parse("{{test|XX|one<f:foo><b:bar>|two<f:foo>|three<b:bar>}}}").ifilter_templates())
-    assert enwiktionary_templates.get_params(template) == {1: 'XX', 2: 'one', 'f1': 'foo', 'b1': 'bar', 3: 'two', 'f2': 'foo', 4: 'three', 'b3': 'bar'}
 
 def test_expand_template():
 

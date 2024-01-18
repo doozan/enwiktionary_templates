@@ -27,10 +27,10 @@ import sys
 from enwiktionary_parser.languages.all_ids import ALL_LANG_IDS
 from .etydata import data as ety_langs
 from .labeldata import data as labeldata
-from .get_template_params import get_template_params
 from .place import place
 from .module.es_headword import make_plural as es_make_plural
-
+from .utils import get_template_params
+from .cache import Cache
 
 class Template():
 
@@ -39,8 +39,6 @@ class Template():
     #lang2["es"] = _es
 
     from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp, es_suffix, es_verb_form_of
-
-    CACHED_TEMPLATES = [ "es_conj" ]
 
     @staticmethod
     def _form_of(t, title, text):
@@ -1510,40 +1508,10 @@ handlers = {
     "m+": Template.m,
 }
 
-def get_params(template):
-    params = {}
-    for p in template.params:
-        attribs = []
-        v = p.value.strip()
-        k = p.name.strip()
-        if k.isdigit():
-            k = int(k)
-            # handle positional params with <> attributes: |test<q:foo><t:bar>
-            # This assumes that all templates using <> take a language id as the first parameter
-            if v.endswith(">") and "<" in v:
-                orig_v = v
-                v, _, attrib_string = v.partition("<")
-                for attrib_value in attrib_string.split("<"):
-                    ak, _, av = attrib_value.partition(":")
-                    ak = ak.strip() + str(k-1)
-                    av = av.strip()
-                    av = av.rstrip(" >") if av.endswith(">") else None
-                    if not ak or not av:
-                        v = orig_v
-                        attribs = []
-                        #print("Bad attributes", template, (ak, av))
-                        break
-                    attribs.append((ak,av))
-        params[k] = v
-        for ak, av in attribs:
-            params[ak] = av
-
-    return params
-
 def expand_template(template, title, transclude_senses={}, cache=None):
     name = str(template.name).strip() #.lower()
 
-    t = get_params(template)
+    t = get_template_params(template)
 
     if name == "1":
         display = t.get(1, title)
@@ -1609,13 +1577,13 @@ def expand_template(template, title, transclude_senses={}, cache=None):
     if name in handlers:
         handler = handlers[name]
     else:
-        name = re.sub(r"[+\s-]", "_", name.lower())
-        if len(name) > 2 and name[2] == "_" and name[:2] in Template.lang2:
-            lang_handler = getattr(Template.lang2[name[:2]], name)
+        clean_name = re.sub(r"[+\s-]", "_", name.lower())
+        if len(clean_name) > 2 and clean_name[2] == "_" and clean_name[:2] in Template.lang2:
+            lang_handler = getattr(Template.lang2[clean_name[:2]], clean_name)
             if lang_handler:
                 return lang_handler(t, title)
 
-        handler = getattr(Template, name, None)
+        handler = getattr(Template, clean_name, None)
 
     if not handler:
         #with open("unknown_templates.txt", "a") as outfile:
@@ -1624,9 +1592,9 @@ def expand_template(template, title, transclude_senses={}, cache=None):
         return str(template).replace("\n", "\\n")
         return ""
 
-    if name in Template.CACHED_TEMPLATES:
+    if name in Cache.TEMPLATES:
         assert cache
-        return handler(str(template), title, cache)
+        return handler(t, title, cache)
 
     return handler(t, title)
 

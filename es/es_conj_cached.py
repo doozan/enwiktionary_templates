@@ -16,7 +16,6 @@
 
 import re
 import sys
-from ..get_template_params import get_template_params
 
 import json
 from ..cache import Cache
@@ -24,15 +23,15 @@ import enwiktionary_templates.module.es_common as com
 
 #from .es_conj import es_conj as old_es_conj
 
-def es_conj(template, title, database):
-    return new_es_conj(template, title, database)
+def es_conj(t, title, database):
+    return new_es_conj(t, title, database)
 
-def test_es_conj(t, title, template, database):
+def test_es_conj(t, title, database):
 
     bad_endings = [ 'placer', 'scribir' ]
     bad_items = [ 'ir', 'trapazar', 'volar riata', 'volar verga' ]
 
-    new = new_es_conj(template, title, database)
+    new = new_es_conj(t, title, database)
 
     if not new:
         return ""
@@ -110,13 +109,12 @@ def test_es_conj(t, title, template, database):
     return new
 
 
-def new_es_conj(text, title, database):
+def new_es_conj(t, title, database):
     cache = Cache(database)
 
-    data = cache.get(title, text)
+    data = cache.get("es-conj", t, title)
     if not data:
         return ""
-
 
     # The lua module doesn't generate all possible forms of the verb
     # So we have to add them manually here
@@ -162,7 +160,7 @@ def new_es_conj(text, title, database):
                     clitic1 = clitic
 
                 new_slot = "_".join([base_slot] + [clitic1, clitic2])
-                new_slot_forms = [add_clitic(f, clitic2, text) for f in slot_forms]
+                new_slot_forms = [add_clitic(f, clitic2, t.get(1, "")) for f in slot_forms]
                 if any(f is not None for f in new_slot_forms):
                     forms[new_slot] = new_slot_forms
 
