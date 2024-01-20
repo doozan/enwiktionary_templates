@@ -102,12 +102,9 @@ class Cache():
 
     @classmethod
     def cleanup_params(cls, template_name, params):
-
         # TODO: per-template cleanup
+        return {k:v for k,v in params.items() if k not in ["nocomb"]}
 
-        for p in ["nocomb"]:
-            if p in params:
-                del params[p]
 
     @staticmethod
     def get_wiki_data(page, template_name, param_str=None):
@@ -161,8 +158,8 @@ def scrape_templates(args):
     for t in wiki.ifilter_templates(matches=lambda x: x.name.strip() in Cache.TEMPLATES):
         template_name = Cache.TEMPLATES[t.name.strip()]["name"]
         params = get_template_params(t)
-        Cache.cleanup_params(template_name, params)
-        param_str = params_to_str(params, sort_params=True)
+        clean_params = Cache.cleanup_params(template_name, params)
+        param_str = params_to_str(clean_params, sort_params=True)
         res.append((page, template_name, param_str))
 
     return res
@@ -174,7 +171,7 @@ def download_data(args):
     params = param_str
     if template == "es-conj":
         params += "|" if params else ""
-        params += f"|pagename={page}|json=1"
+        params += f"pagename={page}|json=1"
 
     data_str = Cache.get_wiki_data(page, template, params)
 
