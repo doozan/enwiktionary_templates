@@ -30,7 +30,7 @@ from .labeldata import data as labeldata
 from .place import place
 from .module.es_headword import make_plural as es_make_plural
 from .utils import get_template_params
-from .cache import Cache
+from .cache import Cache, get_default_cachedb
 
 class Template():
 
@@ -1593,7 +1593,9 @@ def expand_template(template, title, transclude_senses={}, cache=None):
         return ""
 
     if name in Cache.TEMPLATES:
-        assert cache
+        if not cache:
+            cache = get_default_cachedb()
+            print("Template cache not specified, using default:", cache, file=sys.stderr)
         return handler(t, title, cache)
 
     return handler(t, title)
