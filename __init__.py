@@ -1595,7 +1595,7 @@ def expand_template(template, title, transclude_senses={}, cache=None):
     if name in Cache.TEMPLATES:
         if not cache:
             cache = get_default_cachedb()
-            print("Template cache not specified, using default:", cache, file=sys.stderr)
+            #print("Template cache not specified, using default:", cache, file=sys.stderr)
         return handler(t, title, cache)
 
     return handler(t, title)

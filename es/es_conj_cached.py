@@ -169,11 +169,7 @@ def new_es_conj(t, title, database):
     if title.endswith("rse"):
         #print("ADDING EXTRA FORMS")
         forms["gerund_variant"] = [make_variant(f, "3s") for f in forms["gerund_3s"]]
-        #print("EXTRA", forms["gerund"])
-        form = title.removesuffix("rse")
-
-#        for c in ["os", "te"]:
-#            forms["imp_2p_comb_" + c] = [form + c]
+        forms["infinitive_variant"] = [title.removesuffix("se")]
 
         for slot in ["1p", "2p", "2s", "2sv", "3p", "3s"]:
             if f"imp_{slot}" not in forms:
@@ -181,19 +177,6 @@ def new_es_conj(t, title, database):
             variant_data = [make_variant(f, slot) for f in forms[f"imp_{slot}"]]
             variant_slot = f"imp_{slot}_variant"
             forms[variant_slot] = variant_data
-            #print("ADDING", variant_slot, variant_data)
-
-#        if title.endswith("tenerse"):
-#            forms["imp_2s"] = title.removesuffix("tenerse") + "tén"
-
-#        forms["imp_2p_non_reflexive"] = [form + "d"]
-        #print("EXTRA", forms["imp_2p"])
-
-#        forms["imp_2sv_non_reflexive"] = [form[:-1] + _add_accent[form[-1]]]
-        #print("EXTRA", forms["imp_2sv"])
-
-#        new = "; ".join([f"{k}={'|'.join(v)}" for k,v in sorted(forms.items())])
-
 
     return "; ".join(f"{k}={'|'.join(vs)}" for k,vs in sorted(forms.items()))
 

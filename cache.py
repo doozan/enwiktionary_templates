@@ -60,10 +60,15 @@ class Cache():
         res = self.dbcon.execute(f"SELECT data FROM templates WHERE page=? and template=? and params=? LIMIT 1", (page, template_name, param_str,))
 
         try:
-            return next(res)[0]
+            data = next(res)[0]
         except StopIteration:
             print("failed reading", page, template_name, param_str, file=sys.stderr)
             return ""
+
+        if data == "ERROR":
+            raise ValueError("Error retrieving data for", page, template_name, param_str)
+
+        return data
 
 
         # TODO: If this fails, download from site and cache?
@@ -79,7 +84,7 @@ class Cache():
 
         def get_template_last_modified(template_name):
             # TODO: get modified times from mediawiki
-            return "1704480980";
+            return 1704480980;
 
 
         # buffer all rows because sqlite doesn't like running multi-threaded
@@ -91,8 +96,10 @@ class Cache():
         for res in dbcon.execute(f"SELECT DISTINCT template FROM templates"):
             template_name = res[0]
             template_modified = get_template_last_modified(template_name)
+            print(f"SELECT page, template, params FROM templates WHERE template == ? AND date_retrieved IS NULL or date_retrieved < ? {limit} ORDER BY page", (template_name, template_modified))
             cur = dbcon.execute(f"SELECT page, template, params FROM templates WHERE template == ? AND date_retrieved IS NULL or date_retrieved < ? {limit} ORDER BY page", (template_name, template_modified))
             stale += cur.fetchall()
+            print("scanning", template_name, len(stale))
 
         return stale
 
@@ -113,9 +120,22 @@ class Cache():
 
         url = "https://en.wiktionary.org/w/api.php?action=expandtemplates&format=json&prop=wikitext&text=" \
              + urllib.parse.quote("{{" + template_name + param_str + "}}")
-        res = requests.get(url)
-        data = json.loads(res.text)
 
+        tries = 10
+        res = None
+        while tries:
+            try:
+                res = requests.get(url)
+            except requests.exceptions.RequestException as e:
+                time.sleep(5)
+            else:
+                break
+            tries -= 1
+
+        if not res:
+            return None
+
+        data = json.loads(res.text)
         return data["expandtemplates"]["wikitext"]
 
 
@@ -175,8 +195,8 @@ def download_data(args):
 
     data_str = Cache.get_wiki_data(page, template, params)
 
-    if '"scribunto-error"' in data_str:
-        data_str == None
+    if 'scribunto-error' in data_str:
+        data_str = "ERROR"
 
     else:
         data_str = cleanup_wiki_data(template, data_str)
