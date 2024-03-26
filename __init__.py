@@ -1168,6 +1168,7 @@ ignore = {
 
 # Templates that just return the first parameter
 p1 = {
+    "cap",
     "def",
     "def-date",
     "defdt",
@@ -1201,6 +1202,7 @@ p1 = {
     "smallcaps",
     "spelink",
     "sub",
+    "taxfmt",
     "taxlink",
     "taxlink2",
     "taxlinknew",
