@@ -968,6 +968,8 @@ class Template():
     @staticmethod
     def suffix(t, title):
         base = t.get(2, "")
+        if len(t) <= 2:
+            return base
         suf = t[3].lstrip("-")
         return f"{base} + -{suf}"
 
