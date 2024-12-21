@@ -350,3 +350,10 @@ def test_es_verb_obj():
     assert _expand("{{es-verb-obj|portar<t:to carry>|mortero<t:mortar>}}") == 'Verb-object compound, composed of portar ("to carry") + mortero ("mortar")'
     assert _expand("{{es-verb-obj|afilar<t:to sharpen>|lápiz<t:pencils><pl:1>}}.") == 'Verb-object compound, composed of afilar ("to sharpen") + lápices ("pencils").'
     assert _expand("{{es-verb-obj|chupar<t:to suck>|cabra<t:goats><pl:1>|lit=goatsucker}}.") == 'Verb-object compound, composed of chupar ("to suck") + cabras ("goats"), literally "goatsucker".'
+
+def test_demonym_adj():
+    assert _expand("{{demonym-adj|es|Tucson}}") == 'of, from or relating to Tucson'
+    assert _expand("{{demonym-adj|es|Alexandria<t:city in Egypt>|Alexandria<t:city in Virginia, USA>}}") == 'of, from or relating to Alexandria (city in Egypt) or Alexandria (city in Virginia, USA)'
+
+def test_demonym_noun():
+    assert _expand("{{demonym-noun|es|w:Abatemarco}}") == 'native or inhabitant of Abatemarco'

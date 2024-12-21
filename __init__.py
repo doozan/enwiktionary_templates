@@ -278,6 +278,34 @@ class Template():
     coin = coinage
 
     @staticmethod
+    def __demonym(t, title, text):
+        p = 2
+        res = []
+        while t.get(p):
+            item = t[p]
+            if item.startswith("w:"):
+                item = item[2:]
+
+            idx = str(p-1)
+            qualifier = t.get("t" + idx)
+            if idx == "1" and not qualifier: # handle t1= and t= as modifiers for first param
+                qualifer = t.get('t')
+            if qualifier:
+                item = item + " (" + qualifier + ")"
+            res.append(item)
+            p += 1
+
+        return text + " or ".join(res)
+
+    @staticmethod
+    def demonym_adj(t, title):
+        return Template.__demonym(t, title, "of, from or relating to ")
+
+    @staticmethod
+    def demonym_noun(t, title):
+        return Template.__demonym(t, title, "native or inhabitant of ")
+
+    @staticmethod
     def derived(t, title):
         return Template.__lang2_etyl(t, title)
     der = derived
