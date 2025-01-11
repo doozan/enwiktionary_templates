@@ -41,6 +41,16 @@ class Template():
     from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp, es_suffix, es_verb_form_of
 
     @staticmethod
+    def _obj(t, title, cache_filename):
+
+        cache = Cache(cache_filename)
+        data = cache.get("+obj", t, title)
+        if not data:
+            return ""
+
+        return re.sub("<.*?>", "", data)
+
+    @staticmethod
     def _form_of(t, title, text):
         res = [text]
         display = next((t[p] for p in [3, 2] if t.get(p)), None)
@@ -1291,6 +1301,7 @@ form_of_alt = {
     "alt sp": "alternative spelling of",
     "alt sp of": "alternative spelling of",
     "alt-sp": "alternative spelling of",
+    "alt spell": "alternative spelling of",
     "altspell": "alternative spelling of",
     "altspelling": "alternative spelling of",
     "alt spelling of": "alternative spelling of",
@@ -1312,6 +1323,8 @@ form_of_alt = {
     "el-Italiot dialect form of": "Italiot dialect form of",
     "el-Maniot dialect form of": "Maniot dialect form of",
     "euphemism of": "euphemism of",
+    "feminine equivalent of": "female equivalent of",
+    "femeq": "female equivalent of",
     "gerund of": "gerund of",
     "honor alt case": "honorific alternative case of",
     "init of": "initialism of",
@@ -1342,6 +1355,7 @@ form_of_alt = {
     "standspell": "standard spelling of",
     "stand sp": "standard spelling of",
     "standard spelling of": "standard spelling of",
+    "sync": "syncopic form of",
     "syn of": "synonym of",
     "syn-of": "synonym of",
     "synof": "synonym of",

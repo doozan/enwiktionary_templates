@@ -27,9 +27,11 @@ class Cache():
         # TODO: force refresh whenever certain pages have been modified
         "es-conj": { "name": "es-conj" },
         "es-verb": { "name": "es-conj" }, # es-conj is not a typo
+
+        "+obj": { "name": "+obj"},
     }
 
-    TMPL_REGEX = r"{{\s*" + "|".join(k for k in TEMPLATES.keys()) + r"\s*[|}]"
+    TMPL_REGEX = r"{{\s*" + "|".join(re.escape(k) for k in TEMPLATES.keys()) + r"\s*[|}]"
 
     def __init__(self, dbfile=None):
 
