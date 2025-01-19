@@ -1004,6 +1004,31 @@ class Template():
         return "(sic)"
 
     @staticmethod
+    def _qualified_list(t, title):
+        i = 2
+
+        items = []
+        while i in t:
+            n = i-1
+            if n == 1 and any(p in t for p in ["alt", "q", "qq"]):
+                n = ""
+            item = t[f"alt{n}"].strip() if f"alt{n}" in t else t[i].strip()
+            if f"q{n}" in t:
+                item = "(" + t[f"q{n}"] + ") " + item
+            if f"qq{n}" in t:
+                item = item + " (" + t[f"qq{n}"] + ")"
+            if item.strip():
+                items.append(item)
+            i += 1
+
+        return items
+
+    @staticmethod
+    def synonyms(t, title):
+        return "; ".join(Template._qualified_list(t, title))
+    syn = synonyms
+
+    @staticmethod
     def suffix(t, title):
         base = t.get(2, "")
         if len(t) <= 2:
@@ -1161,10 +1186,14 @@ ignore = {
     "es-verb",
     "etymid",
     "etystub",
+    "img",
     "ISBN",
     "lena",
+    "multiple image",
+    "multiple images",
     "nbsp",
     "nonlemma",
+    "number box",
     "PIE word",
     "pl-adj",
     "pl-adv",
@@ -1200,6 +1229,7 @@ ignore = {
     "trans-top",
     "U:en:plurals of letters",
     "U:es:relative pronouns",
+    "was fwotd",
     "Wikipedia",
     "wikipedia",
     "word",
