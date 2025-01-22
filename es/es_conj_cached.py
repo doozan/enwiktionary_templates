@@ -109,6 +109,9 @@ def test_es_conj(t, title, database):
     return new
 
 
+def remove_links(text):
+    return re.sub(r"\[\[([^|\[]+[|])?([^|\[]+)]]", r"\2", text)
+
 def new_es_conj(t, title, database):
     cache = Cache(database)
 
@@ -119,7 +122,7 @@ def new_es_conj(t, title, database):
     # The lua module doesn't generate all possible forms of the verb
     # So we have to add them manually here
 
-    data = data.replace("[[", "").replace("]]", "")
+    data = remove_links(data)
     params = json.loads(data)
 
     slot_personal_clitics = {
@@ -178,7 +181,9 @@ def new_es_conj(t, title, database):
             variant_slot = f"imp_{slot}_variant"
             forms[variant_slot] = variant_data
 
-    return "; ".join(f"{k}={'|'.join(vs)}" for k,vs in sorted(forms.items()))
+    # check for v.strip() == v to fix bad some bad conjugations in "salir de Guatemala y meterse en Guatepeor" ['gerund_1p', ' de Guatemala y metiéndonos en Guatepeor']
+    # as of 1/21/2025 only appears to affect the single page
+    return "; ".join(f"{k}={'|'.join(vs)}" for k,vs in sorted(forms.items()) if all(v.strip() == v for v in vs))
 
 
 def rfind(string, pattern):
