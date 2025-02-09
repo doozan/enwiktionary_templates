@@ -357,3 +357,7 @@ def test_demonym_adj():
 
 def test_demonym_noun():
     assert _expand("{{demonym-noun|es|w:Abatemarco}}") == 'native or inhabitant of Abatemarco'
+
+def test_p1_with_override():
+    assert _expand("{{w|link|text}}") == 'text'
+

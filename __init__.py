@@ -24,7 +24,7 @@ import mwparserfromhell
 import re
 import sys
 
-from enwiktionary_parser.languages.all_ids import ALL_LANG_IDS
+from autodooz.sections import ALL_LANG_IDS
 from .etydata import data as ety_langs
 from .labeldata import data as labeldata
 from .place import place
@@ -1265,9 +1265,6 @@ p1 = {
     "non-gloss definition",
     "nowrap",
     "overline",
-    "pedia",
-    "pedialite",
-    "pedlink",
     "sc",
     "smallcaps",
     "spelink",
@@ -1280,11 +1277,18 @@ p1 = {
     "unsupported",
     "upright",
     "vern",
-    "w",
-    "W",
     "wtorw",
     "zh-l",
     "zh-m",
+}
+
+# Templates return a specific parameter if availiable or the first parameter
+p1_with_override = {
+    "w": 2,
+    "W": 2,
+    "pedia": 2,
+    "pedialite": 2,
+    "pedlink": "disp",
 }
 
 # Templates that just return the second parameter
@@ -1599,6 +1603,9 @@ def expand_template(template, title, transclude_senses={}, cache=None):
     if name in p1:
         display = t.get(1, title)
         return display
+
+    if name in p1_with_override:
+        return t.get(p1_with_override[name], t[1])
 
     if name in p2:
         return t[2]
