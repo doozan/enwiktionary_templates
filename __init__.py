@@ -136,11 +136,8 @@ class Template():
 
         return " + ".join(res)
 
-    af = affix
     compound = affix
-    com = affix
     confix = affix
-    con = affix
     circumfix = affix
 
 
@@ -220,8 +217,6 @@ class Template():
     @staticmethod
     def back_formation(t, title):
         return Template.__etyl_misc_variant(t, title, "back formation", "from")
-    back_form = back_formation
-    bf = back_formation
 
     @staticmethod
     def blend_of(t, title):
@@ -240,8 +235,6 @@ class Template():
     @staticmethod
     def calque(t, title):
         return Template.__lang2_etyl(t, title, "calque of")
-    cal = calque
-    clq = calque
 
     @staticmethod
     def century(t, title):
@@ -252,7 +245,6 @@ class Template():
     @staticmethod
     def clipping(t, title):
         return Template.__etyl_misc_variant(t, title, "clipping")
-    clip = clipping
     clipping_of = clipping
 
     @staticmethod
@@ -285,7 +277,6 @@ class Template():
             res.append("in " + t["in"])
 
         return " ".join(res)
-    coin = coinage
 
     @staticmethod
     def __demonym(t, title, text):
@@ -318,24 +309,17 @@ class Template():
     @staticmethod
     def derived(t, title):
         return Template.__lang2_etyl(t, title)
-    der = derived
     borrowed = derived
-    bor = derived
     bor_lite = derived
     inherited = derived
-    inh = derived
     inh_lite = derived
     der_lite = derived
-    uder = derived
+    undefined_derivation = derived
     der_ = derived
 
     def cognate(t, title):
         return Template.__lang2_etyl(t, title, offset=0)
-    cognate = cognate
-    cog = cognate
-    nc = cognate
-    ncog = cognate
-    noncog = cognate
+    noncognate = cognate
     cog_lite = cognate
 
     @staticmethod
@@ -355,8 +339,6 @@ class Template():
             p += 1
 
         return text + ", ".join(res)
-
-    dbt = doublet
 
     @staticmethod
     def ellipsis(t, title):
@@ -500,7 +482,6 @@ class Template():
     @staticmethod
     def gloss(t, title):
         return "(" + ", ".join(t.values()) + ")"
-    gl = gloss
     gloss_lite = gloss
     gl_lite = gloss
 
@@ -668,8 +649,6 @@ class Template():
 
         return " ".join(res)
 
-    infl_of = inflection_of
-
     @staticmethod
     def adj_form_of(t, title):
         t["p"] = "a"
@@ -700,8 +679,7 @@ class Template():
             return ""
 
         return f"({res})"
-    lb = lbl = label
-    tlb = label
+    term_label = label
 
     @staticmethod
     def _joinlabels(labels, delimiter=",", spacer=" "):
@@ -752,7 +730,6 @@ class Template():
     @staticmethod
     def learned_borrowing(t, title):
         return Template.__lang2_etyl(t, title, "learned borrowing from")
-    lbor = learned_borrowing
 
     @staticmethod
     def link(t, title):
@@ -771,12 +748,11 @@ class Template():
             gloss = " (" + str(gloss) + ")"
 
         return str(display)+gloss
-    l = link
     ll = link
     l_lite = link
 
     @staticmethod
-    def m(t, title):
+    def mention(t, title):
         res = []
         display = None
         if 3 in t:
@@ -795,13 +771,12 @@ class Template():
             res.append("(“" + str(gloss) + "”)")
 
         return " ".join(res)
-    mention = m
-    m_lite = m
+    langname_mention = mention
+    m_lite = mention
 
     @staticmethod
     def mention_gloss(t, title):
         return '"' + t[1] + '"'
-    m_g = mention_gloss
 
     @staticmethod
     def named_after(t, title):
@@ -846,10 +821,9 @@ class Template():
         return " ".join(res)
 
     @staticmethod
-    def non_gloss_definition(t, title):
+    def non_gloss(t, title):
         return t[1]
-    non_gloss = ng = ngd = n_g = non_gloss_definition
-    n_g_lite = non_gloss_definition
+    n_g_lite = non_gloss
 
     @staticmethod
     def not_used(t, title):
@@ -868,16 +842,14 @@ class Template():
         if "nocap" in t:
             return "onomatopoeic"
         return "Onomatopoeic"
-    onom = onomatopoeic
 
     @staticmethod
-    def only_in(t, title):
+    def only_used_in(t, title):
         return f'Only used in "{t[2]}"'
 
     @staticmethod
     def orthorgraphic_borrowing(t, title):
         return Template.__lang2_etyl(t, title, "orthographic borrowing from")
-    obor = orthorgraphic_borrowing
 
     @staticmethod
     def pagename(t, title):
@@ -886,13 +858,10 @@ class Template():
     @staticmethod
     def partial_calque(t, title):
         return Template.__lang2_etyl(t, title, "partial calque of")
-    pcal = partial_calque
-    pclq = partial_calque
 
     @staticmethod
     def phono_semantic_matching(t, title):
         return Template.__lang2_etyl(t, title, "phono-semantic matching of")
-    psm = phono_semantic_matching
 
     @staticmethod
     def place(t, title):
@@ -906,7 +875,6 @@ class Template():
         if 3 in t:
             res.append(t[3])
         return " ".join(res)
-    pre = prefix
 
     @staticmethod
     def pseudo_loan(t, title):
@@ -925,7 +893,6 @@ class Template():
     def qualifier(t, title):
         params = [ v for k,v in t.items() if isinstance(k,int) ]
         return "(" + ", ".join(params) + ")"
-    q = i = qual = qualifier
     q_lite = qualifier
 
     @staticmethod
@@ -977,7 +944,6 @@ class Template():
     @staticmethod
     def transliteration(t, title):
         return Template.__lang2_etyl(t, title, "transliteration of")
-    trans = transliteration
 
     @staticmethod
     def translit_name(t, title):
@@ -986,17 +952,14 @@ class Template():
     @staticmethod
     def semantic_loan(t, title):
         return Template.__lang2_etyl(t, title, "semantic loan from")
-    sl = semantic_loan
 
     @staticmethod
     def semi_learned_borrowing(t, title):
         return Template.__lang2_etyl(t, title, "semi-learned borrowing from")
-    slbor = semi_learned_borrowing
 
     @staticmethod
     def sense(t, title):
         return "(" + t[1] + ")"
-    s = sense
     sense_lite = sense
 
     @staticmethod
@@ -1026,7 +989,6 @@ class Template():
     @staticmethod
     def synonyms(t, title):
         return "; ".join(Template._qualified_list(t, title))
-    syn = synonyms
 
     @staticmethod
     def suffix(t, title):
@@ -1036,12 +998,9 @@ class Template():
         suf = t[3].lstrip("-")
         return f"{base} + -{suf}"
 
-    suf = suffix
-
     @staticmethod
     def surface_analysis(t, title):
         return "By surface analysis, " + Template.affix(t, title)
-    surf = surface_analysis
 
     @staticmethod
     def surname(t, title):
@@ -1050,7 +1009,6 @@ class Template():
     @staticmethod
     def unadapted_borrowing(t, title):
         return Template.__lang2_etyl(t, title, "unadapted borrowing from")
-    ubor = unadapted_borrowing
 
     @staticmethod
     def _text(t, title, text):
@@ -1065,12 +1023,10 @@ class Template():
     @staticmethod
     def uncertain(t, title):
         return Template._text(t, title, "Uncertain")
-    unc = uncertain
 
     @staticmethod
     def unknown(t, title):
         return Template._text(t, title, "Unknown")
-    unk = unknown
 
     @staticmethod
     def univerbation(t, title):
@@ -1091,7 +1047,7 @@ class Template():
             if p in t:
                 res.append(t[p])
         return " ― ".join(res)
-    eg = ux_lite = uxi = usex = ux
+    eg = ux_lite = uxi = ux
 
 ignore = {
     ",",
@@ -1259,10 +1215,6 @@ p1 = {
     "n-g",
     "ngd",
     "nobold",
-    "non gloss",
-    "non-gloss",
-    "non gloss definition",
-    "non-gloss definition",
     "nowrap",
     "overline",
     "sc",
@@ -1298,6 +1250,10 @@ p2 = {
 #    "w2",
 }
 
+p2_with_override = {
+    "lw": 3,
+}
+
 prefix1 = {
     "native or resident of"
 }
@@ -1322,27 +1278,12 @@ quote1_with = {
 
 form_of_alt = {
     "abbr": "abbreviation of",
-    "abbr of": "abbreviation of",
     "altcaps": "alternative letter-case form of",
     "alt caps": "alternative letter-case form of",
-    "alt case": "alternative letter-case form of",
-    "altcase": "alternative letter-case form of",
-    "alt form": "alternative form of",
-    "alt-form": "alternative form of",
-    "altform": "alternative form of",
-    "alt form of": "alternative form of",
     "alternative form": "alternative form of",
     "altname": "alternative name of",
-    "alt sp": "alternative spelling of",
-    "alt sp of": "alternative spelling of",
-    "alt-sp": "alternative spelling of",
-    "alt spell": "alternative spelling of",
-    "altspell": "alternative spelling of",
     "altspelling": "alternative spelling of",
-    "alt spelling of": "alternative spelling of",
-    "ao": "abbreviation of",
     "aphetic form": "aphetic form of",
-    "aug of": "augmentative of",
     "cmn-erhua form of": "Mandarin erhua form of",
     "contraction": "contraction of",
     "cretan dialect form of": "Cretan dialect form of",
@@ -1353,36 +1294,17 @@ form_of_alt = {
     "de-inflected form of": "inflected form of",
     "de-umlautless spelling of": "nonstandard umlautless spelling of",
     "de-zu-infinitive of": "zu-infinitive of",
-    "dim of": "diminutive of",
     "el-Cretan dialect form of": "Cretan dialect form of",
     "el-Cypriot dialect form of": "Cypriot dialect form of",
     "el-Italiot dialect form of": "Italiot dialect form of",
     "el-Maniot dialect form of": "Maniot dialect form of",
-    "euphemism of": "euphemism of",
-    "feminine equivalent of": "female equivalent of",
-    "femeq": "female equivalent of",
-    "gerund of": "gerund of",
-    "honor alt case": "honorific alternative case of",
-    "init": "initialism of",
-    "init of": "initialism of",
     "initialism": "initialism of",
-    "io": "initialism of",
     "la-praenominal abbreviation of": "praenominal abbreviation of",
-    "missp": "misspelling of",
     "misspelling": "misspelling of",
-    "obs form": "obsolete form of",
-    "obs sp": "obsolete spelling of",
-    "obs-sp": "obsolete spelling of",
-    "obssp": "obsolete spelling of",
-    "only-in": "only in",
-    "onlyin": "only used in",
     "past participle of": "past participle of",
     "past participle": "past participle of",
     "phrasal verb": "A component in at least one phrasal verb:",
-    "pinof": "pinyin reading of",
-    "pinread": "pinyin reading of",
     "pronunciation spelling": "pronunciation spelling of",
-    "rareform": "rare form of",
     "rare form": "rare form of",
     "ru-abbrev of": "abbreviation of",
     "ru-acronym of": "acronym of",
@@ -1390,29 +1312,19 @@ form_of_alt = {
     "ru-initialism of": "initialism of",
     "ru-pre-reform": "pre-reform form of",
     "singular of": "inflection of",
-    "standspell": "standard spelling of",
-    "stand sp": "standard spelling of",
-    "standard spelling of": "standard spelling of",
-    "sync": "syncopic form of",
-    "syn of": "synonym of",
-    "syn-of": "synonym of",
-    "synof": "synonym of",
+    "syncopic form": "syncopic form of",
     "synonym": "synonym of",
-    "zh-abbrev": "abbreviation of",
     "zh-also": "⇒",
     "zh-alt-form": "alternative form of",
     "zh-altterm": "alternative form of",
     "zh-character component": "the Chinese character component",
     "zh-classifier": "classifier for",
-    "zh-erhua form of": "erhua form of",
-    "zh-misspelling": "misspelling of",
-    "zh-only": "only used in",
-    "zh-only used in": "only used in",
+    "cmn-erhua form of": "erhua form of",
+    "zh-misspelling of": "misspelling of",
     "zh-original": "original form of",
     "zh-see": "see",
     "zh-short": "abbreviation of",
     "zh-used in": "used in",
-    "zh-used": "only used in",
 }
 
 form_of = {
@@ -1440,6 +1352,7 @@ form_of = {
     "augmentative of",
     "broad form of",
     "causative of",
+    "censored spelling of",
     "clipping of",
     "combining form of",
     "comparative of",
@@ -1472,6 +1385,7 @@ form_of = {
     "feminine plural past participle of",
     "feminine singular of",
     "feminine singular past participle of",
+    "filter-avoidance spelling of",
     "former name of",
     "frequentative of",
     "future participle of",
@@ -1589,11 +1503,14 @@ replace_with = {
 handlers = {
     'U:es:false friend': Template.u_es_false_friend,
     "&lit": Template._and_lit,
-    "m+": Template.m,
+    "m+": Template.mention,
 }
 
-def expand_template(template, title, transclude_senses={}, cache=None):
-    name = str(template.name).strip() #.lower()
+def expand_template(template, title, transclude_senses={}, cache=None, redirects={}):
+    orig_name = str(template.name).strip() #.lower()
+
+    # resolve redirects/aliases
+    name = redirects.get(orig_name, orig_name).replace("_", " ")
 
     t = get_template_params(template)
 
@@ -1610,6 +1527,9 @@ def expand_template(template, title, transclude_senses={}, cache=None):
 
     if name in p1_with_override:
         return t.get(p1_with_override[name], t[1])
+
+    if name in p2_with_override:
+        return t.get(p2_with_override[name], t[2])
 
     if name in p2:
         return t[2]
@@ -1643,7 +1563,7 @@ def expand_template(template, title, transclude_senses={}, cache=None):
         res = []
         for transcluded in transcludes:
             wikt = mwparserfromhell.parse(transcluded)
-            expand_templates(wikt, page, cache=cache)
+            expand_templates(wikt, page, cache=cache, redirects=redirects)
             transcluded_text = str(wikt)
 
             # handle labels
@@ -1688,10 +1608,10 @@ def expand_template(template, title, transclude_senses={}, cache=None):
     return handler(t, title)
 
 
-def expand_templates(wikt, title, transclude_senses={}, cache=None):
+def expand_templates(wikt, title, transclude_senses={}, cache=None, redirects={}):
     try:
         for t in reversed(wikt.filter_templates()):
-            new = expand_template(t, title, transclude_senses, cache)
+            new = expand_template(t, title, transclude_senses, cache, redirects)
             new = new.replace("{{PAGENAME}}", str(title))
             wikt.replace(t, new)
 
