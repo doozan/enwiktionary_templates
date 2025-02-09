@@ -1321,6 +1321,7 @@ quote1_with = {
 }
 
 form_of_alt = {
+    "abbr": "abbreviation of",
     "abbr of": "abbreviation of",
     "altcaps": "alternative letter-case form of",
     "alt caps": "alternative letter-case form of",
@@ -1343,6 +1344,7 @@ form_of_alt = {
     "aphetic form": "aphetic form of",
     "aug of": "augmentative of",
     "cmn-erhua form of": "Mandarin erhua form of",
+    "contraction": "contraction of",
     "cretan dialect form of": "Cretan dialect form of",
     "cs-imperfective form of": "imperfective form of",
     "de-du contraction": "Contraction of",
@@ -1361,7 +1363,9 @@ form_of_alt = {
     "femeq": "female equivalent of",
     "gerund of": "gerund of",
     "honor alt case": "honorific alternative case of",
+    "init": "initialism of",
     "init of": "initialism of",
+    "initialism": "initialism of",
     "io": "initialism of",
     "la-praenominal abbreviation of": "praenominal abbreviation of",
     "missp": "misspelling of",
