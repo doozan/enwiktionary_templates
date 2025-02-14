@@ -31,6 +31,7 @@ from .place import place
 from .module.es_headword import make_plural as es_make_plural
 from .utils import get_template_params
 from .cache import Cache, get_default_cachedb
+from .aliases import ALIASES
 
 class Template():
 
@@ -483,7 +484,6 @@ class Template():
     def gloss(t, title):
         return "(" + ", ".join(t.values()) + ")"
     gloss_lite = gloss
-    gl_lite = gloss
 
     @staticmethod
     def given_name(t, title):
@@ -881,10 +881,6 @@ class Template():
         return Template.__lang2_etyl(t, title, "Pseudo-loan from")
 
     @staticmethod
-    def qf(t, title):
-        return "(" + t[1] + ")"
-
-    @staticmethod
     def qflit(t, title):
         return "(literally: " + t[1] + ")"
     lit = qflit
@@ -894,6 +890,7 @@ class Template():
         params = [ v for k,v in t.items() if isinstance(k,int) ]
         return "(" + ", ".join(params) + ")"
     q_lite = qualifier
+    accent = qualifier
 
     @staticmethod
     def quoted_term(t, title):
@@ -927,7 +924,6 @@ class Template():
             return f"{display} ({genders})"
 
         return display
-    t_ = t
     tt = t
     tt_ = t
     t_simple = t
@@ -1051,30 +1047,20 @@ class Template():
 
 ignore = {
     ",",
-    "a",
     "anchor",
     "attention",
-    "attn",
-    "C",
-    "c",
     "categorize",
     "catlangname",
     "catlangcode",
     "cite",
     "cite-av",
-    "Cite book",
     "cite-book",
-    "cite book",
     "cite-journal",
-    "cite journal",
     "cite-web",
-    "cite web",
     "cite news",
-    "cln",
     "colorbox",
     "color-panel",
     "color panel",
-    "colour panel",
     "context",
     "DEFAULTSORT",
     "dercat",
@@ -1084,43 +1070,26 @@ ignore = {
     "en-verb",
     "en-proper noun",
     "en-adv",
-    "en-interj",
     "en-plural noun",
-    "en-prop",
-    "en-proper-noun",
     "en-prefix",
-    "en-ipl",
     "en-prep",
     "en-proverb",
     "en-cont",
     "en-pron",
-    "en-PP",
-    "en-intj",
     "en-ing form of",
     "en-suffix",
-    "en-interjection",
-    "en-pronoun",
-    "en-adjective",
     "en-con",
     "en-det",
-    "en-contraction",
-    "en-preposition",
     "en-prep phrase",
-    "en-adverb",
-    "en-conjunction",
-    "en-pp",
-    "en-particle",
     "en-obsolete past participle of",
     "en-plural-noun",
     "en-symbol",
-    "en-propn",
-    "en-usage-verb-particle-solid",
+    "U:en:verb particle solid",
     "en-part",
     "en-letter",
     "en-ing",
     "es-adj-inv",
     "es-adv",
-    "es-adverb",
     "es-conjunction",
     "es-diacritical mark",
     "es-int",
@@ -1129,23 +1098,19 @@ ignore = {
     "es-interjection",
     "es-letter",
     "es-past participle",
-    "es-past-participle",
     "es-phrase",
     "es-prefix",
     "es-prep",
     "es-preposition",
     "es-pronoun",
     "es-proverb",
-    "es-prop",
     "es-punctuation mark",
     "es-unadapted",
     "es-verb",
     "etymid",
     "etystub",
-    "img",
     "ISBN",
     "lena",
-    "multiple image",
     "multiple images",
     "nbsp",
     "nonlemma",
@@ -1174,10 +1139,9 @@ ignore = {
     "rfv-sense",
     "root",
     "senseid",
-    "swp",
+    "slim-wikipedia",
     "t2i-Egyd",
     "tea room sense",
-    "top",
     "topics",
     "translation only",
     "trans-bottom"
@@ -1189,14 +1153,12 @@ ignore = {
     "Wikipedia",
     "wikipedia",
     "word",
-    "wp",
 }
 
 # Templates that just return the first parameter
 p1 = {
     "cap",
     "def",
-    "def-date",
     "defdt",
     "defdate",
     "en-phrase",
@@ -1210,14 +1172,11 @@ p1 = {
     "ja-l",
     "ja-r",
     "keyword",
-    "ko-inline",
     "ko-l",
-    "n-g",
-    "ngd",
     "nobold",
-    "nowrap",
+    "nobr",
     "overline",
-    "sc",
+    "script",
     "smallcaps",
     "spelink",
     "sub",
@@ -1227,7 +1186,7 @@ p1 = {
     "taxlinknew",
     "underline",
     "unsupported",
-    "upright",
+    "noitalic",
     "vern",
     "wtorw",
     "zh-l",
@@ -1239,7 +1198,6 @@ p1_with_override = {
     "w": 2,
     "W": 2,
     "pedia": 2,
-    "pedialite": 2,
     "pedlink": "disp",
 }
 
@@ -1303,9 +1261,8 @@ form_of_alt = {
     "misspelling": "misspelling of",
     "past participle of": "past participle of",
     "past participle": "past participle of",
-    "phrasal verb": "A component in at least one phrasal verb:",
+    "phrasal verbs": "A component in at least one phrasal verb:",
     "pronunciation spelling": "pronunciation spelling of",
-    "rare form": "rare form of",
     "ru-abbrev of": "abbreviation of",
     "ru-acronym of": "acronym of",
     "ru-alt-ё": "alternative form of",
@@ -1481,10 +1438,6 @@ replace_with = {
     "=": "=",
     "-a-o-e": "Gender-neutral e replaces the gendered endings/elements a and o.",
     "-a-o-x": "Gender-neutral x replaces the gendered endings/elements a and o.",
-    "AD": "C.E.",
-    "A.D.": "C.E.",
-    "BC": "B.C.E.",
-    "B.C.": "B.C.E.",
     "BCE": "B.C.E.",
     "B.C.E.": "B.C.E.",
     "CE": "C.E.",
@@ -1495,7 +1448,6 @@ replace_with = {
     "es-note-noun-mf": "The noun {{PAGENAME}} is like most Spanish nouns with a human referent.  The masculine forms are used when the referent is known to be male, a group of males, a group of mixed or unknown gender, or an individual of unknown or unspecified gender.  The feminine forms are used if the referent is known to be female or a group of females.",
     "nb...": " […]",
     "sup": "^",
-    "unk": "Unknown",
     "unknown": "Unknown",
 }
 
@@ -1503,94 +1455,104 @@ replace_with = {
 handlers = {
     'U:es:false friend': Template.u_es_false_friend,
     "&lit": Template._and_lit,
-    "m+": Template.mention,
 }
 
-def expand_template(template, title, transclude_senses={}, cache=None, redirects={}):
-    orig_name = str(template.name).strip() #.lower()
 
-    # resolve redirects/aliases
-    name = redirects.get(orig_name, orig_name).replace("_", " ")
+def __transclude(template, t, title, cache, transclude_senses):
+    page = t[2]
+    senseids = t.get("id")
+    if not senseids:
+        print(f"{title} transcludes sense without id: {template}", file=sys.stderr)
+        return str(template).replace("\n", "\\n")
 
-    t = get_template_params(template)
+    transcludes = [transclude_senses.get((page, sid.strip())) for sid in senseids.split(",")]
+    if not transcludes or not all(t for t in transcludes):
+        #raise ValueError(f"{title} transcludes unknown sense: {template}", transcludes, senseids.split(","))
+        print(f"{title} transcludes unknown sense: {template}", file=sys.stderr)
+        return str(template).replace("\n", "\\n")
+
+    res = []
+    for transcluded in transcludes:
+        wikt = mwparserfromhell.parse(transcluded)
+        expand_templates(wikt, page, cache=cache)
+        transcluded_text = str(wikt)
+
+        # handle labels
+        if transcluded_text.startswith("(") and ") " in transcluded_text:
+            labels, transcluded_text = transcluded_text[1:].split(") ", 1)
+        else:
+            labels = None
+
+        if labels:
+            res.append(f"({labels}) {page} ({transcluded_text})")
+        else:
+            res.append(f"{page} ({transcluded_text})")
+
+    return res[0]
+    return "\\n".join(res)
+
+
+def get_handler(name, template, transclude_senses):
 
     if name == "1":
-        display = t.get(1, title)
-        return display.capitalize().strip()
-    if name in ignore or name.startswith("R:"):
-        return ""
+        return lambda t, title: t.get(1, title).capitalize().strip()
+
+    if name in ignore or name.startswith("R:") or name.startswith("RQ:"):
+        return lambda *_: ""
+
     if name in replace_with:
-        return replace_with[name]
+        return lambda t, title: replace_with[name]
+
     if name in p1:
-        display = t.get(1, title)
-        return display
+        return lambda t, title: t.get(1, title)
 
     if name in p1_with_override:
-        return t.get(p1_with_override[name], t[1])
+        return lambda t, title: t.get(p1_with_override[name], t[1])
 
     if name in p2_with_override:
-        return t.get(p2_with_override[name], t[2])
+        return lambda t, title: t.get(p2_with_override[name], t[2])
 
     if name in p2:
-        return t[2]
+        return lambda t, title: t.get(2)
 
     if name in prefix1:
-        return name + " " + t[1]
+        return lambda t, title: name + " " + t[1]
 
     if name in quote1_with:
-        text = quote1_with[name]
-        return text + ' "' + t[1] + '"'
+        return lambda t, title: quote1_with[name] + ' "' + t[1] + '"'
 
     if name in form_of:
-        return Template._form_of(t, title, name)
+        return lambda t, title: Template._form_of(t, title, name)
 
     if name in form_of_alt:
-        return Template._form_of(t, title, form_of_alt[name])
+        return lambda t, title: Template._form_of(t, title, form_of_alt[name])
 
-    if name in ["transclude sense", "transclude", "tcl"]:
-        page = t[2]
-        senseids = t.get("id")
-        if not senseids:
-            print(f"{title} transcludes sense without id: {template}", file=sys.stderr)
-            return str(template).replace("\n", "\\n")
+    if name == "transclude":
+        return lambda t, title, cache: __transclude(template, t, title, cache, transclude_senses)
 
-        transcludes = [transclude_senses.get((page, sid.strip())) for sid in senseids.split(",")]
-        if not transcludes or not all(t for t in transcludes):
-            #raise ValueError(f"{title} transcludes unknown sense: {template}", transcludes, senseids.split(","))
-            print(f"{title} transcludes unknown sense: {template}", file=sys.stderr)
-            return str(template).replace("\n", "\\n")
-
-        res = []
-        for transcluded in transcludes:
-            wikt = mwparserfromhell.parse(transcluded)
-            expand_templates(wikt, page, cache=cache, redirects=redirects)
-            transcluded_text = str(wikt)
-
-            # handle labels
-            if transcluded_text.startswith("(") and ") " in transcluded_text:
-                labels, transcluded_text = transcluded_text[1:].split(") ", 1)
-            else:
-                labels = None
-
-            if labels:
-                res.append(f"({labels}) {page} ({transcluded_text})")
-            else:
-                res.append(f"{page} ({transcluded_text})")
-
-        return res[0]
-        return "\\n".join(res)
-
-    handler = None
     if name in handlers:
-        handler = handlers[name]
-    else:
-        clean_name = re.sub(r"[+\s-]", "_", name.lower())
-        if len(clean_name) > 2 and clean_name[2] == "_" and clean_name[:2] in Template.lang2:
-            lang_handler = getattr(Template.lang2[clean_name[:2]], clean_name)
-            if lang_handler:
-                return lang_handler(t, title)
+        return handlers[name]
 
-        handler = getattr(Template, clean_name, None)
+    clean_name = re.sub(r"[+\s-]", "_", name.lower())
+    if len(clean_name) > 2 and clean_name[2] == "_" and clean_name[:2] in Template.lang2:
+        lang_handler = getattr(Template.lang2[clean_name[:2]], clean_name)
+        if lang_handler:
+            return lang_handler
+
+    return getattr(Template, clean_name, None)
+
+
+def expand_template(template, title, transclude_senses={}, cache=None):
+    orig_name = str(template.name).strip() #.lower()
+
+    if not cache:
+        cache = get_default_cachedb()
+        #print("Template cache not specified, using default:", cache, file=sys.stderr)
+
+    # resolve redirects/aliases
+    name = ALIASES.get(orig_name, orig_name).replace("_", " ")
+
+    handler = get_handler(name, template, transclude_senses)
 
     if not handler:
         #with open("unknown_templates.txt", "a") as outfile:
@@ -1599,19 +1561,18 @@ def expand_template(template, title, transclude_senses={}, cache=None, redirects
         return str(template).replace("\n", "\\n")
         return ""
 
+    t = get_template_params(template)
+
     if name in Cache.TEMPLATES:
-        if not cache:
-            cache = get_default_cachedb()
-            #print("Template cache not specified, using default:", cache, file=sys.stderr)
         return handler(t, title, cache)
 
     return handler(t, title)
 
 
-def expand_templates(wikt, title, transclude_senses={}, cache=None, redirects={}):
+def expand_templates(wikt, title, transclude_senses={}, cache=None):
     try:
         for t in reversed(wikt.filter_templates()):
-            new = expand_template(t, title, transclude_senses, cache, redirects)
+            new = expand_template(t, title, transclude_senses, cache)
             new = new.replace("{{PAGENAME}}", str(title))
             wikt.replace(t, new)
 

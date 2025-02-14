@@ -29,6 +29,8 @@ class Cache():
         "es-verb": { "name": "es-conj" }, # es-conj is not a typo
 
         "+obj": { "name": "+obj"},
+
+        "transclude": { "name": "transclude" },
     }
 
     TMPL_REGEX = r"{{\s*" + "|".join(re.escape(k) for k in TEMPLATES.keys()) + r"\s*[|}]"
