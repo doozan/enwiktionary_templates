@@ -24,7 +24,7 @@ import mwparserfromhell
 import re
 import sys
 
-from autodooz.sections import ALL_LANG_IDS
+from .lang_ids import ALL_LANG_IDS, ALL_LANGS, ALT_LANGS
 from .etydata import data as ety_langs
 from .labeldata import data as labeldata
 from .place import place
