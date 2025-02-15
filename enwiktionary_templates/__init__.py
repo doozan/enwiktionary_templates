@@ -20,6 +20,9 @@ A "just enough" implementation of en.wiktionary.org templates to convert
 templates to meaningful wikidata
 """
 
+__version__ = "0.1.0"
+__author__ = 'Jeff Doozan'
+
 import mwparserfromhell
 import re
 import sys
