@@ -1,28 +1,42 @@
 #!/usr/bin/python3
 # -*- python-mode -*-
 
-import luadata_to_python
-import requests
-import json
 import argparse
-import datetime
+import json
+import pprint
+import requests
+import subprocess
 
-def get_wikipage(page):
-    url = 'https://en.wiktionary.org/w/api.php?action=query&prop=revisions&rvslots=*&rvprop=content|ids&format=json&titles=' + page
-    niceurl = 'https://en.wiktionary.org/wiki/' + page
+def get_wikipage(page_name):
+    url = f"https://en.wiktionary.org/w/api.php"
+    params = {
+        'action': 'query',
+        'prop': 'revisions',
+        'rvslots': '*',
+        'rvprop': 'content|ids',
+        'format': 'json',
+        'titles': page_name,
+    }
 
-    res = requests.get( url )
-    json_data = res.json()
-    revision = list(json_data['query']['pages'].values())[0]['revisions'][0]['revid']
-    wikitext = list(json_data['query']['pages'].values())[0]['revisions'][0]['slots']['main']['*']
-    return { "wikitext": wikitext, "revision": revision, "url": niceurl }
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    wikitext = list(data['query']['pages'].values())[0]["revisions"][0]['slots']['main']['*']
+    revision_id = list(data['query']['pages'].values())[0]["revisions"][0]['revid']
+
+    return {
+        "wikitext": wikitext,
+        "revision": revision_id,
+        "url": 'https://en.wiktionary.org/wiki/' + page_name
+    }
+
 
 def dump_label_data():
 
-    modules = [ "", "regional", "topical", "subvarieties" ]
-    variables = [ "labels", "aliases" ]
+    modules = [ "", "qualifiers", "regional", "topical" ]
 
-    print("data = {}")
+
+    labels = {}
     for module in modules:
 
         target = "Module:labels/data"
@@ -31,19 +45,34 @@ def dump_label_data():
             target += "/" + module
 
         res = get_wikipage(target)
+        text = res["wikitext"]
+        assert text.count("require(") == 1
+        assert 'return require("Module:labels").finalize_data(labels)' in text
 
-        for varname in variables:
-            print(f"# Data from: {res['url']} (revision: {res['revision']}, scraped {datetime.datetime.now()})")
-            print(f'data["{module}_{varname}"] = {{}}')
-            pydata = luadata_to_python.convert(res["wikitext"], varname, f'data["{module}_{varname}"]', trim_newlines=True)
-            print(pydata)
+        with open("data.lua", "w") as outfile:
+            old = 'return require("Module:labels").finalize_data(labels)'
+            new = 'local cjson = require "cjson"\nprint(cjson.encode(labels))'
+            text = text.replace(old, new)
 
-    for varname in variables:
-        targets = [ f'**data["{module}_{varname}"]' for module in modules ]
-        print(f'data["{varname}"] = {{', ", ".join(targets) + "}")
+            outfile.write(text)
+
+        print(f"# Data from: {res['url']} (revision: {res['revision']})")
+
+        lua_results = subprocess.check_output(["lua","data.lua"], encoding='utf-8')
+        labels |= json.loads(lua_results)
+
+
+    aliases = {}
+    for label, item in labels.items():
+        if "aliases" in item:
+            for a in item.pop("aliases"):
+                aliases[a] = label
+
+    print("labels = ", pprint.pformat(labels, indent=4, compact=True, width=200))
+    print("aliases = ", pprint.pformat(aliases, indent=4, compact=True, width=200))
 
 def main():
-    parser = argparse.ArgumentParser(description='Scrape Module:labels data from wiktionary')
+    parser = argparse.ArgumentParser(description='Scrape Module:labels/data from wiktionary')
     args = parser.parse_args()
 
     dump_label_data()

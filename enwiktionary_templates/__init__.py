@@ -29,7 +29,7 @@ import sys
 
 from .lang_ids import ALL_LANG_IDS, ALL_LANGS, ALT_LANGS
 from .etydata import data as ety_langs
-from .labeldata import data as labeldata
+from .labeldata import labels as label_data, aliases as label_aliases
 from .place import place
 from .module.es_headword import make_plural as es_make_plural
 from .utils import get_template_params
@@ -699,8 +699,8 @@ class Template():
             omit_preSpace = omit_postSpace
             omit_postSpace = False
 
-            label = labeldata["aliases"].get(label, label)
-            data = labeldata["labels"].get(label, {})
+            label = label_aliases.get(label, label)
+            data = label_data.get(label, {})
             label = data.get("display", label)
 
             comma = "" if omit_preComma or data.get("omit_preComma") else delimiter
