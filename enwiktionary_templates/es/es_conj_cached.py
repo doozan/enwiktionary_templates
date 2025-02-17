@@ -115,6 +115,12 @@ def remove_links(text):
 def new_es_conj(t, title, database):
     cache = Cache(database)
 
+    # es-verb is aliased to this function, which is fine except
+    # for a handful of pages (fazer) that still use the old-style
+    # es-verb paramaters.
+    if any(p in t for p in ["pres","pret", "attn", "head"]):
+        return ""
+
     data = cache.get("es-conj", t, title)
     if not data:
         return ""

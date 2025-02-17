@@ -13,7 +13,7 @@ def main():
 
     aliases = {}
 
-    prefix = ["Template:", "template:", "T:"]
+    prefix = ["Template:", "template:", "T:", "t:"]
     with open(args.redirects) as infile:
         for x in csv.reader(infile, delimiter="\t"):
             for p in prefix:

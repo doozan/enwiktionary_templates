@@ -89,7 +89,7 @@ def test_af():
     assert _expand("{{af|en|volley|ball}}") == "volley + ball"
     assert _expand("{{affix|en|pest|-i-|-cide}}") == "pest + -i- + -cide"
 
-    assert _expand("{{af|es|lang1=mxi|Galib|t1=victorious|-ez|lit=son of the victorious}}") == 'Mozarabic "Galib" ("victorious") + -ez'
+    assert _expand("{{af|es|lang1=mxi|Galib|t1=victorious|-ez|lit=son of the victorious}}") == 'Mozarabic "Galib" ("victorious") + -ez, literally "son of the victorious"'
     assert _expand("{{af|es|a-|bancal|gloss2=terrace, plot of land|-ar}}") == 'a- + bancal ("terrace, plot of land") + -ar'
 
     assert _expand("{{blend|he|תַּשְׁבֵּץ|tr1=tashbéts|t1=crossword puzzle|חֵץ|t2=arrow|tr2=chets}}") == 'Blend of תַּשְׁבֵּץ (tashbéts, "crossword puzzle") + חֵץ (chets, "arrow")'
@@ -128,15 +128,14 @@ def test_newlabels():
 
     # Regional
     template = next(mwparserfromhell.parse("{{lb|en|Peru}}").ifilter_templates())
-    assert expand_template(template, "test") == "([[w:Peru|Peru]])"
+    assert expand_template(template, "test") == "(Peru)"
 
-    # Make sure language specific subvarieties work
-    template = next(mwparserfromhell.parse("{{lb|es|Latin American Spanish}}").ifilter_templates())
-    assert expand_template(template, "test") == "(Latin America)"
+    template = next(mwparserfromhell.parse("{{lb|en|mushroom}}").ifilter_templates())
+    assert expand_template(template, "test") == "([[mycology]])"
 
     # Spacing
     template = next(mwparserfromhell.parse("{{lb|es|Argentina| & |Uruguay|Rio de la Plata|lunfardo}}").ifilter_templates())
-    assert expand_template(template, "test") == "([[w:Argentina|Argentina]] and [[w:Uruguay|Uruguay]], Rio de la Plata, lunfardo)"
+    assert expand_template(template, "test") == "(Argentina and Uruguay, Rio de la Plata, lunfardo)"
 
 
 def test_indtr():

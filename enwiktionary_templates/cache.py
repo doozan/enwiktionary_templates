@@ -81,9 +81,6 @@ class Cache():
 
     @classmethod
     def get_all_stale(cls, dbfile, limit=None):
-        if not dbfile:
-            dbfile = get_default_cachedb()
-
         dbcon = sqlite3.connect(dbfile)
 
         def get_template_last_modified(template_name):
@@ -232,6 +229,9 @@ def main():
     parser.add_argument("-j", help="run N jobs in parallel (default = # CPUs - 1", type=int)
     parser.add_argument("--update", help="Download uncached and stale template calls", action='store_true')
     args = parser.parse_args()
+
+    if not args.db:
+        args.db = get_default_cachedb()
 
     if not args.j:
         args.j = multiprocessing.cpu_count()-1

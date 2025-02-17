@@ -138,12 +138,22 @@ class Template():
 
             p += 1
 
-        return " + ".join(res)
+        text = " + ".join(res)
+
+        if "lit" in t:
+            text += f', literally "{t["lit"]}"'
+
+        return text
 
     compound = affix
     confix = affix
     circumfix = affix
+    com_ = affix # com+
 
+    @staticmethod
+    def infix(t, title):
+        t[3] = "-" + t[3].strip("-") + "-"
+        return Template.affix(t, title)
 
     @staticmethod
     def ante(t, title):
@@ -362,9 +372,6 @@ class Template():
             new_t[k] = v
         res = ["Verb-object compound, composed of "]
         res.append(Template.affix(new_t, title, 1))
-
-        if "lit" in t:
-            res.append(f', literally "{t["lit"]}"')
 
         return "".join(res)
 
@@ -1171,6 +1178,7 @@ p1 = {
     "honoraltcaps",
     "IPAchar",
     "IPAfont",
+    "italic",
     "ja-def",
     "ja-l",
     "ja-r",
@@ -1178,6 +1186,7 @@ p1 = {
     "ko-l",
     "nobold",
     "nobr",
+    "noitalic",
     "overline",
     "script",
     "smallcaps",
@@ -1189,7 +1198,6 @@ p1 = {
     "taxlinknew",
     "underline",
     "unsupported",
-    "noitalic",
     "vern",
     "wtorw",
     "zh-l",
