@@ -410,6 +410,18 @@ class Template():
 
         return f"First attested in {c}{date}"
 
+    @staticmethod
+    def etymon(t, title, cache_filename):
+        if "text" not in t:
+            return ""
+
+        cache = Cache(cache_filename)
+        data = cache.get("etymon", t, title)
+        if not data:
+            return ""
+
+        return re.sub("<.*?>", "", data)
+
 
     @staticmethod
     def u_es_false_friend(t, title):

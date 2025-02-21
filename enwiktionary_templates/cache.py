@@ -31,6 +31,8 @@ class Cache():
         "+obj": { "name": "+obj"},
 
         "transclude": { "name": "transclude" },
+
+        "etymon": { "name": "etymon" },
     }
 
     TMPL_REGEX = r"{{\s*" + "|".join(re.escape(k) for k in TEMPLATES.keys()) + r"\s*[|}]"
@@ -59,6 +61,9 @@ class Cache():
     def get(self, template_name, params, page):
 
         clean_params = self.cleanup_params(template_name, params)
+        if clean_params == -1:
+            return ""
+
         param_str = params_to_str(clean_params, sort_params=True, inline_modifiers=True)
 
         res = self.dbcon.execute(f"SELECT data FROM templates WHERE page=? and template=? and params=? LIMIT 1", (page, template_name, param_str,))
@@ -110,6 +115,15 @@ class Cache():
 
     @classmethod
     def cleanup_params(cls, template_name, params):
+        if template_name == "etymon":
+            # don't cache templates that don't generate text
+            if "text" not in params:
+                return -1
+
+            # never generate tree
+            if "tree" in params:
+                del params["tree"]
+
         # TODO: per-template cleanup
         return {k:v for k,v in params.items() if k not in ["nocomb"]}
 
@@ -180,6 +194,10 @@ def scrape_templates(args):
         template_name = Cache.TEMPLATES[t.name.strip()]["name"]
         params = get_template_params(t)
         clean_params = Cache.cleanup_params(template_name, params)
+        # don't cache templates that return -1 from cleanup_params
+        if clean_params == -1:
+            continue
+
         param_str = params_to_str(clean_params, sort_params=True)
         res.append((page, template_name, param_str))
 
