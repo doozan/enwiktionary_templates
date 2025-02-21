@@ -42,7 +42,7 @@ class Template():
     lang2 = {}
     #lang2["es"] = _es
 
-    from .es import es_compound_of, es_conj, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp, es_suffix, es_verb_form_of
+    from .es import es_compound_of, es_conj, es_verb, es_noun, es_proper_noun, es_adj, es_adj_sup, es_adj_comp, es_suffix, es_verb_form_of
 
     @staticmethod
     def _obj(t, title, cache_filename):
@@ -1128,7 +1128,6 @@ ignore = {
     "es-proverb",
     "es-punctuation mark",
     "es-unadapted",
-    "es-verb",
     "etymid",
     "etystub",
     "ISBN",
@@ -1149,6 +1148,7 @@ ignore = {
     "rfclarify",
     "rfdef",
     "rfe",
+    "rfeq",
     "rfex",
     "rfform",
     "rfv-etym",
@@ -1161,6 +1161,7 @@ ignore = {
     "rfv-sense",
     "root",
     "senseid",
+    "senseno",
     "slim-wikipedia",
     "t2i-Egyd",
     "tea room sense",
@@ -1265,6 +1266,7 @@ form_of_alt = {
     "altname": "alternative name of",
     "altspelling": "alternative spelling of",
     "aphetic form": "aphetic form of",
+    "apocopic form": "apocopic form of",
     "cmn-erhua form of": "Mandarin erhua form of",
     "contraction": "contraction of",
     "cretan dialect form of": "Cretan dialect form of",
@@ -1286,6 +1288,7 @@ form_of_alt = {
     "past participle": "past participle of",
     "phrasal verbs": "A component in at least one phrasal verb:",
     "pronunciation spelling": "pronunciation spelling of",
+    "prothetic form": "prothetic form of",
     "ru-abbrev of": "abbreviation of",
     "ru-acronym of": "acronym of",
     "ru-alt-ё": "alternative form of",
@@ -1428,6 +1431,7 @@ form_of = {
     "present tense of",
     "pronunciation spelling of",
     "pronunciation variant of",
+    "prothetic form of",
     "rare form of",
     "rare spelling of",
     "reflexive of",
@@ -1516,6 +1520,8 @@ def __transclude(template, t, title, cache, transclude_senses):
 
 
 def get_handler(name, template, transclude_senses):
+
+    name = re.sub(r"<!--.*?-->", "", name).strip()
 
     if name == "1":
         return lambda t, title: t.get(1, title).capitalize().strip()

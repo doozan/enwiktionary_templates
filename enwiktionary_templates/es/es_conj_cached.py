@@ -23,103 +23,29 @@ import enwiktionary_templates.module.es_common as com
 
 #from .es_conj import es_conj as old_es_conj
 
-def es_conj(t, title, database):
-    return new_es_conj(t, title, database)
-
-def test_es_conj(t, title, database):
-
-    bad_endings = [ 'placer', 'scribir' ]
-    bad_items = [ 'ir', 'trapazar', 'volar riata', 'volar verga' ]
-
-    new = new_es_conj(t, title, database)
-
-    if not new:
-        return ""
-
-    if title in bad_items:
-        return new
-
-    if any(title.endswith(x) for x in bad_endings):
-        return new
-
-    if template.count("<") > 1:
-        return new
-
-    old = old_es_conj(t, title)
-
-#    assert "abstén" in old
-#    print(old)
-#    print("-----")
-#    print(new)
-
-    if old != new:
-        old_items = old.split("; ")
-        new_items = new.split("; ")
-
-        new_data = {}
-        old_data = {}
-
-        for slot in new_items:
-#            print("X", [title, slot], file=sys.stderr)
-            slot_name, slot_value = slot.split("=")
-            values = slot_value.split("|")
-            new_data[slot_name] = values
-
-        for slot in old_items:
-            slot_name, slot_value = slot.split("=")
-            if slot_name in old_data:
-                old_data[slot_name].append(slot_value)
-   #             print("DUP", slot_name, old_data[slot_name])
-            else:
-                old_data[slot_name] = [slot_value]
-
-        #print("old", old_data["imp_2s"])
-        #print("new", new_data["imp_2s"])
-
-#        if (title.endswith("rse") or "rse" in str(template)) and not only_new and all(s.endswith("_non_reflexive") or s.endswith("_variant") for s in only_old):
-#            return new
-
-
-        only_old = old_data.keys() - new_data.keys()
-        only_new = new_data.keys() - old_data.keys()
-
-
-
-        if only_old:
-            if only_new:
-                print("Only new:", sorted(only_new), file=sys.stderr)
-
-            if not all(s.endswith("_non_reflexive") or s.endswith("_variant") for s in only_old) and not only_new:
-                print("Only old:", sorted(only_old), file=sys.stderr)
-                raise ValueError("old/new mismatch", title, template, len(old_items), len(new_items))
-
-        if only_new:
-            print("Only new:", sorted(only_new), file=sys.stderr)
-            raise ValueError("old/new mismatch", title, template, len(old_items), len(new_items))
-
-        mismatched = False
-        for k in new_data.keys():
-            if sorted(old_data[k]) != sorted(new_data[k]):
-                print(k, old_data[k], "!=", new_data[k], file=sys.stderr)
-                mismatched = True
-
-#        if mismatched:
-#            raise ValueError("old/new mismatch", title, template)
-
-    return new
-
-
 def remove_links(text):
     return re.sub(r"\[\[([^|\[]+[|])?([^|\[]+)]]", r"\2", text)
 
-def new_es_conj(t, title, database):
-    cache = Cache(database)
-
+def es_verb(t, title, database):
     # es-verb is aliased to this function, which is fine except
     # for a handful of pages (fazer) that still use the old-style
-    # es-verb paramaters.
+    # es-verb parameters.
     if any(p in t for p in ["pres","pret", "attn", "head"]):
         return ""
+
+    data = es_conj(t, title, database)
+
+    res = []
+    for kv in data.split("; "):
+        if re.match(r"^(pres_1s|pret_1s|pp_[mf][sp])=", kv):
+            res.append(kv)
+
+    return "; ".join(res)
+
+
+
+def es_conj(t, title, database):
+    cache = Cache(database)
 
     data = cache.get("es-conj", t, title)
     if not data:
