@@ -360,3 +360,5 @@ def test_demonym_noun():
 def test_p1_with_override():
     assert _expand("{{w|link|text}}") == 'text'
 
+def test_cached_obj():
+    assert _expand("{{+obj|es|:a<to>}}", "acudir") == '[+[[a#Spanish|a]] (to)]'

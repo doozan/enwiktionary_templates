@@ -52,6 +52,12 @@ class Template():
         if not data:
             return ""
 
+
+        '''[''with'' <b class="Latn" lang="es">[[a#Spanish|a]]</b> <small>‘to’</small>]'''
+
+        data = data.replace("''with'' ", "+")
+        data = data.replace("<small>‘", '(')
+        data = data.replace("’</small>", ')')
         return re.sub("<.*?>", "", data)
 
     @staticmethod
@@ -981,6 +987,10 @@ class Template():
     sense_lite = sense
 
     @staticmethod
+    def senseno(t, title):
+        return "sense '" + t[2] + "'"
+
+    @staticmethod
     def sic(t, title):
         return "(sic)"
 
@@ -1158,10 +1168,10 @@ ignore = {
     "rfm-sense",
     "rfquotek",
     "rfquote-sense",
+    "rfref",
     "rfv-sense",
     "root",
     "senseid",
-    "senseno",
     "slim-wikipedia",
     "t2i-Egyd",
     "tea room sense",
