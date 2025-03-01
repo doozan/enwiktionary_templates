@@ -1492,6 +1492,7 @@ replace_with = {
 handlers = {
     'U:es:false friend': Template.u_es_false_friend,
     "&lit": Template._and_lit,
+    "from": Template.mention,
 }
 
 
