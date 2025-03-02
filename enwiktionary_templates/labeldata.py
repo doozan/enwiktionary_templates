@@ -1,7 +1,7 @@
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 83982404)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 84028935)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 82739371)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 81637194)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 83992573)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 84031640)
 labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] [[slang]]', 'pos_categories': ['internet slang', '2channel slang']},
     '4chan': {'display': '[[w:4chan|4chan]]', 'pos_categories': '4chan slang'},
@@ -498,6 +498,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'dictation': {'display': '[[dictation]]', 'topical_categories': True},
     'differential geometry': {'display': '[[differential geometry]]', 'topical_categories': True},
     'diplomacy': {'display': '[[diplomacy]]', 'topical_categories': True},
+    'dis legomenon': {'display': '[[dis legomenon]]', 'pos_categories': 'dis legomena'},
     'disc golf': {'display': '[[disc golf]]', 'topical_categories': True},
     'disease': {'display': '[[pathology]]', 'topical_categories': 'Diseases'},
     'dismissal': {'display': '[[dismissal]]', 'pos_categories': 'dismissals'},
@@ -826,7 +827,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'mineral': {'display': '[[mineralogy]]', 'topical_categories': 'Minerals'},
     'mineralogy': {'display': '[[mineralogy]]', 'topical_categories': True},
     'mining': {'display': '[[mining#Noun|mining]]', 'topical_categories': True},
-    'misspelling': {'glossary': True},
+    'misspelling': {'display': '[[misspelling]]'},
     'mnemonic': {'display': '[[mnemonic]]', 'pos_categories': 'mnemonics'},
     'mobile phones': {'display': '[[mobile telephone|mobile telephony]]', 'topical_categories': True},
     'modal': {'Wikipedia': 'Modality (linguistics)'},
@@ -879,6 +880,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'nonstandard form': {'glossary': 'nonstandard', 'pos_categories': 'nonstandard forms'},
     'not comparable': {'glossary': 'uncomparable'},
     'now': {'omit_postComma': True},
+    'nuclear energy': {'display': '[[nuclear energy]]', 'topical_categories': True},
     'nuclear physics': {'display': '[[nuclear physics]]', 'topical_categories': True},
     'number theory': {'display': '[[number theory]]', 'topical_categories': True},
     'numismatics': {'display': '[[numismatics]]', 'topical_categories': 'Currency'},
