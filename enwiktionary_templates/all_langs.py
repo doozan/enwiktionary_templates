@@ -2804,6 +2804,7 @@ ALL_LANG_IDS = {
     "it": "Italian",
     "itb": "Binongan Itneg",
     "itc-pro": "Proto-Italic",
+    "itc-psa": "Pre-Samnite",
     "itd": "Southern Tidung",
     "ite": "Itene",
     "iti": "Inlaod Itneg",
@@ -4167,6 +4168,7 @@ ALL_LANG_IDS = {
     "miq": "Miskito",
     "mir": "Isthmus Mixe",
     "mis-hkl": "Kelantan Peranakan Hokkien",
+    "mis-idn": "Idiom Neutral",
     "mis-isa": "Isaurian",
     "mis-jie": "Jie",
     "mis-jzh": "Jizhao",
@@ -4175,11 +4177,14 @@ ALL_LANG_IDS = {
     "mis-mmn": "Mimi of Nachtigal",
     "mis-phi": "Philistine",
     "mis-rou": "Rouran",
+    "mis-tdl": "Turdulian",
+    "mis-tdt": "Turdetanian",
     "mis-tnw": "Tangwang",
     "mis-tuh": "Tuyuhun",
     "mis-tuo": "Tuoba",
     "mis-wuh": "Wuhuan",
     "mis-xbi": "Xianbei",
+    "mis-xnu": "Xiongnu",
     "mit": "Southern Puebla Mixtec",
     "miu": "Cacaloxtepec Mixtec",
     "miw": "Akoye",
@@ -5597,7 +5602,6 @@ ALL_LANG_IDS = {
     "poz-pro": "Proto-Malayo-Polynesian",
     "poz-sml": "Sarawak Malay",
     "poz-ssw-pro": "Proto-South Sulawesi",
-    "poz-sus-pro": "Proto-Sunda-Sulawesi",
     "poz-swa-pro": "Proto-North Sarawak",
     "poz-ter": "Terengganu Malay",
     "ppa": "Pao",
@@ -5837,9 +5841,11 @@ ALL_LANG_IDS = {
     "rnp": "Rongpo",
     "rnw": "Rungwa",
     "ro": "Romanian",
+    "roa-afr": "African Romance",
     "roa-ang": "Angevin",
     "roa-bbn": "Bourbonnais-Berrichon",
     "roa-brg": "Bourguignon",
+    "roa-can": "Cantabrian",
     "roa-cha": "Champenois",
     "roa-fcm": "Franc-Comtois",
     "roa-gal": "Gallo",
@@ -5847,9 +5853,9 @@ ALL_LANG_IDS = {
     "roa-gis": "Gallo-Italic of Sicily",
     "roa-leo": "Leonese",
     "roa-lor": "Lorrain",
-    "roa-oan": "Navarro-Aragonese",
     "roa-oca": "Old Catalan",
     "roa-ole": "Old Leonese",
+    "roa-ona": "Old Navarro-Aragonese",
     "roa-opt": "Old Galician-Portuguese",
     "roa-orl": "Orléanais",
     "roa-poi": "Poitevin-Saintongeais",
@@ -7459,6 +7465,7 @@ ALL_LANG_IDS = {
     "wor": "Woria",
     "wos": "Hanga Hundi",
     "wow": "Wawonii",
+    "woy": "Weyto",
     "wpc": "Wirö",
     "wra": "Warapu",
     "wrb": "Warluwara",
@@ -8307,6 +8314,7 @@ ALL_LANGS = {
     "Afghan Sign Language": "afg",
     "Afitti": "aft",
     "Afra": "ulf",
+    "African Romance": "roa-afr",
     "Afrihili": "afh",
     "Afrikaans": "af",
     "Afro-Seminole Creole": "afs",
@@ -9380,6 +9388,7 @@ ALL_LANGS = {
     "Candoshi-Shapra": "cbu",
     "Canela": "ram",
     "Canichana": "caz",
+    "Cantabrian": "roa-can",
     "Cantonese": "yue",
     "Cao Miao": "cov",
     "Caolan": "mlc",
@@ -10737,6 +10746,7 @@ ALL_LANGS = {
     "Idere": "ide",
     "Idesa": "ids",
     "Idi": "idi",
+    "Idiom Neutral": "mis-idn",
     "Ido": "io",
     "Idoma": "idu",
     "Idon": "idc",
@@ -13028,7 +13038,6 @@ ALL_LANGS = {
     "Nauo": "nwo",
     "Nauruan": "na",
     "Navajo": "nv",
-    "Navarro-Aragonese": "roa-oan",
     "Navut": "nsw",
     "Nawaru": "nwr",
     "Nawathinehena": "nwa",
@@ -13555,6 +13564,7 @@ ALL_LANGS = {
     "Old Marathi": "omr",
     "Old Median": "xme-old",
     "Old Mon": "omx",
+    "Old Navarro-Aragonese": "roa-ona",
     "Old Norse": "non",
     "Old Novgorodian": "zle-ono",
     "Old Nubian": "onw",
@@ -13955,6 +13965,7 @@ ALL_LANGS = {
     "Poyanáwa": "pyn",
     "Prakrit": "pra",
     "Prasuni": "prn",
+    "Pre-Samnite": "itc-psa",
     "Primitive Irish": "pgl",
     "Principense": "pre",
     "Proto-Abkhaz-Abaza": "cau-abz-pro",
@@ -14204,7 +14215,6 @@ ALL_LANGS = {
     "Proto-South Sulawesi": "poz-ssw-pro",
     "Proto-Southern Jê": "sai-sje-pro",
     "Proto-Southwestern Tai": "tai-swe-pro",
-    "Proto-Sunda-Sulawesi": "poz-sus-pro",
     "Proto-Ta-Arawak": "awd-taa-pro",
     "Proto-Tai": "tai-pro",
     "Proto-Takic": "azc-tak-pro",
@@ -15646,6 +15656,8 @@ ALL_LANGS = {
     "Tupinikin": "tpk",
     "Tupuri": "tui",
     "Turaka": "trh",
+    "Turdetanian": "mis-tdt",
+    "Turdulian": "mis-tdl",
     "Turi": "trd",
     "Turiwára": "twt",
     "Turka": "tuz",
@@ -16086,6 +16098,7 @@ ALL_LANGS = {
     "Western Yugur": "ybe",
     "Wewaw": "wea",
     "Weyewa": "wew",
+    "Weyto": "woy",
     "White Gelao": "giw",
     "White Hmong": "mww",
     "White Lachi": "lwh",
@@ -16177,6 +16190,7 @@ ALL_LANGS = {
     "Xicotepec de Juárez Totonac": "too",
     "Xinca": "xin",
     "Xingú Asuriní": "asn",
+    "Xiongnu": "mis-xnu",
     "Xipaya": "xiy",
     "Xiri": "xii",
     "Xiriâna": "xir",
@@ -16659,6 +16673,15 @@ ALT_LANGS = {
     ],
     "Afghani": [
         "Pashto"
+    ],
+    "African Latin": [
+        "African Romance"
+    ],
+    "Afro-Romance": [
+        "African Romance"
+    ],
+    "Afroromance": [
+        "African Romance"
     ],
     "Aga Bereho": [
         "Bariji"
@@ -19158,6 +19181,9 @@ ALT_LANGS = {
     "Callawalla": [
         "Kallawaya"
     ],
+    "Calão": [
+        "Caló"
+    ],
     "Camaracoto": [
         "Pemon"
     ],
@@ -21301,6 +21327,9 @@ ALT_LANGS = {
     "Gala": [
         "Lega-Shabunda"
     ],
+    "Galaic-Portuguese": [
+        "Old Galician-Portuguese"
+    ],
     "Galgadungu": [
         "Kalkatungu"
     ],
@@ -21320,6 +21349,9 @@ ALT_LANGS = {
         "Old Galician-Portuguese"
     ],
     "Galician-Portuguese": [
+        "Old Galician-Portuguese"
+    ],
+    "Galician–Portuguese": [
         "Old Galician-Portuguese"
     ],
     "Gallinas": [
@@ -22279,6 +22311,9 @@ ALT_LANGS = {
     "Hinux": [
         "Hinukh"
     ],
+    "Hiong-nu": [
+        "Xiongnu"
+    ],
     "Hiupiá": [
         "Yupua"
     ],
@@ -22386,6 +22421,9 @@ ALT_LANGS = {
     ],
     "Hre": [
         "Hrê"
+    ],
+    "Hsiung-nu": [
+        "Xiongnu"
     ],
     "Hua": [
         "Yagaria"
@@ -25353,6 +25391,9 @@ ALT_LANGS = {
     "Lushei": [
         "Mizo"
     ],
+    "Lusitano-Romani": [
+        "Caló"
+    ],
     "Lusoga": [
         "Soga"
     ],
@@ -26184,11 +26225,32 @@ ALT_LANGS = {
     "Mediak": [
         "Okiek"
     ],
+    "Medieval Aragonese": [
+        "Old Navarro-Aragonese"
+    ],
+    "Medieval Catalan": [
+        "Old Catalan"
+    ],
     "Medieval English": [
         "Middle English"
     ],
     "Medieval Galician": [
         "Old Galician-Portuguese"
+    ],
+    "Medieval Galician Portuguese": [
+        "Old Galician-Portuguese"
+    ],
+    "Medieval Galician-Portuguese": [
+        "Old Galician-Portuguese"
+    ],
+    "Medieval Galician–Portuguese": [
+        "Old Galician-Portuguese"
+    ],
+    "Medieval Leonese": [
+        "Old Leonese"
+    ],
+    "Medieval Navarro-Aragonese": [
+        "Old Navarro-Aragonese"
     ],
     "Medieval Portuguese": [
         "Old Galician-Portuguese"
@@ -27143,6 +27205,9 @@ ALT_LANGS = {
     "Navaho": [
         "Navajo"
     ],
+    "Navarro-Aragonese": [
+        "Old Navarro-Aragonese"
+    ],
     "Nawa Sherpa": [
         "Naaba"
     ],
@@ -27926,7 +27991,7 @@ ALT_LANGS = {
         "Okpe (Northwestern Edo)"
     ],
     "Old Aragonese": [
-        "Navarro-Aragonese"
+        "Old Navarro-Aragonese"
     ],
     "Old Azeri": [
         "Old Tati"
@@ -27941,6 +28006,12 @@ ALT_LANGS = {
         "Old Church Slavonic"
     ],
     "Old Galician": [
+        "Old Galician-Portuguese"
+    ],
+    "Old Galician Portuguese": [
+        "Old Galician-Portuguese"
+    ],
+    "Old Galician–Portuguese": [
         "Old Galician-Portuguese"
     ],
     "Old Gotlandic": [
@@ -29598,6 +29669,9 @@ ALT_LANGS = {
     ],
     "Rutooro": [
         "Tooro"
+    ],
+    "Rutulian": [
+        "Rutul"
     ],
     "Ruund": [
         "Ruwund"
@@ -31858,6 +31932,12 @@ ALT_LANGS = {
     "Tupiniquim": [
         "Tupinikin"
     ],
+    "Turdetani": [
+        "Turdetanian"
+    ],
+    "Turduli": [
+        "Turdulian"
+    ],
     "Turfanian": [
         "Tocharian A"
     ],
@@ -32555,6 +32635,9 @@ ALT_LANGS = {
     ],
     "Wayilwan": [
         "Ngiyambaa"
+    ],
+    "Wayto": [
+        "Weyto"
     ],
     "Wayumará": [
         "Wayumara"
@@ -33670,6 +33753,9 @@ ALT_LANGS = {
     ],
     "Zinacantán": [
         "Sinacantán"
+    ],
+    "Zincaló": [
+        "Caló"
     ],
     "Zinjero": [
         "Yemsa"
