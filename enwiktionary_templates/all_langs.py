@@ -318,7 +318,7 @@ ALL_LANG_IDS = {
     "aoi": "Anindilyakwa",
     "aoj": "Mufian",
     "aok": "Arhö",
-    "aol": "Alor",
+    "aol": "Alorese",
     "aom": "Ömie",
     "aon": "Bumbita Arapesh",
     "aor": "Aore",
@@ -7831,7 +7831,7 @@ ALL_LANG_IDS = {
     "xyt": "Mayi-Thakurti",
     "xyy": "Yorta Yorta",
     "xzh": "Zhang-Zhung",
-    "xzm": "Zemgalian",
+    "xzm": "Semigallian",
     "xzp": "Ancient Zapotec",
     "yaa": "Yaminahua",
     "yab": "Yuhup",
@@ -8427,7 +8427,7 @@ ALL_LANGS = {
     "Allentiac": "sai-all",
     "Alngith": "aid",
     "Alo Phola": "ypo",
-    "Alor": "aol",
+    "Alorese": "aol",
     "Aloápam Zapotec": "zaq",
     "Alsea": "aes",
     "Alu": "mte",
@@ -14694,6 +14694,7 @@ ALL_LANGS = {
     "Semaq Beri": "szc",
     "Sembakung Murut": "sbr",
     "Semelai": "sza",
+    "Semigallian": "xzm",
     "Semimi": "etz",
     "Semnam": "ssm",
     "Semnani": "smy",
@@ -16427,7 +16428,6 @@ ALL_LANGS = {
     "Zeem": "zua",
     "Zemba": "dhm",
     "Zeme Naga": "nzm",
-    "Zemgalian": "xzm",
     "Zenag": "zeg",
     "Zenaga": "zen",
     "Zenzontepec Chatino": "czn",
@@ -16959,8 +16959,8 @@ ALT_LANGS = {
     "Alngula": [
         "Alungul"
     ],
-    "Alorese": [
-        "Alor"
+    "Alor": [
+        "Alorese"
     ],
     "Alseya": [
         "Alsea"
@@ -30114,10 +30114,7 @@ ALT_LANGS = {
         "Andoa"
     ],
     "Semigalian": [
-        "Zemgalian"
-    ],
-    "Semigallian": [
-        "Zemgalian"
+        "Semigallian"
     ],
     "Sennonais": [
         "Champenois"
@@ -33726,6 +33723,12 @@ ALT_LANGS = {
     ],
     "Zefrehi": [
         "Kermanic"
+    ],
+    "Zemgalian": [
+        "Semigallian"
+    ],
+    "Zemgallian": [
+        "Semigallian"
     ],
     "Zend": [
         "Avestan"
