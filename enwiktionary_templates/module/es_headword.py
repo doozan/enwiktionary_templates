@@ -550,7 +550,7 @@ def do_noun(pagename, args, data, tracking_categories=[]):
             pl_args.insert(0, args.get("2"))
 
         for pl in pl_args:
-            if pl == "+":
+            if pl == "+" or pl == "++":
                 plurals += make_plural(lemma)
             elif pl == "#":
                 plurals.append(lemma)
