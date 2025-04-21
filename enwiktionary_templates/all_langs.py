@@ -5391,7 +5391,7 @@ ALL_LANG_IDS = {
     "pbr": "Pangwa",
     "pbs": "Central Pame",
     "pbv": "Pnar",
-    "pby": "Pyu",
+    "pby": "Pyu (New Guinea)",
     "pca": "Santa Inés Ahuatempan Popoloca",
     "pcb": "Pear",
     "pcc": "Bouyei",
@@ -14316,8 +14316,8 @@ ALL_LANGS = {
     "Pyemmairre": "xpb",
     "Pyen": "pyy",
     "Pykobjê": "sai-pyk",
-    "Pyu": "pby",
     "Pyu (Myanmar)": "pyx",
+    "Pyu (New Guinea)": "pby",
     "Páez": "pbb",
     "Pááfang": "pfa",
     "Päri": "lkr",
@@ -28334,7 +28334,7 @@ ALT_LANGS = {
         "Torres Strait Creole"
     ],
     "Papuan Pyu": [
-        "Pyu"
+        "Pyu (New Guinea)"
     ],
     "Paraene": [
         "Yavitero"
@@ -29137,14 +29137,8 @@ ALT_LANGS = {
     "Pykobjê-Gavião": [
         "Pykobjê"
     ],
-    "Pyu": [
-        "Pyu (Myanmar)"
-    ],
-    "Pyu (New Guinea)": [
-        "Pyu"
-    ],
     "Pyu (Papua New Guinea)": [
-        "Pyu"
+        "Pyu (New Guinea)"
     ],
     "Pöjulu": [
         "Bari"
@@ -31412,6 +31406,9 @@ ALT_LANGS = {
     ],
     "Tipay": [
         "Tipai"
+    ],
+    "Tircul": [
+        "Pyu (Myanmar)"
     ],
     "Tiri": [
         "Tîrî"
