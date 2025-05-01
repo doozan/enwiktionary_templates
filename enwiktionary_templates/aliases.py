@@ -24,7 +24,6 @@ ALIASES = {
     "Underline": "underline",
     "User:Catonif/RQ:mxi:Kharja": "RQ:mxi:Kharja",
     "User:Zff19930930/R:DSL-test": "R:MED Online-test",
-    "User:Zff19930930/R:MED Online-test": "R:MED Online-test",
     "VDEWb": "R:VDEWb",
     "VDSchaar": "R:VDSchaar",
     "Van der Schaar": "R:VDSchaar",
