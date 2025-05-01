@@ -1963,7 +1963,9 @@ ALL_LANG_IDS = {
     "erh": "Eruwa",
     "eri": "Ogea",
     "erk": "South Efate",
-    "ero": "Horpa",
+    "ero-gsz": "Geshiza",
+    "ero-nya": "Nyagrong Minyag",
+    "ero-tau": "Stau",
     "err": "Erre",
     "ers": "Ersu",
     "ert": "Eritai",
@@ -2722,7 +2724,7 @@ ALL_LANG_IDS = {
     "inc-ash": "Ashokan Prakrit",
     "inc-kam": "Kamarupi Prakrit",
     "inc-kho": "Kholosi",
-    "inc-krn-pro": "Proto-Kamta",
+    "inc-krd-pro": "Proto-Kamta",
     "inc-mas": "Middle Assamese",
     "inc-mbn": "Middle Bengali",
     "inc-mgu": "Middle Gujarati",
@@ -10356,6 +10358,7 @@ ALL_LANGS = {
     "German Sign Language": "gsg",
     "Geruma": "gea",
     "Geser-Gorom": "ges",
+    "Geshiza": "ero-gsz",
     "Gey": "guv",
     "Ghadames": "gha",
     "Ghanaian Sign Language": "gse",
@@ -10671,7 +10674,6 @@ ALL_LANGS = {
     "Horned Miao": "hrm",
     "Horo": "hor",
     "Horom": "hoe",
-    "Horpa": "ero",
     "Hote": "hot",
     "Hoti": "hti",
     "Hovongan": "hov",
@@ -13430,6 +13432,7 @@ ALL_LANGS = {
     "Nusu": "nuf",
     "Nutabe": "cba-nut",
     "Nyabwa": "nwb",
+    "Nyagrong Minyag": "ero-nya",
     "Nyah Kur": "cbn",
     "Nyaheun": "nev",
     "Nyakyusa": "nyy",
@@ -14089,7 +14092,7 @@ ALL_LANGS = {
     "Proto-Kalapuyan": "nai-klp-pro",
     "Proto-Kam-Sui": "qfa-kms-pro",
     "Proto-Kampa": "awd-kmp-pro",
-    "Proto-Kamta": "inc-krn-pro",
+    "Proto-Kamta": "inc-krd-pro",
     "Proto-Karen": "kar-pro",
     "Proto-Kartvelian": "ccs-pro",
     "Proto-Katuic": "mkh-kat-pro",
@@ -15064,6 +15067,7 @@ ALL_LANGS = {
     "Sranan Tongo": "srn",
     "Sri Lankan Creole Malay": "sci",
     "Sri Lankan Sign Language": "sqs",
+    "Stau": "ero-tau",
     "Stod Bhoti": "sbu",
     "Stoney": "sto",
     "Suabo": "szp",
@@ -18230,9 +18234,6 @@ ALT_LANGS = {
     "Bautahari": [
         "Bathari"
     ],
-    "Bawang": [
-        "Horpa"
-    ],
     "Bawm": [
         "Bawm Chin"
     ],
@@ -18753,9 +18754,6 @@ ALT_LANGS = {
     ],
     "Booroo-geen-merrie": [
         "Guwar"
-    ],
-    "Bopa": [
-        "Horpa"
     ],
     "Boriwen": [
         "Laven"
@@ -20266,9 +20264,6 @@ ALT_LANGS = {
     "Danal": [
         "Dangaléat"
     ],
-    "Danba": [
-        "Horpa"
-    ],
     "Dandan": [
         "Tulua"
     ],
@@ -20304,9 +20299,6 @@ ALT_LANGS = {
     ],
     "Danwar": [
         "Danuwar"
-    ],
-    "Daofuhua": [
-        "Horpa"
     ],
     "Daphla": [
         "Nyishi"
@@ -20352,9 +20344,6 @@ ALT_LANGS = {
     ],
     "Dawson": [
         "Hän"
-    ],
-    "Dawu": [
-        "Horpa"
     ],
     "Dayi": [
         "Dhuwal"
@@ -20968,9 +20957,6 @@ ALT_LANGS = {
     "Eranadan": [
         "Aranadan"
     ],
-    "Ergong": [
-        "Horpa"
-    ],
     "Erhsu": [
         "Ersu"
     ],
@@ -21509,15 +21495,6 @@ ALT_LANGS = {
     ],
     "Geral": [
         "Nheengatu"
-    ],
-    "Geshitsa": [
-        "Horpa"
-    ],
-    "Geshiza": [
-        "Horpa"
-    ],
-    "Geshizahua": [
-        "Horpa"
     ],
     "Ghadamès": [
         "Ghadames"
@@ -22329,9 +22306,6 @@ ALT_LANGS = {
     "Hop": [
         "Austronesian Mari"
     ],
-    "Hor": [
-        "Horpa"
-    ],
     "Hora": [
         "Jorá"
     ],
@@ -22424,9 +22398,6 @@ ALT_LANGS = {
     "Hunnish": [
         "Hunnic"
     ],
-    "Huo'er": [
-        "Horpa"
-    ],
     "Hutterite German": [
         "Hutterisch"
     ],
@@ -22441,9 +22412,6 @@ ALT_LANGS = {
     ],
     "Hän-Kutchin": [
         "Hän"
-    ],
-    "Hórsók": [
-        "Horpa"
     ],
     "Hõne": [
         "Hone"
@@ -22762,6 +22730,9 @@ ALT_LANGS = {
     ],
     "Iñupiaq": [
         "Inupiaq"
+    ],
+    "JSL": [
+        "Japanese Sign Language"
     ],
     "Jabal Razih": [
         "Razihi"
@@ -27615,9 +27586,6 @@ ALT_LANGS = {
     "Nxaamxcin": [
         "Columbia-Wenatchi"
     ],
-    "Nyagrong-Minyag": [
-        "Horpa"
-    ],
     "Nyahkur": [
         "Nyah Kur"
     ],
@@ -28452,9 +28420,6 @@ ALT_LANGS = {
     "Paviotso": [
         "Northern Paiute"
     ],
-    "Pawang": [
-        "Horpa"
-    ],
     "Payagua": [
         "Payaguá"
     ],
@@ -28728,12 +28693,6 @@ ALT_LANGS = {
     ],
     "Primitive Norse": [
         "Proto-Norse"
-    ],
-    "Proto Kamata": [
-        "Proto-Kamta"
-    ],
-    "Proto Kamta": [
-        "Proto-Kamta"
     ],
     "Proto-Abazgi": [
         "Proto-Abkhaz-Abaza"
@@ -29307,9 +29266,6 @@ ALT_LANGS = {
     "Reta": [
         "Retta"
     ],
-    "Rgu": [
-        "Horpa"
-    ],
     "Rgyalrong": [
         "Situ",
         "Tshobdun",
@@ -29394,7 +29350,7 @@ ALT_LANGS = {
         "Norman"
     ],
     "Rtau": [
-        "Horpa"
+        "Stau"
     ],
     "Ruan-ruan": [
         "Rouran"
@@ -30644,9 +30600,6 @@ ALT_LANGS = {
     ],
     "Standard Moroccan Tamazight": [
         "Moroccan Amazigh"
-    ],
-    "Stau": [
-        "Horpa"
     ],
     "Suaro": [
         "Maia"
@@ -32455,9 +32408,6 @@ ALT_LANGS = {
     "Western Frisian": [
         "West Frisian"
     ],
-    "Western Gyarong": [
-        "Horpa"
-    ],
     "Western Ibibio": [
         "Anaang"
     ],
@@ -32469,9 +32419,6 @@ ALT_LANGS = {
     ],
     "Western Jacalteco": [
         "Jakaltek"
-    ],
-    "Western Jiarong": [
-        "Horpa"
     ],
     "Western Kanjobal": [
         "Akatek"
@@ -32511,9 +32458,6 @@ ALT_LANGS = {
     ],
     "Western Tlacolula Zapotec": [
         "San Juan Guelavía Zapotec"
-    ],
-    "Western rGyalrong": [
-        "Horpa"
     ],
     "Westron": [
         "Adûni"
@@ -32878,9 +32822,6 @@ ALT_LANGS = {
     ],
     "Xinghua": [
         "Puxian Min"
-    ],
-    "Xinlong-Muya": [
-        "Horpa"
     ],
     "Xipaia": [
         "Xipaya"
@@ -33560,9 +33501,6 @@ ALT_LANGS = {
     ],
     "rGyarong": [
         "Situ"
-    ],
-    "rTau": [
-        "Horpa"
     ],
     "us-Saare": [
         "Saare"
