@@ -1,7 +1,7 @@
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 84696763)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 84722133)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 82739371)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 81637194)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 84684148)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 84744876)
 labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] [[slang]]', 'pos_categories': ['internet slang', '2channel slang']},
     '4chan': {'display': '[[w:4chan|4chan]] slang', 'pos_categories': '4chan slang'},
@@ -454,6 +454,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'conspiracy theories': {'display': '[[conspiracy theory#Noun|conspiracy theories]]', 'topical_categories': True},
     'constellation': {'display': '[[astronomy]]', 'topical_categories': 'Constellations'},
     'construction': {'display': '[[construction]]', 'topical_categories': True},
+    'control theory': {'display': '[[control theory]]', 'topical_categories': True},
     'control verb': {'Wikipedia': True, 'pos_categories': 'control verbs'},
     'cooking': {'display': '[[cooking#Noun|cooking]]', 'topical_categories': True},
     'cookware': {'display': '[[cooking#Noun|cooking]]', 'topical_categories': 'Cookware and bakeware'},
@@ -948,6 +949,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'paleontology': {'display': '[[paleontology]]', 'topical_categories': True},
     'palmistry': {'display': '[[palmistry]]', 'topical_categories': True},
     'palynology': {'display': '[[palynology]]', 'topical_categories': True},
+    'papermaking': {'display': '[[papermaking]]', 'topical_categories': True},
     'paraphilia': {'display': '[[paraphilia#Noun|paraphilia]]', 'topical_categories': 'Paraphilias'},
     'parapsychology': {'display': '[[parapsychology]]', 'topical_categories': True},
     'parasitology': {'display': '[[parasitology]]', 'topical_categories': True},
@@ -994,7 +996,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'poison': {'display': '[[toxicology]]', 'topical_categories': 'Poisons'},
     'poker': {'display': '[[poker]]', 'topical_categories': True},
     'poker slang': {'display': '[[poker]] [[slang]]', 'topical_categories': 'Poker'},
-    'polite': {'pos_categories': 'polite terms'},
+    'polite': {'glossary': True, 'pos_categories': 'polite terms'},
     'political science': {'display': '[[political science]]', 'topical_categories': True},
     'political subdivision': {'display': '[[government]]', 'topical_categories': 'Political subdivisions'},
     'politics': {'display': '[[politics]]', 'topical_categories': True},
@@ -1656,6 +1658,7 @@ aliases =  {   '&': 'and',
     'costermongers back slang': 'costermongers',
     "costermongers' back slang": 'costermongers',
     'costers': 'costermongers',
+    'crocheting': 'crochet',
     'crossword puzzles': 'crosswording',
     'crosswords': 'crosswording',
     'crown green bowls': 'bowls',
