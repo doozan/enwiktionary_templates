@@ -1,7 +1,7 @@
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 84722133)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 84989361)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 82739371)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 81637194)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 84744876)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 84994184)
 labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] [[slang]]', 'pos_categories': ['internet slang', '2channel slang']},
     '4chan': {'display': '[[w:4chan|4chan]] slang', 'pos_categories': '4chan slang'},
@@ -726,7 +726,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'in the singular': {'display': 'in the [[singular]]'},
     'inanimate': {'glossary': True},
     'incel slang': {'display': '[[incel]] [[slang]]', 'pos_categories': True},
-    'inchoative': {'pos_categories': 'inchoative verbs'},
+    'inchoative': {'glossary': True, 'pos_categories': 'inchoative verbs'},
     'including': {'omit_postComma': True},
     'incoterm': {'display': '[[Incoterm]]', 'topical_categories': 'Incoterms'},
     'indefinite': {'glossary': True},
@@ -967,6 +967,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'percussion instruments': {'display': '[[music]]', 'topical_categories': True},
     'perfect': {'glossary': True},
     'perfective': {'glossary': True, 'pos_categories': 'perfective verbs'},
+    'perfumery': {'display': '[[perfumery]]', 'topical_categories': True},
     'pesäpallo': {'display': '[[pesäpallo]]', 'topical_categories': True},
     'petrochemistry': {'display': '[[petrochemistry]]', 'topical_categories': True},
     'petrology': {'display': '[[petrology]]', 'topical_categories': True},
@@ -1004,8 +1005,9 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'possessional adjective': {'display': 'possessional', 'glossary': True, 'pos_categories': 'possessional adjectives'},
     'possessive pronoun': {'display': 'possessive', 'glossary': 'possessive determiner', 'pos_categories': 'possessive pronouns'},
     'possibly': {'omit_postComma': True},
-    'post': {'display': '[[post#Etymology 2|post]]', 'topical_categories': True},
+    'post': {'display': '[[postal]]', 'topical_categories': True},
     'post-classical': {'display': 'post-Classical', 'regional_categories': True},
+    'postal abbreviation': {'display': '[[postal]]', 'topical_categories': 'Postal abbreviations'},
     'postpositive': {'glossary': True},
     'potential theory': {'display': '[[potential theory]]', 'topical_categories': True},
     'pottery': {'display': '[[pottery]]', 'topical_categories': 'Ceramics'},
@@ -1925,6 +1927,8 @@ aliases =  {   '&': 'and',
     'possessive determiner': 'possessive pronoun',
     'post-Classical': 'post-classical',
     'postal': 'Postal Romanization',
+    'postal abbr': 'postal abbreviation',
+    'postal abbrev': 'postal abbreviation',
     'postal romanization': 'Postal Romanization',
     'postclassical': 'post-classical',
     'pre-Classical': 'pre-classical',
