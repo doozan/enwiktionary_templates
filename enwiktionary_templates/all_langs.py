@@ -6607,6 +6607,7 @@ ALL_LANG_IDS = {
     "tbp": "Taworta",
     "tbq-bdg-pro": "Proto-Bodo-Garo",
     "tbq-blg": "Bailang",
+    "tbq-brm-pro": "Proto-Burmish",
     "tbq-gkh": "Gokhy",
     "tbq-kuk-pro": "Proto-Kuki-Chin",
     "tbq-lal-pro": "Proto-Lalo",
@@ -7585,6 +7586,7 @@ ALL_LANG_IDS = {
     "xdc": "Dacian",
     "xdk": "Dharug",
     "xdm": "Edomite",
+    "xdq": "Kaitag",
     "xdy": "Malayic Dayak",
     "xeb": "Eblaite",
     "xed": "Hdi",
@@ -11079,6 +11081,7 @@ ALL_LANGS = {
     "Kairiru": "kxa",
     "Kairui-Midiki": "krd",
     "Kais": "kzm",
+    "Kaitag": "xdq",
     "Kaivi": "kce",
     "Kaiwá": "kgk",
     "Kaiy": "tcq",
@@ -14016,6 +14019,7 @@ ALL_LANGS = {
     "Proto-Brythonic": "cel-bry-pro",
     "Proto-Bua": "alv-bua-pro",
     "Proto-Bungku-Tolaki": "poz-btk-pro",
+    "Proto-Burmish": "tbq-brm-pro",
     "Proto-Caddoan": "cdd-pro",
     "Proto-Cangin": "alv-cng-pro",
     "Proto-Cariban": "sai-car-pro",
@@ -23209,6 +23213,9 @@ ALT_LANGS = {
     "Kaibu": [
         "Fasu"
     ],
+    "Kaidak": [
+        "Kaitag"
+    ],
     "Kaipu": [
         "Fasu"
     ],
@@ -23220,6 +23227,9 @@ ALT_LANGS = {
     ],
     "Kajkwakhrattxi": [
         "Tapayuna"
+    ],
+    "Kajtak": [
+        "Kaitag"
     ],
     "Kaka": [
         "Cacán"
@@ -23467,6 +23477,9 @@ ALT_LANGS = {
     "Karak": [
         "Gaya"
     ],
+    "Karakaitak": [
+        "Kaitag"
+    ],
     "Karang": [
         "Ngas"
     ],
@@ -23535,6 +23548,9 @@ ALT_LANGS = {
     ],
     "Karirí": [
         "Kariri"
+    ],
+    "Karkaidak": [
+        "Kaitag"
     ],
     "Karkar": [
         "Karkar-Yuri"
@@ -23644,6 +23660,9 @@ ALT_LANGS = {
     ],
     "Kayová": [
         "Mbyá Guaraní"
+    ],
+    "Kaytak": [
+        "Kaitag"
     ],
     "Kazhuo": [
         "Katso"
