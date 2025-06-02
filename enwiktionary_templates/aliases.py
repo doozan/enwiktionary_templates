@@ -10,7 +10,6 @@ ALIASES = {
     "EtymOnLine": "R:Online Etymology Dictionary",
     "Harrison et al. 1984": "R:Harrison et al. 1984",
     "JLect": "R:JLect",
-    "Koenen": "R:Koenen",
     "L": "link",
     "Mallinckrodt": "R:Mallinckrodt",
     "Molina1555": "R:es:Molina1555",
