@@ -19431,6 +19431,9 @@ ALT_LANGS = {
     "Central Adriatic": [
         "South Picene"
     ],
+    "Central Alaskan Yup'ik": [
+        "Yup'ik"
+    ],
     "Central Ambon": [
         "Laha (Indonesia)"
     ],
@@ -19499,6 +19502,9 @@ ALT_LANGS = {
     ],
     "Central Waicá": [
         "Yanomam"
+    ],
+    "Central Yupik": [
+        "Yup'ik"
     ],
     "Central-Waika": [
         "Yanomam"
@@ -33282,6 +33288,9 @@ ALT_LANGS = {
     ],
     "Yugh": [
         "Yug"
+    ],
+    "Yugtun": [
+        "Yup'ik"
     ],
     "Yukuna": [
         "Yucuna"
