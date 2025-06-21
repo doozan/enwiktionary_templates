@@ -1,7 +1,7 @@
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 84989361)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 85197963)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 82739371)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 81637194)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 84994184)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 85109605)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 85200113)
 labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] [[slang]]', 'pos_categories': ['internet slang', '2channel slang']},
     '4chan': {'display': '[[w:4chan|4chan]] slang', 'pos_categories': '4chan slang'},
@@ -203,6 +203,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'Shinto': {'display': '[[Shinto]]', 'topical_categories': True},
     'Sikhism': {'display': '[[Sikhism]]', 'topical_categories': True},
     'Silesia': {'Wikipedia': True, 'langs': ['de', 'pl']},
+    'Singaporean politics': {'Wikipedia': 'Politics of the Singaporean', 'display': '[[w:Politics of Singapore|Singaporean politics]]', 'topical_categories': True},
     'Slavic god': {'display': '[[Slavic]] [[mythology]]', 'topical_categories': 'Slavic deities'},
     'Slavic mythology': {'display': '[[Slavic]] [[mythology]]', 'topical_categories': True},
     'South Africa': {'Wikipedia': True, 'langs': ['af', 'nl', 'st', 'te', 'yi', 'zu'], 'regional_categories': 'South African'},
@@ -531,7 +532,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'drag slang': {'display': '[[drag]] [[slang]]', 'pos_categories': 'drag slang'},
     'drama': {'display': '[[drama]]', 'topical_categories': True},
     'dressage': {'display': '[[dressage]]', 'topical_categories': True},
-    'dysphemistic': {'glossary': True, 'pos_categories': 'dysphemisms'},
+    'dysphemistic': {'glossary': 'dysphemism', 'pos_categories': 'dysphemisms'},
     'earth science': {'display': '[[earth science]]', 'topical_categories': 'Earth sciences'},
     'eating disorders': {'display': '[[eating disorder]]s', 'topical_categories': True},
     'ecclesiastical': {'display': '[[ecclesiastical]]', 'topical_categories': 'Christianity'},
@@ -955,7 +956,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'parasitology': {'display': '[[parasitology]]', 'topical_categories': True},
     'part of speech': {'display': '[[grammar]]', 'topical_categories': 'Parts of speech'},
     'participle': {'glossary': True},
-    'particle': {'display': '[[physics]]', 'topical_categories': 'Subatomic particles'},
+    'particle': {'display': '[[particle physics]]', 'topical_categories': 'Subatomic particles'},
     'particle physics': {'display': '[[particle physics]]', 'topical_categories': True},
     'particularly': {'omit_postComma': True},
     'partitive verb': {'display': '[[Appendix:Glossary#transitive|transitive]], usually [[Appendix:Finnic telic and atelic verbs|atelic]]', 'pos_categories': 'transitive verbs'},
@@ -1960,6 +1961,7 @@ aliases =  {   '&': 'and',
     'real estate law': 'property law',
     'regal': 'royal',
     'regex': 'regular expressions',
+    'regionally': 'regional',
     'roads': 'road transport',
     'rock climbing': 'climbing',
     'rocketry': 'astronautics',
