@@ -1,7 +1,7 @@
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 85197963)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 82739371)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 85109605)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 85200113)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 85224158)
 labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] [[slang]]', 'pos_categories': ['internet slang', '2channel slang']},
     '4chan': {'display': '[[w:4chan|4chan]] slang', 'pos_categories': '4chan slang'},
@@ -75,7 +75,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'Durban': {'Wikipedia': True, 'langs': {}, 'regional_categories': True},
     'E number': {'display': '[[food]] [[manufacture]]', 'plain_categories': 'European food additive numbers'},
     'EU politics': {'Wikipedia': 'Politics of the European Union', 'display': '[[w:Politics of the European Union|EU politics]]', 'topical_categories': True},
-    'Eastern Catholicism': {'Wikipedia': True, 'display': '[[w:Eastern Catholicism]]', 'topical_categories': True},
+    'Eastern Catholicism': {'Wikipedia': True, 'display': '[[Eastern Catholicism]]', 'topical_categories': True},
     'Eastern Orthodoxy': {'display': '[[Eastern Orthodoxy]]', 'topical_categories': True},
     'Egyptian god': {'display': '[[Egyptian]] [[mythology]]', 'topical_categories': 'Egyptian deities'},
     'Egyptian mythology': {'display': '[[Egyptian]] [[mythology]]', 'topical_categories': True},
