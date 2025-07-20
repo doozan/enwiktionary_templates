@@ -801,6 +801,7 @@ class Template():
         return " ".join(res)
     langname_mention = mention
     m_lite = mention
+    m_ = mention
 
     @staticmethod
     def mention_gloss(t, title):
@@ -874,6 +875,10 @@ class Template():
     @staticmethod
     def only_used_in(t, title):
         return f'Only used in "{t[2]}"'
+
+    @staticmethod
+    def orthography(t, title):
+        return f"<{t[1]}>"
 
     @staticmethod
     def orthorgraphic_borrowing(t, title):
@@ -955,6 +960,7 @@ class Template():
     tt = t
     tt_ = t
     t_simple = t
+    t_ = t
 
     @staticmethod
     def t_check(t, title):
@@ -1567,7 +1573,7 @@ def get_handler(name, template, transclude_senses):
     if name in form_of_alt:
         return lambda t, title: Template._form_of(t, title, form_of_alt[name])
 
-    if name == "transclude":
+    if name in ["transclude", "tcl"]:
         return lambda t, title, cache: __transclude(template, t, title, cache, transclude_senses)
 
     if name in handlers:
