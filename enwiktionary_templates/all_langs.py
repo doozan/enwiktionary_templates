@@ -2556,7 +2556,7 @@ ALL_LANG_IDS = {
     "hoe": "Horom",
     "hoh": "Hobyót",
     "hoi": "Holikachuk",
-    "hoj": "Hadothi",
+    "hoj": "Hadoti",
     "hol": "Holu",
     "hom": "Homa",
     "hoo": "Holoholo",
@@ -6928,6 +6928,7 @@ ALL_LANG_IDS = {
     "tri": "Trió",
     "trj": "Toram",
     "trk-dkh": "Dukhan",
+    "trk-eog": "Early Old Oghuz",
     "trk-oat": "Old Anatolian Turkish",
     "trk-pro": "Proto-Turkic",
     "trl": "Traveller Scottish",
@@ -9984,6 +9985,7 @@ ALL_LANGS = {
     "E'ma Buyang": "yzg",
     "Early Assamese": "inc-oas",
     "Early Modern Korean": "ko-ear",
+    "Early Old Oghuz": "trk-eog",
     "Early Tripuri": "xtr",
     "East Central German": "gmw-ecg",
     "East Damar": "dmr",
@@ -10550,7 +10552,7 @@ ALL_LANGS = {
     "Habu": "hbu",
     "Hachijō": "jpx-hcj",
     "Hadiyya": "hdy",
-    "Hadothi": "hoj",
+    "Hadoti": "hoj",
     "Hadrami": "xhd",
     "Hadza": "hts",
     "Haeke": "aek",
@@ -22087,7 +22089,7 @@ ALT_LANGS = {
         "Honi"
     ],
     "Harauti": [
-        "Hadothi",
+        "Hadoti",
         "Marwari"
     ],
     "Harzandi": [
