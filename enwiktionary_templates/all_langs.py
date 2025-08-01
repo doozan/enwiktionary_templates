@@ -1651,7 +1651,6 @@ ALL_LANG_IDS = {
     "deg": "Degema",
     "deh": "Dehwari",
     "dei": "Demisa",
-    "dek": "Dek",
     "dem": "Dem",
     "dep": "Pidgin Delaware",
     "der": "Deori",
@@ -7977,6 +7976,7 @@ ALL_LANG_IDS = {
     "ymx": "Northern Muji",
     "ymz": "Muzi",
     "yna": "Aluo",
+    "ynb": "Yamben",
     "ynd": "Yandruwandha",
     "yne": "Lang'e",
     "yng": "Yango",
@@ -9802,7 +9802,6 @@ ALL_LANGS = {
     "Degema": "deg",
     "Degenan": "dge",
     "Dehwari": "deh",
-    "Dek": "dek",
     "Dela-Oenale": "row",
     "Delo": "ntr",
     "Delta Yokuts": "yok-dly",
@@ -16260,6 +16259,7 @@ ALL_LANGS = {
     "Yalálag Zapotec": "zpu",
     "Yamap": "ymp",
     "Yamba": "yam",
+    "Yamben": "ynb",
     "Yambes": "ymb",
     "Yambeta": "yat",
     "Yamdena": "jmd",
@@ -32398,6 +32398,9 @@ ALT_LANGS = {
     ],
     "West Circassian": [
         "Adyghe"
+    ],
+    "West Galindian": [
+        "Galindian"
     ],
     "West Guadalcanal": [
         "Ghari"
