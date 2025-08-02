@@ -31,6 +31,7 @@ class Cache():
         "+obj": { "name": "+obj"},
 
         "transclude": { "name": "transclude" },
+        "tcl": { "name": "transclude" },
 
         "etymon": { "name": "etymon" },
     }
@@ -74,8 +75,12 @@ class Cache():
             print("failed reading", page, template_name, param_str, file=sys.stderr)
             return ""
 
+
         if data == "ERROR":
-            raise ValueError("Error retrieving data for", page, template_name, param_str)
+            data = download_data([page, template_name, param_str])
+            if data == "ERROR":
+                raise ValueError("Error retrieving data for", page, template_name, param_str)
+                self.update(page, template_name, param_str, data_str)
 
         return data
 
@@ -282,6 +287,8 @@ def main():
 
         cache = Cache(args.db)
         for page, template, param_str, data_str in iter_items:
+            if data_str == "ERROR":
+                continue
             if args.progress:
                 print("updating", page, template, param_str)
             cache.update(page, template, param_str, data_str)
