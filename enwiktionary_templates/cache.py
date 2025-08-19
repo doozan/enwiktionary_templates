@@ -34,6 +34,10 @@ class Cache():
         "tcl": { "name": "transclude" },
 
         "etymon": { "name": "etymon" },
+
+        "demonym-adj": { "name": "demonym-adj" },
+        "demonym-noun": { "name": "demonym-noun" },
+
     }
 
     TMPL_REGEX = r"{{\s*" + "|".join(re.escape(k) for k in TEMPLATES.keys()) + r"\s*[|}]"
