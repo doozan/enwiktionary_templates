@@ -1492,6 +1492,8 @@ handlers = {
 
 def __transclude(template, t, title, cache, transclude_senses):
     page = t[2]
+    if page.strip() == "+":
+        page = title
     senseids = t.get("id")
     if not senseids:
         print(f"{title} transcludes sense without id: {template}", file=sys.stderr)
