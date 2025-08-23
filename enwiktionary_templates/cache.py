@@ -6,6 +6,7 @@ import os
 import re
 import sqlite3
 import sys
+import time
 import mwparserfromhell as mwparser
 
 import json
@@ -149,7 +150,12 @@ class Cache():
         res = None
         while tries:
             try:
-                res = requests.get(url)
+                while res is None or res.status_code == 429:
+                    res = requests.get(url)
+                    if res.status_code == 429:
+                        time.sleep(11-tries)
+                        tries -= 1
+
             except requests.exceptions.RequestException as e:
                 time.sleep(5)
             else:
@@ -223,6 +229,9 @@ def download_data(args):
 
     data_str = Cache.get_wiki_data(page, template, params)
 
+    if data_str is None:
+        data_str = "ERROR"
+
     if data_str is None or 'scribunto-error' in data_str:
         data_str = "ERROR"
 
@@ -237,7 +246,7 @@ def cleanup_wiki_data(template_name, data_str):
         try:
             data_str = json.dumps(json.loads(data_str)["forms"], ensure_ascii=False)
         except json.decoder.JSONDecodeError:
-            print("non-json data returned", page, template)
+            print("non-json data returned", data_str[1000:])
             return None
 
     elif template_name == "transclude":
