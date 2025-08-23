@@ -389,7 +389,7 @@ ALL_LANG_IDS = {
     "art-lap": "Lapine",
     "art-man": "Mandalorian",
     "art-mun": "Mundolinco",
-    "art-nav": "Na'vi",
+    "art-nav": "Naʼvi",
     "art-vlh": "High Valyrian",
     "aru": "Arua",
     "arv": "Arbore",
@@ -5071,7 +5071,6 @@ ALL_LANG_IDS = {
     "nsy": "Nasal",
     "nsz": "Nisenan",
     "ntd": "Northern Tidung",
-    "nte": "Nathembo",
     "ntg": "Ngantangarra",
     "nti": "Natioro",
     "ntj": "Ngaanyatjarra",
@@ -7851,7 +7850,7 @@ ALL_LANG_IDS = {
     "yaf": "Yaka",
     "yag": "Yámana",
     "yah": "Yazghulami",
-    "yai": "Yagnobi",
+    "yai": "Yaghnobi",
     "yaj": "Banda-Yangere",
     "yak": "Yakima",
     "yal": "Yalunka",
@@ -12959,7 +12958,6 @@ ALL_LANGS = {
     "Mạ": "cma",
     "N'Ko": "nqo",
     "Na": "nbt",
-    "Na'vi": "art-nav",
     "Naaba": "nao",
     "Naba": "mne",
     "Nabak": "naf",
@@ -13040,7 +13038,6 @@ ALL_LANGS = {
     "Natagaimas": "nts",
     "Natchez": "ncz",
     "Nateni": "ntm",
-    "Nathembo": "nte",
     "Natioro": "nti",
     "Natú": "sai-nat",
     "Natügu": "ntu",
@@ -13057,6 +13054,7 @@ ALL_LANGS = {
     "Nawuri": "naw",
     "Naxi": "nxq",
     "Nayi": "noz",
+    "Naʼvi": "art-nav",
     "Ncane": "ncr",
     "Nchumbulu": "nlu",
     "Nda'nda'": "nnz",
@@ -16235,7 +16233,7 @@ ALL_LANGS = {
     "Yafi": "wfg",
     "Yagara": "yxg",
     "Yagaria": "ygr",
-    "Yagnobi": "yai",
+    "Yaghnobi": "yai",
     "Yagomi": "ygm",
     "Yagua": "yad",
     "Yagwoia": "ygw",
@@ -29506,9 +29504,6 @@ ALT_LANGS = {
     "Sakapulteko": [
         "Sacapulteco"
     ],
-    "Sakati": [
-        "Nathembo"
-    ],
     "Sakha": [
         "Yakut"
     ],
@@ -32970,13 +32965,13 @@ ALT_LANGS = {
         "Yámana"
     ],
     "Yaghnabi": [
-        "Yagnobi"
-    ],
-    "Yaghnobi": [
-        "Yagnobi"
+        "Yaghnobi"
     ],
     "Yagnabi": [
-        "Yagnobi"
+        "Yaghnobi"
+    ],
+    "Yagnobi": [
+        "Yaghnobi"
     ],
     "Yagán": [
         "Yámana"
