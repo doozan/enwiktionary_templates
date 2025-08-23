@@ -223,7 +223,7 @@ def download_data(args):
 
     data_str = Cache.get_wiki_data(page, template, params)
 
-    if 'scribunto-error' in data_str:
+    if data_str is None or 'scribunto-error' in data_str:
         data_str = "ERROR"
 
     else:
