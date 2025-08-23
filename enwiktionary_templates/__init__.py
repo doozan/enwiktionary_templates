@@ -299,18 +299,20 @@ class Template():
         return " ".join(res)
 
     @staticmethod
-    def demonym_adj(t, title):
+    def demonym_adj(t, title, cache_filename):
         cache = Cache(cache_filename)
         data = cache.get("demonym-adj", t, title)
         if not data:
             return ""
+        return re.sub("<.*?>", "", data)
 
     @staticmethod
-    def demonym_noun(t, title):
+    def demonym_noun(t, title, cache_filename):
         cache = Cache(cache_filename)
         data = cache.get("demonym-noun", t, title)
         if not data:
             return ""
+        return re.sub("<.*?>", "", data)
 
     @staticmethod
     def derived(t, title):
@@ -1577,10 +1579,6 @@ def get_handler(name, template, transclude_senses):
 def expand_template(template, title, transclude_senses={}, cache=None):
     orig_name = str(template.name).strip() #.lower()
 
-    if not cache:
-        cache = get_default_cachedb()
-        #print("Template cache not specified, using default:", cache, file=sys.stderr)
-
     # resolve redirects/aliases
     name = ALIASES.get(orig_name, orig_name).replace("_", " ")
 
@@ -1596,6 +1594,11 @@ def expand_template(template, title, transclude_senses={}, cache=None):
     t = get_template_params(template)
 
     if name in Cache.TEMPLATES:
+
+        if not cache:
+            cache = get_default_cachedb()
+            #print("Template cache not specified, using default:", cache, file=sys.stderr)
+
         return handler(t, title, cache)
 
     return handler(t, title)
