@@ -1578,11 +1578,18 @@ def get_handler(name, template, transclude_senses):
     return getattr(Template, clean_name, None)
 
 
-def expand_template(template, title, transclude_senses={}, cache=None):
-    orig_name = str(template.name).strip() #.lower()
+def get_template_name(template):
+    orig_name = str(template.name).strip()
 
     # resolve redirects/aliases
-    name = ALIASES.get(orig_name, orig_name).replace("_", " ")
+    return ALIASES.get(orig_name, orig_name).replace("_", " ")
+
+def is_cached_template(template):
+    return get_template_name(template) in Cache.TEMPLATES
+
+def expand_template(template, title, transclude_senses={}, cache=None):
+
+    name = get_template_name(template)
 
     handler = get_handler(name, template, transclude_senses)
 
@@ -1595,8 +1602,7 @@ def expand_template(template, title, transclude_senses={}, cache=None):
 
     t = get_template_params(template)
 
-    if name in Cache.TEMPLATES:
-
+    if is_cached_template(template):
         if not cache:
             cache = get_default_cachedb()
             #print("Template cache not specified, using default:", cache, file=sys.stderr)
@@ -1608,6 +1614,14 @@ def expand_template(template, title, transclude_senses={}, cache=None):
 
 def expand_templates(wikt, title, transclude_senses={}, cache=None):
     try:
+        # Expand cached templates first (since they're being expanded on wikimedia, no need to expand any embedded templates)
+        for t in reversed(wikt.filter_templates()):
+            if not is_cached_template(t):
+                continue
+            new = expand_template(t, title, transclude_senses, cache)
+            new = new.replace("{{PAGENAME}}", str(title))
+            wikt.replace(t, new)
+
         for t in reversed(wikt.filter_templates()):
             new = expand_template(t, title, transclude_senses, cache)
             new = new.replace("{{PAGENAME}}", str(title))
