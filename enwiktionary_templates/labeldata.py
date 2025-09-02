@@ -1,7 +1,7 @@
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 86201249)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 82739371)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 85870723)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 85914098)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 86584478)
 labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] {{glossary|slang}}', 'pos_categories': ['internet slang', '2channel slang']},
     '3D printing': {'Wikidata': 'Q229367', 'Wikipedia': True, 'display': '[[3D printing#Noun|3D printing]]', 'topical_categories': True},
@@ -593,6 +593,8 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'eye color': {'display': '[[eye]] [[color]]', 'topical_categories': 'Eye colors'},
     'eye dialect': {'display': '[[eye dialect]]', 'pos_categories': True},
     'eyewear': {'display': '[[eyewear]]', 'topical_categories': True},
+    'fairy tale': {'display': '[[fairy tale]]', 'topical_categories': True},
+    'fairy tales': {'display': '[[fairy tales]]', 'topical_categories': True},
     'falconry': {'display': '[[falconry]]', 'topical_categories': True},
     'familiar': {'glossary': True, 'pos_categories': 'familiar terms'},
     'fandom slang': {'display': '[[fandom]] {{glossary|slang}}', 'pos_categories': True},
@@ -1769,6 +1771,10 @@ aliases =  {   '&': 'and',
     'evolutionary biology': 'evolutionary theory',
     'except in': 'outside',
     'expletive': 'swear word',
+    'fairy-tale': 'fairy tale',
+    'fairy-tales': 'fairy tales',
+    'fairytale': 'fairy tale',
+    'fairytales': 'fairy tales',
     'fandom': 'fandom slang',
     'farming': 'agriculture',
     'female speech': "women's speech",
