@@ -5841,7 +5841,6 @@ ALL_LANG_IDS = {
     "rnp": "Rongpo",
     "rnw": "Rungwa",
     "ro": "Romanian",
-    "roa-afr": "African Romance",
     "roa-ang": "Angevin",
     "roa-bbn": "Bourbonnais-Berrichon",
     "roa-brg": "Bourguignon",
@@ -8324,7 +8323,6 @@ ALL_LANGS = {
     "Afghan Sign Language": "afg",
     "Afitti": "aft",
     "Afra": "ulf",
-    "African Romance": "roa-afr",
     "Afrihili": "afh",
     "Afrikaans": "af",
     "Afro-Seminole Creole": "afs",
@@ -16696,15 +16694,6 @@ ALT_LANGS = {
     ],
     "Afghani": [
         "Pashto"
-    ],
-    "African Latin": [
-        "African Romance"
-    ],
-    "Afro-Romance": [
-        "African Romance"
-    ],
-    "Afroromance": [
-        "African Romance"
     ],
     "Aga Bereho": [
         "Bariji"
