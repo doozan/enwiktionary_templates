@@ -11,7 +11,8 @@ def get_wikipage(page):
     url = 'https://en.wiktionary.org/w/api.php?action=query&prop=revisions&rvslots=*&rvprop=content|ids&format=json&titles=' + page
     niceurl = 'https://en.wiktionary.org/wiki/' + page
 
-    res = requests.get( url )
+    headers = { 'User-Agent':  'AutoDooz/1.0 (https://github.com/doozan/wikibot; wiki@doozan.com)' }
+    res = requests.get( url, headers=headers )
     json_data = res.json()
     revision = list(json_data['query']['pages'].values())[0]['revisions'][0]['revid']
     wikitext = list(json_data['query']['pages'].values())[0]['revisions'][0]['slots']['main']['*']

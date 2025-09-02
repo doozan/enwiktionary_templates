@@ -145,13 +145,14 @@ class Cache():
 
         url = "https://en.wiktionary.org/w/api.php?action=expandtemplates&format=json&prop=wikitext&text=" \
              + urllib.parse.quote("{{" + template_name + param_str + "}}")
+        headers = { 'User-Agent':  'AutoDooz/1.0 (https://github.com/doozan/wikibot; wiki@doozan.com)' }
 
         tries = 10
         res = None
         while tries:
             try:
                 while res is None or res.status_code == 429:
-                    res = requests.get(url)
+                    res = requests.get(url, headers=headers)
                     if res.status_code == 429:
                         time.sleep(11-tries)
                         tries -= 1

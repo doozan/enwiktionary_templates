@@ -12,7 +12,8 @@ from collections import defaultdict
 def expand_template(data):
     url = 'https://en.wiktionary.org/w/api.php?action=expandtemplates&format=json&prop=wikitext&text=' + urllib.parse.quote(data)
 
-    res = requests.get( url )
+    headers = { 'User-Agent':  'AutoDooz/1.0 (https://github.com/doozan/wikibot; wiki@doozan.com)' }
+    res = requests.get( url, headers=headers )
     json_data = res.json()
     return json_data['expandtemplates']['wikitext']
 

@@ -18,7 +18,8 @@ def get_wikipage(page_name):
         'titles': page_name,
     }
 
-    response = requests.get(url, params=params)
+    headers = { 'User-Agent':  'AutoDooz/1.0 (https://github.com/doozan/wikibot; wiki@doozan.com)' }
+    response = requests.get(url, params=params, headers=headers)
     data = response.json()
 
     wikitext = list(data['query']['pages'].values())[0]["revisions"][0]['slots']['main']['*']
