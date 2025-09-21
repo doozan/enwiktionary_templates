@@ -20346,6 +20346,9 @@ ALT_LANGS = {
     "Dawson": [
         "Hän"
     ],
+    "Dawuro": [
+        "Dawro"
+    ],
     "Dayi": [
         "Dhuwal"
     ],
@@ -23693,9 +23696,6 @@ ALT_LANGS = {
         "Kelantan Peranakan Hokkien"
     ],
     "Kelantan Peranakan Chinese": [
-        "Kelantan Peranakan Hokkien"
-    ],
-    "Kelantan Peranakan Hokkien": [
         "Kelantan Peranakan Hokkien"
     ],
     "Kele": [
