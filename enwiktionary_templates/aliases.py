@@ -59,6 +59,7 @@ ALIASES = {
     "aug of": "augmentative of",
     "b-f": "back-formation",
     "back-form": "back-formation",
+    "back-formed": "back-formation",
     "backform": "back-formation",
     "backformation": "back-formation",
     "bf": "back-formation",
