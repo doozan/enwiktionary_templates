@@ -310,12 +310,13 @@ def do_adjective(pagename, args={}, data={}, tracking_categories=[], is_superlat
             argsf = ["+"]
 
         for f in argsf:
-            if f == "+":
-                # Generate default feminine.
-                f = make_feminine(lemma, args.get("sp"))
-            elif f == "#":
-                f = lemma
-            feminines.append(f)
+            for f in re.split(r",(?!\s)", f):
+                if f == "+":
+                    # Generate default feminine.
+                    f = make_feminine(lemma, args.get("sp"))
+                elif "#" in f:
+                    f = f.replace("#", lemma)
+                feminines.append(f)
 
         argspl = get_args_list(args, "pl")
         argsmpl = get_args_list(args, "mpl")
@@ -336,44 +337,47 @@ def do_adjective(pagename, args={}, data={}, tracking_categories=[], is_superlat
 
 
         for pl in argspl:
-            if pl == "+":
-                # Generate default plural.
-                defpls = make_plural(lemma, args.get("sp"))
-                if not defpls:
-                    raise ValueError(f"Unable to generate default plural of '{lemma}'")
-                for defpl in defpls:
-                    plurals.append(defpl)
-            elif pl == "#":
-                plurals.append(lemma)
-            else:
-                plurals.append(pl)
-
-        for mpl in argsmpl:
-            if mpl == "+":
-                # Generate default masculine plural.
-                defpls = make_plural(lemma, args.get("sp"))
-                if not defpls:
-                    raise ValueError(f"Unable to generate default plural of '{lemma}'")
-                for defpl in defpls:
-                    masculine_plurals.append(defpl)
-            elif mpl == "#":
-                masculine_plurals.append(lemma)
-            else:
-                masculine_plurals.append(mpl)
-
-        for fpl in argsfpl:
-            if fpl == "+":
-                for f in feminines:
-                    # Generate default feminine plural.
-                    defpls = make_plural(f, args.get("sp"))
+            for pl in re.split(r",(?!\s)", pl):
+                if pl == "+":
+                    # Generate default plural.
+                    defpls = make_plural(lemma, args.get("sp"))
                     if not defpls:
-                        raise ValueError(f"Unable to generate default plural of '{f}'")
+                        raise ValueError(f"Unable to generate default plural of '{lemma}'")
                     for defpl in defpls:
-                        feminine_plurals.append(defpl)
-            elif fpl == "#":
-                feminine_plurals.append(lemma)
-            else:
-                feminine_plurals.append(fpl)
+                        plurals.append(defpl)
+                elif "#" in pl:
+                    plurals.append(pl.replace("#", lemma))
+                else:
+                    plurals.append(pl)
+
+        for pl in argsmpl:
+            for mpl in re.split(r",(?!\s)", pl):
+                if mpl == "+":
+                    # Generate default masculine plural.
+                    defpls = make_plural(lemma, args.get("sp"))
+                    if not defpls:
+                        raise ValueError(f"Unable to generate default plural of '{lemma}'")
+                    for defpl in defpls:
+                        masculine_plurals.append(defpl)
+                elif "#" in mpl:
+                    plurals.append(mpl.replace("#", lemma))
+                else:
+                    masculine_plurals.append(mpl)
+
+        for pl in argsfpl:
+            for fpl in re.split(r",(?!\s)", pl):
+                if fpl == "+":
+                    for f in feminines:
+                        # Generate default feminine plural.
+                        defpls = make_plural(f, args.get("sp"))
+                        if not defpls:
+                            raise ValueError(f"Unable to generate default plural of '{f}'")
+                        for defpl in defpls:
+                            feminine_plurals.append(defpl)
+                elif "#" in fpl:
+                    feminine_plurals.append(fpl.replace("#", lemma))
+                else:
+                    feminine_plurals.append(fpl)
 
         #check_all_missing(feminines, "adjectives", tracking_categories)
         #check_all_missing(plurals, "adjectives", tracking_categories)
@@ -477,10 +481,49 @@ pos_functions["adjverbs"] = {
 
 # Display information for a noun's gender
 # This is separate so that it can also be used for proper nouns
+#
+_allowed_genders = (
+        "m",
+        "f",
+        "m-p",
+        "f-p",
+        "mf",
+        "mf-p",
+        "mfequiv",
+        "mfbysense",
+        "mfbysense-p",
+        "gneut"
+    )
+#
 def noun_gender(args, data):
-    gender = args.get("1")
-    if gender:
-        data["genders"] = data.get("genders", []) + [gender]
+
+    if args.get("1"):
+
+        genders = []
+        # handle comma separated genders
+        #
+        for g in re.split(r",(?!\s)", args.get("1")):
+            g = g.strip()
+            if g == "m-f":
+                genders.append("mf")
+            elif g in ["mfp", "m-f-p"]:
+                genders.append("mf-p")
+            else:
+                if g not in _allowed_genders:
+                    print(f"Unrecognized gender: '{args['1']}' ({g})", file=sys.stderr)
+#                raise ValueError("Unrecognized gender: " + args["1"])
+                genders.append(g)
+        data["genders"] = data.get("genders", []) + genders
+
+    if args.get("g2"):
+        data["genders"] = data.get("genders", []) + [ args.get("g2") ]
+
+    if args.get("g3"):
+        data["genders"] = data.get("genders", []) + [ args.get("g2") ]
+
+    if args.get("g4"):
+        data["genders"] = data.get("genders", []) + [ args.get("g2") ]
+
     if len(data.get("genders", [])) == 0:
         data["genders"] = ["?"]
 
@@ -503,33 +546,10 @@ pos_functions["verbs"] = {
 
 
 def do_noun(pagename, args, data, tracking_categories=[]):
-    allowed_genders = (
-        "m",
-        "f",
-        "m-p",
-        "f-p",
-        "mf",
-        "mf-p",
-        "mfequiv",
-        "mfbysense",
-        "mfbysense-p",
-    )
 
     lemma = remove_links(data["heads"][0]) if len(data.get("heads",[])) else pagename
 
-    if args.get("1") == "m-f":
-        args["1"] = "mf"
-    elif args.get("1") == "mfp" or args.get("1") == "m-f-p":
-        args["1"] = "mf-p"
-
-    if args.get("1"):
-        if args["1"] not in allowed_genders:
-            print(f"Unrecognized gender: '{args['1']}' in page '{pagename}'", file=sys.stderr)
-#            raise ValueError("Unrecognized gender: " + args["1"])
-        data["genders"] = data.get("genders", []) + [ args["1"] ]
-
-    if args.get("g2"):
-        data["genders"] = data.get("genders", []) + [ args.get("g2") ]
+    noun_gender(args, data)
 
 #    if args["e"]:
 #        #table.insert(data.categories, langname + " epicene nouns")
@@ -551,15 +571,16 @@ def do_noun(pagename, args, data, tracking_categories=[]):
 
         for pl in pl_args:
             pl = rsub(pl, r"<.*?>", "")
-            if pl == "+" or pl == "++":
-                plurals += make_plural(lemma)
-            elif pl == "#":
-                plurals.append(lemma)
-            elif "+" in pl:
-                pl = get_special_indicator(pl)
-                plurals += make_plural(lemma, pl)
-            else:
-                plurals.append(pl)
+            for pl in re.split(r",(?!\s)", pl):
+                if pl == "+" or pl == "++":
+                    plurals += make_plural(lemma)
+                elif "#" in pl:
+                    plurals.append(pl.replace("#", lemma))
+                elif "+" in pl:
+                    plural = get_special_indicator(pl)
+                    plurals += make_plural(lemma, plural)
+                else:
+                    plurals.append(pl)
 
         # Check for special plural signals
         mode = None
@@ -611,23 +632,24 @@ def do_noun(pagename, args, data, tracking_categories=[]):
     def handle_mf(mfs, inflect, default_plurals):
         retval = []
         for mf in mfs:
-            if mf == "1" or mf == "+":
-                # Generate default feminine.
-                mf = inflect(lemma)
-            elif mf == "#":
-                mf = lemma
-            special = get_special_indicator(mf)
-            if special:
-                mf = inflect(lemma, special)
-            retval.append(mf)
-            mfpls = make_plural(mf, special)
-            if mfpls:
-                for mfpl in mfpls:
-                    # Add an accelerator for each masculine/feminine plural whose lemma
-                    # is the corresponding singular, so that the accelerated entry
-                    # that is generated has a definition that looks like
-                    # # {{plural of|es|MFSING}}
-                    default_plurals += [{"term": mfpl, "accel": {"form": "p", "lemma": mf}}]
+            for mf in re.split(r",(?!\s)", mf):
+                if mf == "1" or mf == "+":
+                    # Generate default feminine.
+                    mf = inflect(lemma)
+                elif "#" in mf:
+                    mf = mf.replace("#", lemma)
+                special = get_special_indicator(mf)
+                if special:
+                    mf = inflect(lemma, special)
+                retval.append(mf)
+                mfpls = make_plural(mf, special)
+                if mfpls:
+                    for mfpl in mfpls:
+                        # Add an accelerator for each masculine/feminine plural whose lemma
+                        # is the corresponding singular, so that the accelerated entry
+                        # that is generated has a definition that looks like
+                        # # {{plural of|es|MFSING}}
+                        default_plurals += [{"term": mfpl, "accel": {"form": "p", "lemma": mf}}]
         return retval
 
     feminine_plurals = []
@@ -640,26 +662,28 @@ def do_noun(pagename, args, data, tracking_categories=[]):
     def handle_mf_plural(mfpl, default_plurals, singulars):
         new_mfpls = []
         for i, mfpl in enumerate(mfpl):
-            accel = {}
-            if len(mfpl) == len(singulars):
-                # If same number of overriding masculine/feminine plurals as singulars,
-                # assume each plural goes with the corresponding singular
-                # and use each corresponding singular as the lemma in the accelerator.
-                # The generated entry will have # {{plural of|es|SINGULAR}} as the
-                # definition.
-                accel = { "form": "p", "lemma": singulars[i] }
-            if mfpl == "+":
-                new_mfpls.append(default_plurals)
-            elif mfpl == "#":
-                new_mfpls.append({"term": lemma, "accel": accel})
-            elif mfpl.startswith("+"):
-                mfpl = get_special_indicator(mfpl)
-                for mf in singulars:
-                    default_mfpls = make_plural(mf, mfpl)
-                    for defp in default_mfpls:
-                        new_mfpls.append({"term": defp, "accel": accel})
-            else:
-                new_mfpls.append({"term": mfpl, "accel": accel})
+            for mfpl in re.split(r",(?!\s)", mfpl):
+                accel = {}
+                if len(mfpl) == len(singulars):
+                    # If same number of overriding masculine/feminine plurals as singulars,
+                    # assume each plural goes with the corresponding singular
+                    # and use each corresponding singular as the lemma in the accelerator.
+                    # The generated entry will have # {{plural of|es|SINGULAR}} as the
+                    # definition.
+                    accel = { "form": "p", "lemma": singulars[i] }
+                if mfpl == "+":
+                    new_mfpls.append(default_plurals)
+                elif "#" in mfpl:
+                    new = mfpl.replace("#", lemma)
+                    new_mfpls.append({"term": new, "accel": accel})
+                elif mfpl.startswith("+"):
+                    mfpl = get_special_indicator(mfpl)
+                    for mf in singulars:
+                        default_mfpls = make_plural(mf, mfpl)
+                        for defp in default_mfpls:
+                            new_mfpls.append({"term": defp, "accel": accel})
+                else:
+                    new_mfpls.append({"term": mfpl, "accel": accel})
         return new_mfpls
 
     if len(args.get("fpl", [])) > 0:
