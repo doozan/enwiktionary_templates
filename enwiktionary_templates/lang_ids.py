@@ -23250,13 +23250,25 @@ ALT_LANGS = {
     "Kalaallisut": [
         "Greenlandic"
     ],
+    "Kalashma": [
+        "Kalašma"
+    ],
+    "Kalasma": [
+        "Kalašma"
+    ],
     "Kalasmaic": [
+        "Kalašma"
+    ],
+    "Kalasmian": [
         "Kalašma"
     ],
     "Kalasur": [
         "Kalasuri"
     ],
     "Kalašmaic": [
+        "Kalašma"
+    ],
+    "Kalašmian": [
         "Kalašma"
     ],
     "Kalhiphona": [
