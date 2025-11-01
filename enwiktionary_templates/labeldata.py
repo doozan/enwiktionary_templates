@@ -1,6 +1,6 @@
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 87478548)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 87384267)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 85870723)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 87548050)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 87598449)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 87484774)
 labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] {{glossary|slang}}', 'pos_categories': ['internet slang', '2channel slang']},
@@ -68,12 +68,12 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'Christianity': {'Wiktionary': True, 'topical_categories': True},
     'Church of England': {'Wikipedia': True, 'topical_categories': True},
     'Church of the East': {'Wiktionary': True, 'topical_categories': True},
-    'Classical': {'langs': ['ar', 'az', 'ja', 'jv', 'kum', 'ms', 'quc', 'sa', 'tl'], 'regional_categories': True, 'special_display': '[[Classical <canonical_name>]]'},
+    'Classical': {'langs': ['az', 'ja', 'jv', 'kum', 'ms', 'quc', 'sa', 'tl'], 'regional_categories': True, 'special_display': '[[Classical <canonical_name>]]'},
     'Cockney rhyming slang': {'display': '[[Cockney rhyming slang]]', 'plain_categories': True},
     'Confucianism': {'Wiktionary': True, 'topical_categories': True},
     'Congo': {'Wikipedia': True, 'langs': ['avu', 'yom'], 'regional_categories': 'Congolese'},
     'Coptic Orthodoxy': {'Wikipedia': True, 'topical_categories': True},
-    'Cyprus': {'Wikipedia': True, 'langs': ['ar', 'el'], 'regional_categories': 'Cypriot'},
+    'Cyprus': {'Wikipedia': True, 'langs': ['el'], 'regional_categories': 'Cypriot'},
     'Dobruja': {'Wikipedia': True, 'langs': ['crh', 'ro'], 'regional_categories': 'Dobrujan'},
     'Durban': {'Wikipedia': True, 'langs': {}, 'regional_categories': True},
     'E number': {'display': '[[food]] [[manufacture]]', 'plain_categories': 'European food additive numbers'},
@@ -125,7 +125,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'Islam': {'Wikipedia': True, 'topical_categories': True},
     'Islamic finance': {'Wikipedia': True, 'topical_categories': True},
     'Islamic law': {'Wikipedia': True, 'topical_categories': True},
-    'Israel': {'Wikipedia': True, 'langs': ['ajp', 'ar', 'he', 'ru', 'yi'], 'regional_categories': 'Israeli'},
+    'Israel': {'Wikipedia': True, 'langs': ['ajp', 'he', 'ru', 'yi'], 'regional_categories': 'Israeli'},
     'Jainism': {'Wikipedia': True, 'Wiktionary': True, 'topical_categories': True},
     'Japanese fiction': {'Wikipedia': True, 'display': '[[Japanese#Adjective|Japanese]] [[fiction]]', 'topical_categories': True},
     'Japanese god': {'display': '[[Japanese#Adjective|Japanese]] [[mythology]]', 'topical_categories': 'Japanese deities'},
@@ -165,7 +165,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'Navajo mythology': {'display': '[[Navajo]] [[mythology]]', 'topical_categories': True},
     'Nazism': {'Wikipedia': True, 'topical_categories': True},
     'New Zealand politics': {'Wikipedia': 'Politics of New Zealand', 'topical_categories': True},
-    'Nigeria': {'Wikipedia': True, 'langs': ['ar', 'ff', 'guw', 'ha', 'yo'], 'regional_categories': 'Nigerian'},
+    'Nigeria': {'Wikipedia': True, 'langs': ['ff', 'guw', 'ha', 'yo'], 'regional_categories': 'Nigerian'},
     'Norse god': {'display': '[[Norse]] [[mythology]]', 'topical_categories': 'Norse deities'},
     'Norse mythology': {'display': '[[Norse]] [[mythology]]', 'topical_categories': True},
     'Odinani': {'Wikipedia': True, 'topical_categories': True},
@@ -175,7 +175,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'Oxbridge slang': {'display': '[[w:Oxbridge|Oxbridge]] {{glossary|slang}}', 'plain_categories': ['Cambridge University slang', 'Oxford University slang'], 'topical_categories': 'Universities'},
     'Oxford University slang': {'display': '[[w:University of Oxford|Oxford University]] {{glossary|slang}}', 'plain_categories': True, 'topical_categories': 'Universities'},
     'Pakistani politics': {'Wikipedia': 'Politics of Pakistan', 'topical_categories': True},
-    'Palestine': {'Wikipedia': True, 'langs': ['ajp', 'ar', 'arc'], 'regional_categories': 'Palestinian'},
+    'Palestine': {'Wikipedia': True, 'langs': ['ajp', 'arc'], 'regional_categories': 'Palestinian'},
     'Palestinian politics': {'Wikipedia': 'Politics of the Palestinian National Authority', 'topical_categories': True},
     'Peruvian politics': {'Wikipedia': 'Politics of Peru', 'topical_categories': True},
     'Philippine politics': {'Wikipedia': 'Politics of the Philippines', 'topical_categories': True},
@@ -2252,6 +2252,7 @@ aliases =  {   '&': 'and',
     'steroid drug': 'steroid hormone',
     'stock symbol': 'stock ticker symbol',
     'strict': 'strictly',
+    'strictly': 'exclusively',
     'string instrument': 'string instruments',
     'student slang': 'university slang',
     'sub-standard': 'nonstandard',
