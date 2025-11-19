@@ -299,6 +299,11 @@ class Template():
         return " ".join(res)
 
     @staticmethod
+    def defdate(t, title):
+        return f"[{t[1]}]"
+    defdt = defdate
+
+    @staticmethod
     def demonym_adj(t, title, cache_filename):
         cache = Cache(cache_filename)
         data = cache.get("demonym-adj", t, title)
@@ -1186,8 +1191,6 @@ ignore = {
 p1 = {
     "cap",
     "def",
-    "defdt",
-    "defdate",
     "en-phrase",
     "epinew",
     "glink",
