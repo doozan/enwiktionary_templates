@@ -6255,7 +6255,7 @@ ALL_LANG_IDS = {
     "sjo": "Xibe",
     "sjp": "Surjapuri",
     "sjr": "Siar-Lak",
-    "sjs": "Senhaja De Srair",
+    "sjs": "Senhaja de Srair",
     "sjt": "Ter Sami",
     "sju": "Ume Sami",
     "sjw": "Shawnee",
@@ -14727,7 +14727,7 @@ ALL_LANGS = {
     "Senggi": "snu",
     "Sengo": "spk",
     "Sengseng": "ssz",
-    "Senhaja De Srair": "sjs",
+    "Senhaja de Srair": "sjs",
     "Sensi": "sni",
     "Sentani": "set",
     "Senthang Chin": "sez",
@@ -19631,6 +19631,15 @@ ALT_LANGS = {
     ],
     "Cheju": [
         "Jeju"
+    ],
+    "Chelha": [
+        "Senhaja de Srair"
+    ],
+    "Chelha n Isenhajen": [
+        "Senhaja de Srair"
+    ],
+    "Chelha n Senhaja": [
+        "Senhaja de Srair"
     ],
     "Chemehuevi": [
         "Ute"
@@ -29670,6 +29679,9 @@ ALT_LANGS = {
     "Sangsari": [
         "Sangisari"
     ],
+    "Sanhaja de Srair": [
+        "Senhaja de Srair"
+    ],
     "Sanima": [
         "Sanumá"
     ],
@@ -29862,6 +29874,12 @@ ALT_LANGS = {
     ],
     "Semigalian": [
         "Semigallian"
+    ],
+    "Senhaja De Srair": [
+        "Senhaja de Srair"
+    ],
+    "Senhajiyya": [
+        "Senhaja de Srair"
     ],
     "Sennonais": [
         "Champenois"
@@ -30999,6 +31017,9 @@ ALT_LANGS = {
         "Tarifit",
         "Moroccan Amazigh"
     ],
+    "Tamazight n Senhaja": [
+        "Senhaja de Srair"
+    ],
     "Tanaina": [
         "Dena'ina"
     ],
@@ -31103,6 +31124,9 @@ ALT_LANGS = {
     ],
     "Taruamá": [
         "Taruma"
+    ],
+    "Tasenhaji": [
+        "Senhaja de Srair"
     ],
     "Tashelhit Berber": [
         "Tashelhit"
