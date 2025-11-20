@@ -1,7 +1,7 @@
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 87478548)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 87548050)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 87598449)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 87484774)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 88081506)
 labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] {{glossary|slang}}', 'pos_categories': ['internet slang', '2channel slang']},
     '3D printing': {'Wikidata': 'Q229367', 'Wikipedia': True, 'Wiktionary': '3D printing#Noun', 'topical_categories': True},
@@ -581,6 +581,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'entomology': {'Wiktionary': True, 'topical_categories': True},
     'enzyme': {'display': '[[biochemistry]]', 'topical_categories': 'Enzymes'},
     'epidemiology': {'Wiktionary': True, 'topical_categories': True},
+    'epigraphy': {'Wiktionary': True, 'topical_categories': True},
     'epistemology': {'Wiktionary': True, 'topical_categories': True},
     'equestrianism': {'Wiktionary': True, 'topical_categories': True},
     'ergative': {'glossary': True, 'pos_categories': 'ergative verbs'},
