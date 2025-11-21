@@ -23,7 +23,7 @@ templates to meaningful wikidata
 __version__ = "0.1.0"
 __author__ = 'Jeff Doozan'
 
-import mwparserfromhell
+import mwparserfromhell as mwparser
 import re
 import sys
 
@@ -573,7 +573,7 @@ class Template():
             indtr += " for the second object"
 
         labels.append(indtr)
-        res = Template._joinlabels(labels)
+        res = Template._joinlabels(labels, title)
         if not res.strip():
             return ""
         return f"({res})"
@@ -695,7 +695,7 @@ class Template():
     @staticmethod
     def label(t, title):
         labels = [ v for k,v in t.items() if isinstance(k,int) and k > 1]
-        res = Template._joinlabels(labels)
+        res = Template._joinlabels(labels, title)
         if not res.strip():
             return ""
 
@@ -703,7 +703,7 @@ class Template():
     term_label = label
 
     @staticmethod
-    def _joinlabels(labels, delimiter=",", spacer=" "):
+    def _joinlabels(labels, title, delimiter=",", spacer=" "):
 
         formatted = []
         omit_preComma = False
@@ -727,7 +727,14 @@ class Template():
             omit_postSpace = omit_postSpace or data.get("omit_postSpace")
 
             formatted.append(comma + space + label)
-        return "".join(formatted)
+
+        text = "".join(formatted)
+        if "{{" not in text:
+            return text
+
+        wiki = mwparser.parse(text)
+        expand_templates(wiki, title)
+        return str(wiki)
 
     @staticmethod
     def latn_def(t, title):
@@ -1214,7 +1221,6 @@ p1 = {
     "sub",
     "taxfmt",
     "taxlink",
-    "taxlink2",
     "taxlinknew",
     "underline",
     "unsupported",
@@ -1510,7 +1516,7 @@ def __transclude(template, t, title, cache, transclude_senses):
 
     res = []
     for transcluded in transcludes:
-        wikt = mwparserfromhell.parse(transcluded)
+        wikt = mwparser.parse(transcluded)
         expand_templates(wikt, page, cache=cache)
         transcluded_text = str(wikt)
 
@@ -1636,4 +1642,4 @@ def expand_templates(wikt, title, transclude_senses={}, cache=None):
 
 
 def iter_templates(text):
-    yield from mwparserfromhell.parse(text).ifilter_templates()
+    yield from mwparser.parse(text).ifilter_templates()
