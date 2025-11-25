@@ -103,6 +103,10 @@ class Template():
         return Template.__etyl_misc_variant(t, title, "acronym")
 
     @staticmethod
+    def adapted_borrowing(t, title):
+        return Template.__lang2_etyl(t, title, "adapted borrowing from")
+
+    @staticmethod
     def affix(t, title, start_idx=2):
         res = []
 
@@ -170,6 +174,10 @@ class Template():
         return " ".join(res)
 
     @staticmethod
+    def apheretic_form_of(t, title):
+        return Template.__lang2_etyl(t, title, "apheretic form of")
+
+    @staticmethod
     def ar_root(t, title):
         if "notext" in t:
             return ""
@@ -201,11 +209,14 @@ class Template():
     @staticmethod
     def __format_etyl(t, pre_text, lang, display, gloss):
         res = []
-        if "notext" not in t and pre_text:
+
+        if "title" in t:
+            res.append(pre_text)
+        elif "notext" not in t and pre_text:
             if "nocap" in t:
-                res.append(f"{pre_text}")
+                res.append(pre_text)
             else:
-                res.append(f"{pre_text.capitalize()}")
+                res.append(pre_text.capitalize())
 
         if lang:
             res.append(lang)
@@ -806,6 +817,12 @@ class Template():
     @staticmethod
     def mention_gloss(t, title):
         return '"' + t[1] + '"'
+
+    @staticmethod
+    def metathesis(t, title):
+        if not "nocap" in t:
+            t["nocap"] = 1
+        return Template.__etyl_misc_variant(t, title, "metathesis")
 
     @staticmethod
     def named_after(t, title):
