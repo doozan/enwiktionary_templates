@@ -1,6 +1,6 @@
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 87478548)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 88323106)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 87548050)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 87598449)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 88244317)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 88081506)
 labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] {{glossary|slang}}', 'pos_categories': ['internet slang', '2channel slang']},
@@ -68,6 +68,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'Christianity': {'Wiktionary': True, 'topical_categories': True},
     'Church of England': {'Wikipedia': True, 'topical_categories': True},
     'Church of the East': {'Wiktionary': True, 'topical_categories': True},
+    'Cisalpine': {'Wikipedia': 'Cisalpine Gaulish', 'langs': ['cel-gau'], 'regional_categories': 'Cisalpine'},
     'Classical': {'langs': ['az', 'ja', 'jv', 'kum', 'ms', 'quc', 'sa', 'tl'], 'regional_categories': True, 'special_display': '[[Classical <canonical_name>]]'},
     'Cockney rhyming slang': {'display': '[[Cockney rhyming slang]]', 'plain_categories': True},
     'Confucianism': {'Wiktionary': True, 'topical_categories': True},
@@ -238,6 +239,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'Tibetan Buddhism': {'Wiktionary': True, 'topical_categories': 'Buddhism'},
     'TikTok aesthetic': {'display': '[[TikTok]] aesthetic', 'topical_categories': 'Aesthetics'},
     'Tongyong Pinyin': {'Wikidata': 'Q700739', 'plain_categories': True},
+    'Transalpine': {'Wikipedia': 'Transalpine Gaulish', 'langs': ['cel-gau'], 'regional_categories': 'Transalpine'},
     'Tumblr aesthetic': {'display': '[[Tumblr]] [[aesthetic]]', 'topical_categories': 'Aesthetics'},
     'Twitch-speak': {'display': '[[Twitch-speak]]', 'pos_categories': True},
     'Twitter': {'Wiktionary': 'Twitter#Proper noun', 'topical_categories': True},
@@ -1060,6 +1062,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'predicative': {'glossary': True},
     'predicatively': {'glossary': 'predicative'},
     'predominantly': {'omit_postComma': True},
+    'prepositive': {'glossary': True},
     'prescriptive': {'glossary': True},
     'printing': {'Wiktionary': 'printing#Noun', 'topical_categories': True},
     'prison slang': {'display': '[[prison]] {{glossary|slang}}', 'pos_categories': True},
@@ -1279,6 +1282,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'transgender slang': {'display': '[[transgender]] {{glossary|slang}}', 'pos_categories': True},
     'transitive': {'glossary': True, 'pos_categories': 'transitive verbs'},
     'translation studies': {'Wiktionary': True, 'topical_categories': True},
+    'transmission error': {'Wiktionary': True},
     'transport': {'Wiktionary': True, 'topical_categories': True},
     'traumatology': {'Wiktionary': True, 'topical_categories': 'Emergency medicine'},
     'travel': {'Wiktionary': True, 'topical_categories': True},
@@ -2352,5 +2356,7 @@ aliases =  {   '&': 'and',
     'wood industry': 'timber industry',
     'woodwind instrument': 'woodwind instruments',
     'wrt': 'with respect to',
+    'xcg': 'Cisalpine',
+    'xtg': 'Transalpine',
     'zodiac': 'astrology',
     'Ásatrú': 'Germanic paganism'}
