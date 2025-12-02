@@ -6121,6 +6121,7 @@ ALL_LANG_IDS = {
     "sem-mhr": "Muher",
     "sem-pro": "Proto-Semitic",
     "sem-saf": "Safaitic",
+    "sem-sam": "Samalian",
     "sem-srb": "Old South Arabian",
     "sem-tay": "Taymanitic",
     "sem-tha": "Thamudic",
@@ -6297,7 +6298,6 @@ ALL_LANG_IDS = {
     "slm": "Pangutaran Sama",
     "sln": "Salinan",
     "slp": "Lamaholot",
-    "slq": "Salchuq",
     "slr": "Salar",
     "sls": "Singapore Sign Language",
     "slt": "Sila",
@@ -14534,7 +14534,6 @@ ALL_LANGS = {
     "Salampasu": "slx",
     "Salar": "slr",
     "Salas": "sgu",
-    "Salchuq": "slq",
     "Saleman": "sau",
     "Saliba (Colombia)": "slc",
     "Saliba (New Guinea)": "sbe",
@@ -14546,6 +14545,7 @@ ALL_LANGS = {
     "Salvadoran Sign Language": "esn",
     "Sam": "snx",
     "Sama": "smd",
+    "Samalian": "sem-sam",
     "Samaritan Aramaic": "sam",
     "Samaritan Hebrew": "smp",
     "Samarokena": "tmj",
@@ -29006,6 +29006,9 @@ ALT_LANGS = {
     "Proto-Tsezic": [
         "Proto-Tsezian"
     ],
+    "Proto-Tumshuqese-Khotanese": [
+        "Proto-Saka"
+    ],
     "Proto-Uitotoan": [
         "Proto-Witotoan"
     ],
@@ -29544,6 +29547,9 @@ ALT_LANGS = {
     ],
     "Saliva": [
         "Saliba (Colombia)"
+    ],
+    "Sam'alian": [
+        "Samalian"
     ],
     "Samar-Leyte": [
         "Waray-Waray"
