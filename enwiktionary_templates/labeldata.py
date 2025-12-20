@@ -1,8 +1,9 @@
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 88323106)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 87548050)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 88642297)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 88244317)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 88081506)
-labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 88384758)
+labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpace': True},
+    '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] {{glossary|slang}}', 'pos_categories': ['internet slang', '2channel slang']},
     '3D printing': {'Wikidata': 'Q229367', 'Wikipedia': True, 'Wiktionary': '3D printing#Noun', 'topical_categories': True},
     '4chan': {'display': '[[w:4chan|4chan]] {{glossary|slang}}', 'pos_categories': '4chan slang'},
@@ -1324,6 +1325,7 @@ labels =  {   '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preCom
     'volleyball': {'Wiktionary': True, 'topical_categories': True},
     'voodoo': {'Wiktionary': True, 'topical_categories': True},
     'vulgar': {'glossary': True, 'pos_categories': 'vulgarities'},
+    'war': {'Wiktionary': True, 'topical_categories': True},
     'water sports': {'Wiktionary': 'watersport', 'topical_categories': True},
     'watercraft': {'display': '[[nautical]]', 'topical_categories': True},
     'weaponry': {'Wiktionary': True, 'topical_categories': 'Weapons'},
@@ -2337,6 +2339,7 @@ aliases =  {   '&': 'and',
     'video game': 'video games',
     'video gaming': 'video games',
     'vulcanology': 'volcanology',
+    'warfare': 'war',
     'water sport': 'water sports',
     'watersport': 'water sports',
     'watersports': 'water sports',
