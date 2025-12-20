@@ -39,7 +39,6 @@ ALL_LANG_IDS = {
     "abo": "Abon",
     "abp": "Abenlen Ayta",
     "abq": "Abaza",
-    "abr": "Abron",
     "abs": "Ambonese Malay",
     "abt": "Ambulas",
     "abu": "Abure",
@@ -2285,8 +2284,7 @@ ALL_LANG_IDS = {
     "gmx": "Magoma",
     "gmy": "Mycenaean Greek",
     "gmz": "Mgbo",
-    "gn": "Guaraní",
-    "gn-cls": "Classical Guaraní",
+    "gn-cls": "Classical Guarani",
     "gna": "Kaansa",
     "gnb": "Gangte",
     "gnc": "Guanche",
@@ -2304,7 +2302,7 @@ ALL_LANG_IDS = {
     "gnr": "Gureng Gureng",
     "gnt": "Guntai",
     "gnu": "Gnau",
-    "gnw": "Western Bolivian Guaraní",
+    "gnw": "Western Bolivian Guarani",
     "gnz": "Ganzi",
     "goa": "Guro",
     "gob": "Playero",
@@ -2377,13 +2375,13 @@ ALL_LANG_IDS = {
     "gud": "Yocoboué Dida",
     "gue": "Gurindji",
     "guf": "Gupapuyngu",
-    "gug": "Paraguayan Guaraní",
+    "gug": "Paraguayan Guarani",
     "guh": "Guahibo",
-    "gui": "Eastern Bolivian Guaraní",
+    "gui": "Eastern Bolivian Guarani",
     "guk": "Gumuz",
     "gul": "Gullah",
     "gum": "Guambiano",
-    "gun": "Mbyá Guaraní",
+    "gun": "Mbya Guarani",
     "guo": "Guayabero",
     "gup": "Gunwinggu",
     "guq": "Aché",
@@ -2722,6 +2720,7 @@ ALL_LANG_IDS = {
     "inb": "Inga",
     "inc-apa": "Apabhramsa",
     "inc-ash": "Ashokan Prakrit",
+    "inc-dng-pro": "Proto-Dangari",
     "inc-kam": "Kamarupi Prakrit",
     "inc-kho": "Kholosi",
     "inc-krd-pro": "Proto-Kamta",
@@ -7497,7 +7496,6 @@ ALL_LANG_IDS = {
     "wsi": "Wusi",
     "wsk": "Waskia",
     "wsr": "Owenia",
-    "wss": "Wasa",
     "wsu": "Wasu",
     "wsv": "Wotapuri-Katarqalai",
     "wtf": "Watiwa",
@@ -8271,7 +8269,6 @@ ALL_LANGS = {
     "Abkhaz": "ab",
     "Abom": "aob",
     "Abon": "abo",
-    "Abron": "abr",
     "Abu": "ado",
     "Abu'": "aah",
     "Abua": "abn",
@@ -9629,7 +9626,7 @@ ALL_LANGS = {
     "Citak": "txt",
     "Ciwogai": "tgd",
     "Classical Gaelic": "ghc",
-    "Classical Guaraní": "gn-cls",
+    "Classical Guarani": "gn-cls",
     "Classical Mandaic": "myz",
     "Classical Mongolian": "cmg",
     "Classical Nahuatl": "nci",
@@ -9997,7 +9994,7 @@ ALL_LANGS = {
     "East Yugur": "yuy",
     "Eastern Acipa": "acp",
     "Eastern Arrernte": "aer",
-    "Eastern Bolivian Guaraní": "gui",
+    "Eastern Bolivian Guarani": "gui",
     "Eastern Bontoc": "ebk",
     "Eastern Bru": "bru",
     "Eastern Canadian Inuktitut": "ike",
@@ -10458,7 +10455,6 @@ ALL_LANGS = {
     "Guamo": "sai-gmo",
     "Guanano": "gvc",
     "Guanche": "gnc",
-    "Guaraní": "gn",
     "Guarayu": "gyr",
     "Guatemalan Sign Language": "gsm",
     "Guató": "gta",
@@ -12571,7 +12567,7 @@ ALL_LANGS = {
     "Mburku": "bbt",
     "Mbuun": "zmp",
     "Mbwela": "mfu",
-    "Mbyá Guaraní": "gun",
+    "Mbya Guarani": "gun",
     "Me'en": "mym",
     "Mea": "meg",
     "Mebu": "mjn",
@@ -13777,7 +13773,7 @@ ALL_LANGS = {
     "Papuma": "ppm",
     "Para Naga": "pzn",
     "Parachi": "prc",
-    "Paraguayan Guaraní": "gug",
+    "Paraguayan Guarani": "gug",
     "Paraguayan Sign Language": "pys",
     "Parakanã": "pak",
     "Paranan": "prf",
@@ -14044,6 +14040,7 @@ ALL_LANGS = {
     "Proto-Cushitic": "cus-pro",
     "Proto-Daju": "sdv-daj-pro",
     "Proto-Daly": "aus-dal-pro",
+    "Proto-Dangari": "inc-dng-pro",
     "Proto-Dargwa": "cau-drg-pro",
     "Proto-Dizoid": "omv-diz-pro",
     "Proto-Dravidian": "dra-pro",
@@ -16025,7 +16022,6 @@ ALL_LANGS = {
     "Waruna": "wrv",
     "Warungu": "wrg",
     "Warwar Feni": "hrw",
-    "Wasa": "wss",
     "Wasco-Wishram": "wac",
     "Wasembo": "gsp",
     "Washo": "was",
@@ -16077,7 +16073,7 @@ ALL_LANGS = {
     "West-Central Limba": "lia",
     "Western Apache": "apw",
     "Western Arrernte": "are",
-    "Western Bolivian Guaraní": "gnw",
+    "Western Bolivian Guarani": "gnw",
     "Western Bru": "brv",
     "Western Bukidnon Manobo": "mbb",
     "Western Cham": "cja",
@@ -17556,7 +17552,7 @@ ALT_LANGS = {
         "Chiripá"
     ],
     "Ava Guaraní": [
-        "Eastern Bolivian Guaraní"
+        "Eastern Bolivian Guarani"
     ],
     "Avaric": [
         "Avar"
@@ -18867,9 +18863,6 @@ ALT_LANGS = {
     "Brokpa": [
         "Brokpake"
     ],
-    "Brong": [
-        "Abron"
-    ],
     "Brunei": [
         "Brunei Malay"
     ],
@@ -19069,7 +19062,7 @@ ALT_LANGS = {
         "Raga"
     ],
     "Bwihá": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Bworo": [
         "Shinasha"
@@ -19147,13 +19140,13 @@ ALT_LANGS = {
         "Kato"
     ],
     "Cahygua": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Caingua": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Caiua": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Cakchiquel": [
         "Kaqchikel"
@@ -19765,7 +19758,7 @@ ALT_LANGS = {
         "Miship"
     ],
     "Chiriguanos": [
-        "Eastern Bolivian Guaraní"
+        "Eastern Bolivian Guarani"
     ],
     "Chiripon": [
         "Cherepon"
@@ -21742,9 +21735,6 @@ ALT_LANGS = {
     "Guar": [
         "Guwar"
     ],
-    "Guarani": [
-        "Guaraní"
-    ],
     "Guarasugwé": [
         "Pauserna"
     ],
@@ -22876,7 +22866,7 @@ ALT_LANGS = {
         "Ỹaroamë"
     ],
     "Jeguaká Tenondé": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Jeico": [
         "Jeikó"
@@ -22992,7 +22982,7 @@ ALT_LANGS = {
         "Jola-Fonyi"
     ],
     "Jopará": [
-        "Paraguayan Guaraní"
+        "Paraguayan Guarani"
     ],
     "Joti-Jota": [
         "Yorta Yorta"
@@ -23232,7 +23222,7 @@ ALT_LANGS = {
         "Kawishana"
     ],
     "Kaiwá": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Kajkwakhrattxi": [
         "Tapayuna"
@@ -23680,7 +23670,7 @@ ALT_LANGS = {
         "Murik (Malaysia)"
     ],
     "Kayová": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Kaytak": [
         "Kaitag"
@@ -26034,7 +26024,7 @@ ALT_LANGS = {
         "Bisu"
     ],
     "Mbiá": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Mbo": [
         "Mbo (Cameroon)",
@@ -26053,7 +26043,7 @@ ALT_LANGS = {
         "Cung"
     ],
     "Mbua": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Mbum East": [
         "Karang"
@@ -26065,22 +26055,22 @@ ALT_LANGS = {
         "Kimbundu"
     ],
     "Mbya": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Mbyhá": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Mbyá": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Mbü'a": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Mbü'a Guaraní": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Mbüá": [
-        "Mbyá Guaraní"
+        "Mbya Guarani"
     ],
     "Meadow Mari": [
         "Eastern Mari"
@@ -27868,8 +27858,14 @@ ALT_LANGS = {
     "Old Icelandic": [
         "Old Norse"
     ],
+    "Old Low Franconian": [
+        "Old Dutch"
+    ],
     "Old Low German": [
         "Old Saxon"
+    ],
+    "Old Netherlandic": [
+        "Old Dutch"
     ],
     "Old Nordic": [
         "Proto-Norse"
@@ -30238,10 +30234,10 @@ ALT_LANGS = {
     ],
     "Simba": [
         "Zemba",
-        "Western Bolivian Guaraní"
+        "Western Bolivian Guarani"
     ],
     "Simba Guarani": [
-        "Western Bolivian Guaraní"
+        "Western Bolivian Guarani"
     ],
     "Simbu": [
         "Kuman"
@@ -33281,7 +33277,7 @@ ALT_LANGS = {
         "Bena"
     ],
     "Yopará": [
-        "Paraguayan Guaraní"
+        "Paraguayan Guarani"
     ],
     "Yortayorta": [
         "Yorta Yorta"
