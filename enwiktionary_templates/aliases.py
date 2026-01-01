@@ -67,7 +67,6 @@ ALIASES = {
     "cat": "categorize",
     "cens sp": "censored spelling of",
     "chhoetaigi": "R:nan-hbl:chhoetaigi",
-    "cite MLLM 1976": "R:MLLM 1976",
     "cite book": "cite-book",
     "cite-text": "cite-book",
     "cleanup": "rfc",
