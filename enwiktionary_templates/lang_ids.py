@@ -4883,6 +4883,7 @@ ALL_LANG_IDS = {
     "njm": "Angami",
     "njn": "Liangmai Naga",
     "njo": "Ao",
+    "njo-jgl": "Chungli Ao",
     "njr": "Njerep",
     "njs": "Nisa",
     "njt": "Ndyuka-Trio Pidgin",
@@ -9601,6 +9602,7 @@ ALL_LANGS = {
     "Chukwa": "cuw",
     "Chulym": "clw",
     "Chumburung": "ncu",
+    "Chungli Ao": "njo-jgl",
     "Churahi": "cdj",
     "Church Slavonic": "zls-chs",
     "Churuya": "sai-chu",
@@ -17101,6 +17103,12 @@ ALT_LANGS = {
     "Ayamán": [
         "Ayomán"
     ],
+    "Ayapa Zoque": [
+        "Tabasco Zoque"
+    ],
+    "Ayapaneco": [
+        "Tabasco Zoque"
+    ],
     "Ayapathu": [
         "Ayabadhu"
     ],
@@ -21240,6 +21248,9 @@ ALT_LANGS = {
     ],
     "Malto": [
         "Kumarbhag Paharia"
+    ],
+    "Manadonese": [
+        "Manado Malay"
     ],
     "Mand": [
         "Atemble"
