@@ -1044,7 +1044,7 @@ class Template():
     @staticmethod
     def suffix(t, title):
         base = t.get(2, "")
-        if len(t) <= 2:
+        if not 3 in t:
             return base
         suf = t[3].lstrip("-")
         return f"{base} + -{suf}"
@@ -1113,6 +1113,8 @@ ignore = {
     "cite-journal",
     "cite-web",
     "cite news",
+    "col-bottom",
+    "col-top",
     "colorbox",
     "color-panel",
     "color panel",
@@ -1569,7 +1571,7 @@ def get_handler(name, template, transclude_senses):
         return lambda t, title: t.get(1, title)
 
     if name in p1_with_override:
-        return lambda t, title: t.get(p1_with_override[name], t[1])
+        return lambda t, title: t.get(p1_with_override[name], t.get(1, title))
 
     if name in p2_with_override:
         return lambda t, title: t.get(p2_with_override[name], t[2])
