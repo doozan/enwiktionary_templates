@@ -1,4 +1,4 @@
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 90016039)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 90023615)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 89564888)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 88244317)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 89917057)
@@ -530,7 +530,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'defective adjective': {'display': 'defective', 'glossary': True, 'pos_categories': 'defective adjectives'},
     'defective noun': {'display': 'defective', 'glossary': True, 'pos_categories': 'defective nouns'},
     'defective verb': {'display': 'defective', 'glossary': True, 'pos_categories': 'defective verbs'},
-    'deliberate misspelling': {'display': 'deliberate [[misspelling]]'},
+    'deliberate misspelling': {'deprecated_aliases': ['deliberate mispelling'], 'display': 'deliberate [[misspelling]]'},
     'delimitative': {'pos_categories': 'delimitative verbs'},
     'deltiology': {'Wiktionary': True, 'topical_categories': True},
     'demography': {'Wiktionary': True, 'topical_categories': True},
@@ -903,7 +903,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'mineral': {'display': '[[mineralogy]]', 'topical_categories': 'Minerals'},
     'mineralogy': {'Wiktionary': True, 'topical_categories': True},
     'mining': {'Wiktionary': 'mining#Noun', 'topical_categories': True},
-    'misspelling': {'display': '[[misspelling]]'},
+    'misspelling': {'deprecated_aliases': ['mispelling'], 'display': '[[misspelling]]'},
     'mnemonic': {'display': '[[mnemonic]]', 'pos_categories': 'mnemonics'},
     'mobile phones': {'display': '[[mobile telephone|mobile telephony]]', 'topical_categories': True},
     'modal': {'Wikipedia': 'Modality (linguistics)'},
@@ -1881,7 +1881,6 @@ aliases =  {   '&': 'and',
     'defective v': 'defective verb',
     'defective vb': 'defective verb',
     'defective verbs': 'defective verb',
-    'deliberate mispelling': 'deliberate misspelling',
     'demographics': 'demography',
     'demonyms': 'demonym',
     'dentist': 'dentistry',
@@ -2099,7 +2098,6 @@ aliases =  {   '&': 'and',
     'micronations': 'micronationalism',
     'middle': 'middle voice',
     'military rank': 'military ranks',
-    'mispelling': 'misspelling',
     'mobile': 'mobile phones',
     'mobile phone': 'mobile phones',
     'mobile telephony': 'mobile phones',
