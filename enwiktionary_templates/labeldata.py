@@ -1,7 +1,7 @@
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 90023615)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 90282057)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 89564888)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 88244317)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 89917057)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 90288953)
 labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpace': True},
     '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] {{glossary|slang}}', 'pos_categories': ['internet slang', '2channel slang']},
@@ -254,6 +254,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'Umbanda': {'Wiktionary': True, 'topical_categories': True},
     'Unicode': {'Wikipedia': True, 'topical_categories': True},
     'United Nations': {'Wikipedia': True, 'display': '[[United Nations|UN]]', 'topical_categories': True},
+    'Unix': {'Wiktionary': True, 'topical_categories': True},
     'VTuber': {'Wiktionary': True, 'topical_categories': 'Virtual YouTuber'},
     'Vaishnavism': {'Wiktionary': True, 'topical_categories': True},
     'Valentinianism': {'Wikipedia': True, 'topical_categories': True},
@@ -765,7 +766,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'imperfect': {'glossary': True},
     'imperfective': {'glossary': True, 'pos_categories': 'imperfective verbs'},
     'imperial': {'pos_categories': 'royal terms'},
-    'impersonal': {'glossary': True, 'pos_categories': 'impersonal verbs'},
+    'impersonal': {'glossary': 'impersonal verb', 'pos_categories': 'impersonal verbs'},
     'import/export': {'display': '[[import#Noun|import]]/[[export#Noun|export]]', 'topical_categories': True},
     'in': {'omit_postComma': True},
     'in a': {'omit_postComma': True},
@@ -1403,6 +1404,7 @@ aliases =  {   '&': 'and',
     'Arthurian mythology': 'Arthurian legend',
     'Asatru': 'Germanic paganism',
     'Australian': 'Australia',
+    'Australian Rules football': 'Australian rules football',
     "Baha'i": 'Baháʼí Faith',
     "Baha'i Faith": 'Baháʼí Faith',
     'Bahai': 'Baháʼí Faith',
