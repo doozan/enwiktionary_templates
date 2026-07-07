@@ -1281,7 +1281,6 @@ ALL_LANG_IDS = {
     "cbv": "Cacua",
     "cbw": "Kinabalian",
     "cby": "Carabayo",
-    "cca": "Cauca",
     "ccc": "Chamicuro",
     "ccd": "Cafundó",
     "cce": "Chopi",
@@ -1484,6 +1483,7 @@ ALL_LANG_IDS = {
     "crn": "Cora",
     "cro": "Crow",
     "crp-bip": "Basque-Icelandic Pidgin",
+    "crp-cpr": "Chinese Pidgin Russian",
     "crp-gep": "West Greenlandic Pidgin",
     "crp-kia": "Kiautschou German Pidgin",
     "crp-mar": "Maroon Spirit Language",
@@ -2737,6 +2737,7 @@ ALL_LANG_IDS = {
     "inc-pro": "Proto-Indo-Aryan",
     "ine-ana-pro": "Proto-Anatolian",
     "ine-bsl-pro": "Proto-Balto-Slavic",
+    "ine-grp-pro": "Proto-Graeco-Phrygian",
     "ine-kal": "Kalašma",
     "ine-pae": "Paeonian",
     "ine-pro": "Proto-Indo-European",
@@ -3447,7 +3448,6 @@ ALL_LANG_IDS = {
     "kto": "Kuot",
     "ktp": "Kaduo",
     "ktq": "Katabaga",
-    "ktr": "Kota Marudu Tinagas",
     "kts": "South Muyu",
     "ktt": "Ketum",
     "ktu": "Kituba",
@@ -3601,7 +3601,6 @@ ALL_LANG_IDS = {
     "kzq": "Kaike",
     "kzr": "Karang",
     "kzs": "Sugut Dusun",
-    "kzt": "Tambunan Dusun",
     "kzu": "Kayupulau",
     "kzv": "Komyandaret",
     "kzw": "Kariri",
@@ -4884,8 +4883,8 @@ ALL_LANG_IDS = {
     "njl": "Njalgulgule",
     "njm": "Angami",
     "njn": "Liangmai Naga",
-    "njo": "Ao",
     "njo-jgl": "Chungli Ao",
+    "njo-mng": "Mongsen Ao",
     "njr": "Njerep",
     "njs": "Nisa",
     "njt": "Ndyuka-Trio Pidgin",
@@ -5185,6 +5184,7 @@ ALL_LANG_IDS = {
     "oc": "Occitan",
     "oca": "Ocaina",
     "och": "Old Chinese",
+    "ocm": "Old Cham",
     "oco": "Old Cornish",
     "ocu": "Tlahuica",
     "oda": "Odut",
@@ -6560,6 +6560,7 @@ ALL_LANG_IDS = {
     "szl": "Silesian",
     "szn": "Sula",
     "szp": "Suabo",
+    "szs": "Solomon Islands Sign Language",
     "szv": "Isubu",
     "szw": "Sawai",
     "szy": "Sakizaya",
@@ -8559,7 +8560,6 @@ ALL_LANGS = {
     "Anyi": "any",
     "Anyin Morofo": "mtb",
     "Anāl": "anm",
-    "Ao": "njo",
     "Aoheng": "pni",
     "Aore": "aor",
     "Ap Ma": "kbx",
@@ -9426,7 +9426,6 @@ ALL_LANGS = {
     "Catawba": "chc",
     "Catuquinaru": "sai-ctq",
     "Catío Chibcha": "cba-cat",
-    "Cauca": "cca",
     "Cavineña": "cav",
     "Cayubaba": "cyb",
     "Cayuga": "cay",
@@ -9560,6 +9559,7 @@ ALL_LANGS = {
     "Chinbon Chin": "cnb",
     "Chinese": "zh",
     "Chinese Pidgin English": "cpi",
+    "Chinese Pidgin Russian": "crp-cpr",
     "Chinese Sign Language": "csl",
     "Chinook": "chh",
     "Chinook Jargon": "chn",
@@ -11591,7 +11591,6 @@ ALL_LANGS = {
     "Kota (India)": "kfe",
     "Kota Bangun Kutai Malay": "mqg",
     "Kota Marudu Talantang": "grm",
-    "Kota Marudu Tinagas": "ktr",
     "Kotafon Gbe": "kqk",
     "Kotava": "avk",
     "Koti": "eko",
@@ -12786,6 +12785,7 @@ ALL_LANGS = {
     "Mongolian": "mn",
     "Mongolian Sign Language": "msr",
     "Mongondow": "mog",
+    "Mongsen Ao": "njo-mng",
     "Moni": "mnz",
     "Monimbo": "mom",
     "Mono (California)": "mnr",
@@ -13533,6 +13533,7 @@ ALL_LANGS = {
     "Old Breton": "obt",
     "Old Burmese": "obr",
     "Old Catalan": "roa-oca",
+    "Old Cham": "ocm",
     "Old Chinese": "och",
     "Old Church Slavonic": "cu",
     "Old Cornish": "oco",
@@ -14055,6 +14056,7 @@ ALL_LANGS = {
     "Proto-Gbe": "alv-gbe-pro",
     "Proto-Georgian-Zan": "ccs-gzn-pro",
     "Proto-Germanic": "gem-pro",
+    "Proto-Graeco-Phrygian": "ine-grp-pro",
     "Proto-Grassfields": "nic-grf-pro",
     "Proto-Great Andamanese": "qfa-adm-pro",
     "Proto-Guang": "alv-gng-pro",
@@ -14916,6 +14918,7 @@ ALL_LANGS = {
     "Solano": "xso",
     "Soli": "sby",
     "Solombala English": "crp-slb",
+    "Solomon Islands Sign Language": "szs",
     "Solon": "tuw-sol",
     "Solong": "aaw",
     "Solos": "sol",
@@ -15231,7 +15234,6 @@ ALL_LANGS = {
     "Tambas": "tdk",
     "Tambora": "xxt",
     "Tambotalo": "tls",
-    "Tambunan Dusun": "kzt",
     "Tami": "tmy",
     "Tamil": "ta",
     "Tamki": "tax",
@@ -16510,6 +16512,9 @@ ALT_LANGS = {
     "ASL": [
         "American Sign Language"
     ],
+    "Abasakur": [
+        "Pal"
+    ],
     "Abawiri": [
         "Foau"
     ],
@@ -16556,6 +16561,9 @@ ALT_LANGS = {
         "Acholi"
     ],
     "Acroa": [
+        "Acroá"
+    ],
+    "Acroá-Mirim": [
         "Acroá"
     ],
     "Adithinngithigh": [
@@ -16646,6 +16654,9 @@ ALT_LANGS = {
     "Aitonia": [
         "Aiton"
     ],
+    "Aiwin": [
+        "Aekyom"
+    ],
     "Aiwoo": [
         "Äiwoo"
     ],
@@ -16707,11 +16718,20 @@ ALT_LANGS = {
     "Akawai": [
         "Akawaio"
     ],
+    "Akhukhu": [
+        "Akuku"
+    ],
+    "Akium": [
+        "Aekyom"
+    ],
     "Akium-Pare": [
         "Pa"
     ],
     "Ako": [
         "Akha"
+    ],
+    "Akpet-Ehom": [
+        "Ukpet-Ehom"
     ],
     "Akroá": [
         "Acroá"
@@ -17074,6 +17094,9 @@ ALT_LANGS = {
     ],
     "Awar": [
         "Wuhuan"
+    ],
+    "Awban": [
+        "Awbono"
     ],
     "Awin": [
         "Aekyom"
@@ -18683,6 +18706,9 @@ ALT_LANGS = {
     "Duranmin": [
         "Asaba"
     ],
+    "Durop": [
+        "Korop"
+    ],
     "Dxana": [
         "ǁGana"
     ],
@@ -18778,6 +18804,9 @@ ALT_LANGS = {
     ],
     "Eranadan": [
         "Aranadan"
+    ],
+    "Erorop": [
+        "Korop"
     ],
     "Ethiopic": [
         "Ge'ez"
@@ -19060,6 +19089,9 @@ ALT_LANGS = {
     ],
     "Giay": [
         "Bouyei"
+    ],
+    "Gichode": [
+        "Gikyode"
     ],
     "Giiwo": [
         "Kirfi"
@@ -20445,6 +20477,12 @@ ALT_LANGS = {
     "Kilen": [
         "Kili"
     ],
+    "Kimaghama": [
+        "Kimaama"
+    ],
+    "Kimaghana": [
+        "Kimaama"
+    ],
     "Kimwani": [
         "Mwani"
     ],
@@ -20821,6 +20859,9 @@ ALT_LANGS = {
     "Kwakʼwala": [
         "Kwak'wala"
     ],
+    "Kwale": [
+        "Uare"
+    ],
     "Kwam Tai": [
         "Shan"
     ],
@@ -20835,6 +20876,9 @@ ALT_LANGS = {
     ],
     "Kyibaku": [
         "Cibak"
+    ],
+    "Kyode": [
+        "Gikyode"
     ],
     "Kánchá": [
         "Kunja"
@@ -21254,6 +21298,9 @@ ALT_LANGS = {
     "Manadonese": [
         "Manado Malay"
     ],
+    "Managalasi": [
+        "Ese"
+    ],
     "Mand": [
         "Atemble"
     ],
@@ -21353,6 +21400,9 @@ ALT_LANGS = {
     ],
     "Mariupolitan Greek": [
         "Mariupol Greek"
+    ],
+    "Marori": [
+        "Morori"
     ],
     "Marranungga": [
         "Maranungku"
@@ -21704,6 +21754,9 @@ ALT_LANGS = {
     "Misketto": [
         "Basketo"
     ],
+    "Moaraeri": [
+        "Morori"
+    ],
     "Mobumrin Aizi": [
         "Mobu"
     ],
@@ -21808,6 +21861,9 @@ ALT_LANGS = {
     ],
     "Mor (Bomberai Peninsula)": [
         "Mor (Papuan)"
+    ],
+    "Moraori": [
+        "Morori"
     ],
     "Mordvin": [
         "Moksha",
@@ -22278,6 +22334,9 @@ ALT_LANGS = {
     ],
     "Ocuiltec": [
         "Tlahuica"
+    ],
+    "Ododop": [
+        "Korop"
     ],
     "Oirat": [
         "Kalmyk"
@@ -23932,6 +23991,9 @@ ALT_LANGS = {
     "Sumbanese": [
         "Kambera"
     ],
+    "Sumeri": [
+        "Tanahmerah"
+    ],
     "Sumo": [
         "Bouni"
     ],
@@ -24145,6 +24207,9 @@ ALT_LANGS = {
     ],
     "Tamazight n Senhaja": [
         "Senhaja de Srair"
+    ],
+    "Tanah Merah": [
+        "Tanahmerah"
     ],
     "Tanana": [
         "Lower Tanana"
@@ -24472,6 +24537,9 @@ ALT_LANGS = {
     ],
     "Uigur": [
         "Uyghur"
+    ],
+    "Ukpet-Ubeteng-Evia": [
+        "Ukpet-Ehom"
     ],
     "Ulukwumi": [
         "Olukumi"
