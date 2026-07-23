@@ -16,6 +16,8 @@ import urllib.parse
 from pathlib import Path
 
 from enwiktionary_templates.utils import get_template_params, params_to_str
+from enwiktionary_templates.aliases import ALIASES
+
 
 def get_default_cachedb():
     dbpath = Path("~/.enwiktionary_templates").expanduser()
@@ -41,7 +43,12 @@ class Cache():
 
     }
 
-    TMPL_REGEX = r"{{\s*" + "|".join(re.escape(k) for k in TEMPLATES.keys()) + r"\s*[|}]"
+    TEMPLATE_TARGETS = {k:k for k in TEMPLATES.keys()}
+    for k,v in ALIASES.items():
+        if v in TEMPLATES:
+            TEMPLATE_TARGETS[k] = v
+
+    TMPL_REGEX = r"{{\s*" + "|".join(re.escape(k) for k in TEMPLATE_TARGETS.keys()) + r"\s*[|}]"
 
     def __init__(self, dbfile=None):
 
@@ -66,7 +73,7 @@ class Cache():
 
     def get(self, template_name, params, page):
 
-        clean_params = self.cleanup_params(template_name, params)
+        clean_params = self.cleanup_params(template_name, params, page)
         if clean_params == -1:
             return ""
 
@@ -124,7 +131,7 @@ class Cache():
         self.dbcon.execute("COMMIT;")
 
     @classmethod
-    def cleanup_params(cls, template_name, params):
+    def cleanup_params(cls, template_name, params, page):
         if template_name == "etymon":
             # don't cache templates that don't generate text
             if "text" not in params:
@@ -133,6 +140,9 @@ class Cache():
             # never generate tree
             if "tree" in params:
                 del params["tree"]
+
+            params["nocat"] = 1
+            params["title"] = page
 
         # TODO: per-template cleanup
         return {k:v for k,v in params.items() if k not in ["nocomb"]}
@@ -206,10 +216,11 @@ def scrape_templates(args):
     wiki = mwparser.parse(text)
 
     res = []
-    for t in wiki.ifilter_templates(matches=lambda x: x.name.strip() in Cache.TEMPLATES):
-        template_name = Cache.TEMPLATES[t.name.strip()]["name"]
+    for t in wiki.ifilter_templates(matches=lambda x: x.name.strip() in Cache.TEMPLATE_TARGETS):
+        target = Cache.TEMPLATE_TARGETS[t.name.strip()]
+        template_name = Cache.TEMPLATES[target]["name"]
         params = get_template_params(t)
-        clean_params = Cache.cleanup_params(template_name, params)
+        clean_params = Cache.cleanup_params(template_name, params, page)
         # don't cache templates that return -1 from cleanup_params
         if clean_params == -1:
             continue
