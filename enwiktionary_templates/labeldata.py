@@ -1,7 +1,7 @@
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 91367942)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 89564888)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 90804660)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 91487425)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 91658378)
 labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpace': True},
     '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] {{glossary|slang}}', 'pos_categories': ['internet slang', '2channel slang']},
@@ -839,6 +839,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'literary form': {'display': 'literary', 'glossary': 'literary', 'pos_categories': 'literary forms'},
     'literature': {'Wiktionary': True, 'topical_categories': True},
     'litotes': {'glossary': True, 'pos_categories': True},
+    'locksmithing': {'Wiktionary': True, 'display': '[[locksmithing]]', 'topical_categories': True},
     'logic': {'Wiktionary': True, 'topical_categories': True},
     'logical fallacy': {'display': '[[rhetoric]]', 'topical_categories': 'Logical fallacies'},
     'logistics': {'Wiktionary': True, 'topical_categories': True},
