@@ -5474,7 +5474,6 @@ ALL_LANG_IDS = {
     "pif": "Pingelapese",
     "pig": "Pisabo",
     "pih": "Pitcairn-Norfolk",
-    "pii": "Pini",
     "pij": "Pijao",
     "pil": "Yom",
     "pim": "Powhatan",
@@ -13895,7 +13894,6 @@ ALL_LANGS = {
     "Pimbwe": "piw",
     "Pinai-Hagahai": "pnn",
     "Pingelapese": "pif",
-    "Pini": "pii",
     "Pinigura": "pnv",
     "Pinjarup": "pnj",
     "Pinji": "pic",
@@ -16801,6 +16799,9 @@ ALT_LANGS = {
     "Amundava": [
         "Amondawa"
     ],
+    "Amungkal": [
+        "Damal"
+    ],
     "Anacaioury": [
         "Yao (South America)"
     ],
@@ -18537,6 +18538,9 @@ ALT_LANGS = {
     "Dehong Dai": [
         "Tai Nüa"
     ],
+    "Deiga": [
+        "Keiga"
+    ],
     "Dekhani": [
         "Deccani"
     ],
@@ -19121,6 +19125,9 @@ ALT_LANGS = {
     "Girara": [
         "Madi"
     ],
+    "Gisira": [
+        "Sira"
+    ],
     "Gitanemuk": [
         "Kitanemuk"
     ],
@@ -19627,6 +19634,9 @@ ALT_LANGS = {
     ],
     "Hula": [
         "Hawai'i Pidgin Sign Language"
+    ],
+    "Hungan": [
+        "Hungana"
     ],
     "Hunnish": [
         "Hunnic"
@@ -20294,6 +20304,9 @@ ALT_LANGS = {
     "Kaya": [
         "Gaya"
     ],
+    "Kayigang": [
+        "Keiga"
+    ],
     "Kaytak": [
         "Kaitag"
     ],
@@ -20445,6 +20458,9 @@ ALT_LANGS = {
     ],
     "Kichai": [
         "Kitsai"
+    ],
+    "Kihungan": [
+        "Hungana"
     ],
     "Kikamba": [
         "Kamba"
@@ -21006,6 +21022,9 @@ ALT_LANGS = {
     "Lipan Apache": [
         "Lipan"
     ],
+    "Lisabata-Noniali": [
+        "Lisabata-Nuniali"
+    ],
     "Literary Arabic": [
         "Arabic"
     ],
@@ -21294,6 +21313,9 @@ ALT_LANGS = {
     ],
     "Malto": [
         "Kumarbhag Paharia"
+    ],
+    "Mambay": [
+        "Mambai"
     ],
     "Manadonese": [
         "Manado Malay"
@@ -22133,6 +22155,9 @@ ALT_LANGS = {
     ],
     "North Maewo": [
         "Sungwadia"
+    ],
+    "North Maluku Malay": [
+        "North Moluccan Malay"
     ],
     "North Mbundu": [
         "Kimbundu"
@@ -23373,6 +23398,9 @@ ALT_LANGS = {
     "Saliba": [
         "Saliba (New Guinea)"
     ],
+    "Sama Bangingi": [
+        "Balangingi"
+    ],
     "Samar-Leyte": [
         "Waray-Waray"
     ],
@@ -23438,6 +23466,9 @@ ALT_LANGS = {
     ],
     "Santa": [
         "Dongxiang"
+    ],
+    "Santrokofi": [
+        "Selee"
     ],
     "Sanuma": [
         "Sanumá"
@@ -23657,6 +23688,9 @@ ALT_LANGS = {
     ],
     "Shipaja": [
         "Xipaya"
+    ],
+    "Shira": [
+        "Sira"
     ],
     "Shiriana": [
         "Ninam"
@@ -24042,6 +24076,9 @@ ALT_LANGS = {
     "Sūg": [
         "Tausug"
     ],
+    "Sɛlɛɛ": [
+        "Selee"
+    ],
     "Tabari": [
         "Mazanderani"
     ],
@@ -24065,6 +24102,9 @@ ALT_LANGS = {
     ],
     "Tachelhit Berber": [
         "Tashelhit"
+    ],
+    "Tachoni": [
+        "Lutachoni"
     ],
     "Tadjik": [
         "Tajik"
@@ -24155,6 +24195,9 @@ ALT_LANGS = {
     ],
     "Taino": [
         "Taíno"
+    ],
+    "Taiof": [
+        "Saposa"
     ],
     "Taiwanese": [
         "Min Nan"
@@ -24297,6 +24340,9 @@ ALT_LANGS = {
     ],
     "Terengganu": [
         "Terengganu Malay"
+    ],
+    "Teshena": [
+        "Teshenawa"
     ],
     "Teueia": [
         "Macushi"
@@ -24531,6 +24577,9 @@ ALT_LANGS = {
     ],
     "Ugong": [
         "Gong"
+    ],
+    "Uhunduni": [
+        "Damal"
     ],
     "Uighur": [
         "Uyghur"
@@ -25088,6 +25137,9 @@ ALT_LANGS = {
     "Yakuna": [
         "Yucuna"
     ],
+    "Yalahatan-Haruru-Awaiya": [
+        "Yalahatan"
+    ],
     "Yalaku": [
         "Yelogu"
     ],
@@ -25204,6 +25256,9 @@ ALT_LANGS = {
     ],
     "Ye-Maek": [
         "Yemaek"
+    ],
+    "Yega": [
+        "Keiga"
     ],
     "Yeiko": [
         "Jeikó"
