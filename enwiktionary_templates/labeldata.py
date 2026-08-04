@@ -1,7 +1,7 @@
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 91367942)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 91720115)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 89564888)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 90804660)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 91658378)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 91750876)
 labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpace': True},
     '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] {{glossary|slang}}', 'pos_categories': ['internet slang', '2channel slang']},
@@ -255,6 +255,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'Unicode': {'Wikipedia': True, 'topical_categories': True},
     'United Nations': {'Wikipedia': True, 'display': '[[United Nations|UN]]', 'topical_categories': True},
     'Unix': {'Wiktionary': True, 'topical_categories': True},
+    'Usenet': {'Wiktionary': True, 'topical_categories': True},
     'VTuber': {'Wiktionary': True, 'topical_categories': 'Virtual YouTuber'},
     'Vaishnavism': {'Wiktionary': True, 'topical_categories': True},
     'Valentinianism': {'Wikipedia': True, 'topical_categories': True},
@@ -531,6 +532,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'defective adjective': {'display': 'defective', 'glossary': True, 'pos_categories': 'defective adjectives'},
     'defective noun': {'display': 'defective', 'glossary': True, 'pos_categories': 'defective nouns'},
     'defective verb': {'display': 'defective', 'glossary': True, 'pos_categories': 'defective verbs'},
+    'definite': {'glossary': True},
     'deliberate misspelling': {'deprecated_aliases': ['deliberate mispelling'], 'display': 'deliberate [[misspelling]]'},
     'delimitative': {'pos_categories': 'delimitative verbs'},
     'deltiology': {'Wiktionary': True, 'topical_categories': True},
@@ -1881,6 +1883,7 @@ aliases =  {   '&': 'and',
     'cypriot': 'Cyprus',
     'dancing': 'dance',
     'database': 'databases',
+    'def': 'definite',
     'defective a': 'defective adjective',
     'defective adj': 'defective adjective',
     'defective adjectives': 'defective adjective',
@@ -2165,6 +2168,7 @@ aliases =  {   '&': 'and',
     'neonazism': 'neo-Nazism',
     'neopagan': 'paganism',
     'neopaganism': 'paganism',
+    'newsgroup': 'Usenet',
     'no plural': 'singular only',
     'nominalisation': 'nominalised',
     'nominalization': 'nominalized',
