@@ -184,6 +184,7 @@ ALL_LANG_IDS = {
     "aji": "Ajië",
     "ajn": "Andajin",
     "ajp": "South Levantine Arabic",
+    "ajs": "Algerian Jewish Sign Language",
     "ajw": "Ajawa",
     "ajz": "Amri Karbi",
     "ak": "Akan",
@@ -573,6 +574,7 @@ ALL_LANG_IDS = {
     "azc-cup-pro": "Proto-Cupan",
     "azc-ktn": "Kitanemuk",
     "azc-nah-pro": "Proto-Nahuan",
+    "azc-nic": "Nicoleño",
     "azc-num-pro": "Proto-Numic",
     "azc-pro": "Proto-Uto-Aztecan",
     "azc-tak-pro": "Proto-Takic",
@@ -6634,7 +6636,7 @@ ALL_LANG_IDS = {
     "tci": "Wára",
     "tck": "Tchitchege",
     "tcl": "Taman (Myanmar)",
-    "tcm": "Tanahmerah",
+    "tcm": "Tanah Merah",
     "tco": "Taungyo",
     "tcp": "Tawr Chin",
     "tcq": "Kaiy",
@@ -8419,6 +8421,7 @@ ALL_LANGS = {
     "Alemannic German": "gsw",
     "Aleut": "ale",
     "Algerian Arabic": "arq",
+    "Algerian Jewish Sign Language": "ajs",
     "Algerian Sign Language": "asp",
     "Algonquin": "alq",
     "Ali": "aiy",
@@ -13202,6 +13205,7 @@ ALL_LANGS = {
     "Nicaraguan Creole": "bzk",
     "Nicaraguan Sign Language": "ncs",
     "Nicola": "ath-nic",
+    "Nicoleño": "azc-nic",
     "Niellim": "nie",
     "Nigeria Mambila": "mzk",
     "Nigerian Pidgin": "pcm",
@@ -15240,7 +15244,7 @@ ALL_LANGS = {
     "Tampuan": "tpu",
     "Tampulma": "tpm",
     "Tanacross": "tcb",
-    "Tanahmerah": "tcm",
+    "Tanah Merah": "tcm",
     "Tanapag": "tpv",
     "Tanchangya": "tnv",
     "Tandaganon": "tgn",
@@ -16631,6 +16635,9 @@ ALT_LANGS = {
     "Aheu": [
         "Thavung"
     ],
+    "Ahlon": [
+        "Igo"
+    ],
     "Ai Sui": [
         "Sui"
     ],
@@ -16847,6 +16854,9 @@ ALT_LANGS = {
     "Angave": [
         "Ankave"
     ],
+    "Angba": [
+        "Ngelima"
+    ],
     "Anggor": [
         "Angor"
     ],
@@ -16888,6 +16898,9 @@ ALT_LANGS = {
     ],
     "Apalakiri": [
         "Kuikúro"
+    ],
+    "Apalik": [
+        "Ambul"
     ],
     "Apiacá": [
         "Apiaká"
@@ -17015,6 +17028,9 @@ ALT_LANGS = {
     "Atong": [
         "Atong (India)",
         "Atong (Cameroon)"
+    ],
+    "Atoni": [
+        "Uab Meto"
     ],
     "Atoŋ": [
         "Atong (Cameroon)"
@@ -17359,6 +17375,9 @@ ALT_LANGS = {
     ],
     "Bari": [
         "Bai (South Sudan)"
+    ],
+    "Bariba": [
+        "Baatonum"
     ],
     "Barikanchi Pidgin": [
         "Barikanchi"
@@ -18138,6 +18157,9 @@ ALT_LANGS = {
     "Chaungtha": [
         "Rakhine"
     ],
+    "Chawai": [
+        "Atsam"
+    ],
     "Cheha": [
         "Chaha"
     ],
@@ -18516,6 +18538,12 @@ ALT_LANGS = {
     ],
     "Datian": [
         "Datian Min"
+    ],
+    "Dawan": [
+        "Uab Meto"
+    ],
+    "Dawanese": [
+        "Uab Meto"
     ],
     "Dawson": [
         "Hän"
@@ -19085,6 +19113,9 @@ ALT_LANGS = {
     "Ghadamès": [
         "Ghadames"
     ],
+    "Ghardaia Sign Language": [
+        "Algerian Jewish Sign Language"
+    ],
     "Ghodoberi": [
         "Godoberi"
     ],
@@ -19102,6 +19133,9 @@ ALT_LANGS = {
     ],
     "Gikuyu": [
         "Kikuyu"
+    ],
+    "Giman": [
+        "Gane"
     ],
     "Gimi": [
         "Gimi (Papuan)",
@@ -19829,6 +19863,9 @@ ALT_LANGS = {
     ],
     "Jelmek": [
         "Yelmek"
+    ],
+    "Jen": [
+        "Dza"
     ],
     "Jibbali": [
         "Shehri"
@@ -20803,6 +20840,9 @@ ALT_LANGS = {
     "Kuman": [
         "Kumam"
     ],
+    "Kupsapiiny": [
+        "Kupsabiny"
+    ],
     "Kurmali": [
         "Kudmali"
     ],
@@ -21317,6 +21357,9 @@ ALT_LANGS = {
     "Mambay": [
         "Mambai"
     ],
+    "Mamenyan": [
+        "Bamenyam"
+    ],
     "Manadonese": [
         "Manado Malay"
     ],
@@ -21659,6 +21702,9 @@ ALT_LANGS = {
     "Menriq": [
         "Minriq"
     ],
+    "Menyam": [
+        "Bamenyam"
+    ],
     "Merelava": [
         "Mwerlap"
     ],
@@ -21775,6 +21821,9 @@ ALT_LANGS = {
     ],
     "Misketto": [
         "Basketo"
+    ],
+    "Miyak": [
+        "Kyenele"
     ],
     "Moaraeri": [
         "Morori"
@@ -23383,6 +23432,9 @@ ALT_LANGS = {
     "Saari": [
         "Nsari"
     ],
+    "Sabiny": [
+        "Kupsabiny"
+    ],
     "Sahiu": [
         "Sanxiang Min"
     ],
@@ -23538,6 +23590,12 @@ ALT_LANGS = {
     ],
     "Scottish": [
         "Scottish Gaelic"
+    ],
+    "Sebei": [
+        "Kupsabiny"
+    ],
+    "Sebey": [
+        "Kupsabiny"
     ],
     "Sebirwa": [
         "Birwa"
@@ -24026,10 +24084,13 @@ ALT_LANGS = {
         "Kambera"
     ],
     "Sumeri": [
-        "Tanahmerah"
+        "Tanah Merah"
     ],
     "Sumo": [
         "Bouni"
+    ],
+    "Sumray": [
+        "Somrai"
     ],
     "Sumtu": [
         "Sumtu Chin"
@@ -24251,8 +24312,8 @@ ALT_LANGS = {
     "Tamazight n Senhaja": [
         "Senhaja de Srair"
     ],
-    "Tanah Merah": [
-        "Tanahmerah"
+    "Tanahmerah": [
+        "Tanah Merah"
     ],
     "Tanana": [
         "Lower Tanana"
