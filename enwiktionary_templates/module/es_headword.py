@@ -113,7 +113,7 @@ def handle_multiword(form, special, inflect):
         return add_endings(add_endings({first}, inflect(second)), rest)
     elif special == "first-second":
         m = rmatch(form, "^([^ ]+)( )([^ ]+)( .*)$")
-        if not first:
+        if not m:
             raise ValueError("Special indicator 'first-second' can only be used with a term with three or more words: " + form)
         first, space, second, rest = m.groups()
         return add_endings(add_endings(add_endings(inflect(first), space), inflect(second)), rest)
