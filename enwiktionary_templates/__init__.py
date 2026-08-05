@@ -430,6 +430,8 @@ class Template():
         if not data:
             return ""
 
+        data = re.sub("""<span class="error">.*?</span>""", "", data)
+
         return re.sub("<.*?>", "", data)
 
 
