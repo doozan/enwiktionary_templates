@@ -20128,6 +20128,9 @@ ALT_LANGS = {
     "Kamilaroi": [
         "Gamilaraay"
     ],
+    "Kamkam": [
+        "Mbongno"
+    ],
     "Kamrau": [
         "Kamberau"
     ],
@@ -20361,6 +20364,9 @@ ALT_LANGS = {
     ],
     "Kedaru": [
         "Kadaru"
+    ],
+    "Keerak": [
+        "Kerak"
     ],
     "Kela": [
         "Kala"
@@ -20920,6 +20926,9 @@ ALT_LANGS = {
     ],
     "Kwam Tai": [
         "Shan"
+    ],
+    "Kwatay": [
+        "Kuwaataay"
     ],
     "Kwato": [
         "Waube"
