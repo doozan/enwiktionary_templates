@@ -1,8 +1,9 @@
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data (revision: 91720115)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 89564888)
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/qualifiers (revision: 92388685)
 # Data from: https://en.wiktionary.org/wiki/Module:labels/data/regional (revision: 90804660)
-# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 91750876)
-labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpace': True},
+# Data from: https://en.wiktionary.org/wiki/Module:labels/data/topical (revision: 92387865)
+labels =  {   '(?)': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpace': True},
+    ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpace': True},
     '-': {'omit_postComma': True, 'omit_postSpace': True, 'omit_preComma': True, 'omit_preSpace': True},
     '2channel slang': {'display': '[[w:2channel|2channel]] {{glossary|slang}}', 'pos_categories': ['internet slang', '2channel slang']},
     '3D printing': {'Wikidata': 'Q229367', 'Wikipedia': True, 'Wiktionary': '3D printing#Noun', 'topical_categories': True},
@@ -10,6 +11,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     '4chan lgbt': {'display': '[[w:4chan|4chan]] /lgbt/ {{glossary|slang}}', 'pos_categories': '4chan /lgbt/ slang'},
     ':': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpace': True},
     ';': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpace': True},
+    '?': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpace': True},
     'ABDL': {'Wikipedia': True, 'Wiktionary': True, 'topical_categories': True},
     'ACG': {'display': '[[ACG]]', 'pos_categories': 'fandom slang'},
     'Abrahamism': {'Wiktionary': 'Abrahamism#Noun', 'topical_categories': True},
@@ -420,6 +422,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'ceramics': {'Wiktionary': True, 'topical_categories': True},
     'cheerleading': {'Wiktionary': 'cheerleading#Noun', 'topical_categories': True},
     'chemical element': {'display': '[[chemistry]]', 'topical_categories': 'Chemical elements'},
+    'chemical element symbol': {'display': '[[chemistry]]', 'plain_categories': 'Chemical element symbols'},
     'chemical engineering': {'Wiktionary': True, 'topical_categories': True},
     'chemistry': {'Wiktionary': True, 'topical_categories': True},
     'chess': {'Wiktionary': True, 'topical_categories': True},
@@ -585,7 +588,6 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'electrodynamics': {'Wiktionary': True, 'topical_categories': True},
     'electromagnetism': {'Wiktionary': True, 'topical_categories': True},
     'electronics': {'Wiktionary': True, 'topical_categories': True},
-    'element symbol': {'display': '[[chemistry]]', 'plain_categories': 'Symbols for chemical elements'},
     'elongated': {'glossary': True, 'pos_categories': 'elongated forms'},
     'embryology': {'Wiktionary': True, 'topical_categories': True},
     'emergency medicine': {'Wiktionary': True, 'topical_categories': True},
@@ -971,7 +973,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'nutrition': {'Wiktionary': True, 'topical_categories': True},
     'object-oriented programming': {'Wiktionary': True, 'topical_categories': True},
     'obsolete': {'glossary': True, 'sense_categories': True},
-    'obsolete element symbol': {'display': '[[chemistry]], [[obsolete]]', 'plain_categories': 'Obsolete symbols for chemical elements'},
+    'obsolete chemical element symbol': {'display': '[[chemistry]], [[obsolete]]', 'plain_categories': 'Obsolete chemical element symbols'},
     'obsolete form': {'display': 'obsolete', 'glossary': 'obsolete', 'pos_categories': 'obsolete forms'},
     'obsolete term': {'glossary': 'obsolete', 'pos_categories': 'obsolete terms'},
     'obstetrics': {'Wiktionary': True, 'topical_categories': True},
@@ -1045,6 +1047,7 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'phonology': {'Wiktionary': True, 'topical_categories': True},
     'photography': {'Wiktionary': True, 'topical_categories': True},
     'phrenology': {'Wiktionary': True, 'topical_categories': True},
+    'phycology': {'Wiktionary': True, 'topical_categories': True},
     'physical chemistry': {'Wiktionary': True, 'topical_categories': True},
     'physical quantity': {'display': '[[physics]]', 'topical_categories': 'Physical quantities'},
     'physics': {'Wiktionary': True, 'topical_categories': True},
@@ -1257,7 +1260,8 @@ labels =  {   ',': {'omit_postComma': True, 'omit_preComma': True, 'omit_preSpac
     'swords': {'display': '[[sword]]s', 'topical_categories': True},
     'syncopated': {'glossary': True, 'pos_categories': 'syncopic forms'},
     'synecdochic': {'glossary': True, 'pos_categories': 'synecdoches'},
-    'systematic element symbol': {'display': '[[chemistry]]', 'plain_categories': 'Systematic chemical symbols'},
+    'syntax': {'Wiktionary': True, 'topical_categories': True},
+    'systematic chemical element symbol': {'display': '[[chemistry]]', 'plain_categories': 'Systematic chemical element symbols'},
     'systematics': {'Wiktionary': True, 'topical_categories': 'Taxonomy'},
     'systems engineering': {'Wiktionary': True, 'topical_categories': True},
     'systems theory': {'Wiktionary': True, 'topical_categories': True},
