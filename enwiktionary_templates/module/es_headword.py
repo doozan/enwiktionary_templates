@@ -142,14 +142,14 @@ def handle_multiword(form, special, inflect):
         first, middle, last = m.groups()
         return add_endings(add_endings(inflect(first), middle), inflect(last))
     elif special == "last":
-        m = rmatch(form, "^(.* )(.+?)$")
+        m = rmatch(form, "^(.*[- ])(.+?)$")
         if not m:
-            ValueError("Special indicator 'last' can only be used with a multiword term: " + form)
+            raise ValueError("Special indicator 'last' can only be used with a multiword term: " + form)
 
         rest, last = m.groups()
         return add_endings(rest, inflect(last))
     elif special:
-        ValueError("Unrecognized special=" + special)
+        raise ValueError("Unrecognized special=" + special)
 
     if " " in form:
         # check for prepositions in the middle of the word; do it this way so we can handle
