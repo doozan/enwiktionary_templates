@@ -119,7 +119,6 @@ ALL_LANG_IDS = {
     "aft": "Afitti",
     "afu": "Awutu",
     "afz": "Obokuitai",
-    "aga": "Aguano",
     "agb": "Legbo",
     "agc": "Agatu",
     "agd": "Agarabi",
@@ -450,7 +449,7 @@ ALL_LANG_IDS = {
     "aub": "Alugu",
     "auc": "Huaorani",
     "aud": "Anuta",
-    "auf-pro": "Proto-Arawa",
+    "auf-pro": "Proto-Arawan",
     "aug": "Aguna",
     "auh": "Aushi",
     "aui": "Anuki",
@@ -852,7 +851,7 @@ ALL_LANG_IDS = {
     "bkz": "Bungku",
     "bla": "Blackfoot",
     "blb": "Bilua",
-    "blc": "Bella Coola",
+    "blc": "Nuxalk",
     "bld": "Bolango",
     "ble": "Balanta-Kentohe",
     "blf": "Buol",
@@ -2342,6 +2341,7 @@ ALL_LANG_IDS = {
     "gri": "Ghari",
     "grj": "Southern Grebo",
     "grk-cal": "Calabrian Greek",
+    "grk-car": "Cargesian Greek",
     "grk-ita": "Italiot Greek",
     "grk-mar": "Mariupol Greek",
     "grk-pro": "Proto-Hellenic",
@@ -4642,7 +4642,7 @@ ALL_LANG_IDS = {
     "nai-kum": "Kumeyaay",
     "nai-mac": "Macoris",
     "nai-mdu-pro": "Proto-Maidun",
-    "nai-miz-pro": "Proto-Mixe-Zoque",
+    "nai-miz-pro": "Proto-Mixe-Zoquean",
     "nai-mus-pro": "Proto-Muskogean",
     "nai-nao": "Naolan",
     "nai-nrs": "New River Shasta",
@@ -5963,6 +5963,7 @@ ALL_LANG_IDS = {
     "sai-jko": "Jeikó",
     "sai-jrj": "Jirajara",
     "sai-kat": "Katembri",
+    "sai-krp": "Karipuna (Panoan)",
     "sai-mal": "Malalí",
     "sai-mar": "Maratino",
     "sai-mat": "Matanawi",
@@ -5986,6 +5987,7 @@ ALL_LANG_IDS = {
     "sai-pnz": "Panzaleo",
     "sai-prh": "Puruhá",
     "sai-ptg": "Patagón",
+    "sai-ptx": "Pataxó",
     "sai-pur": "Purukotó",
     "sai-pyg": "Payaguá",
     "sai-pyk": "Pykobjê",
@@ -6315,7 +6317,7 @@ ALL_LANG_IDS = {
     "smf": "Auwe",
     "smg": "Simbali",
     "smh": "Samei",
-    "smi-pro": "Proto-Samic",
+    "smi-pro": "Proto-Sami",
     "smj": "Lule Sami",
     "smk": "Bolinao",
     "sml": "Central Sama",
@@ -7004,6 +7006,7 @@ ALL_LANG_IDS = {
     "tuo": "Tucano",
     "tup-gua-pro": "Proto-Tupi-Guarani",
     "tup-kab": "Kabishiana",
+    "tup-kaw": "Kawahiva",
     "tup-pro": "Proto-Tupian",
     "tuq": "Tedaga",
     "tus": "Tuscarora",
@@ -8331,7 +8334,6 @@ ALL_LANGS = {
     "Agob": "kit",
     "Agoi": "ibm",
     "Aguacateca": "agu",
-    "Aguano": "aga",
     "Aguaruna": "agr",
     "Aguna": "aug",
     "Agusan Manobo": "msm",
@@ -9009,7 +9011,6 @@ ALL_LANGS = {
     "Beli (New Guinea)": "bey",
     "Beli (South Sudan)": "blm",
     "Belizean Creole": "bzj",
-    "Bella Coola": "blc",
     "Bellari": "brw",
     "Belter Creole": "art-bel",
     "Bemba": "bem",
@@ -9405,6 +9406,7 @@ ALL_LANGS = {
     "Caramanta": "crf",
     "Caranqui": "sai-caq",
     "Carapana": "cbc",
+    "Cargesian Greek": "grk-car",
     "Carian": "xcr",
     "Cariay": "awd-kar",
     "Caribbean Hindustani": "hns",
@@ -11223,6 +11225,7 @@ ALL_LANGS = {
     "Karian": "bql",
     "Karingani": "kgn",
     "Karipuna": "kuq",
+    "Karipuna (Panoan)": "sai-krp",
     "Karipúna Creole French": "kmv",
     "Kariri": "kzw",
     "Karitiâna": "ktn",
@@ -11274,6 +11277,7 @@ ALL_LANGS = {
     "Kavalan": "ckv",
     "Kavet": "krv",
     "Kawacha": "kcb",
+    "Kawahiva": "tup-kaw",
     "Kawaiisu": "xaw",
     "Kawe": "kgb",
     "Kawishana": "awd-kaw",
@@ -13422,6 +13426,7 @@ ALL_LANGS = {
     "Nusa Laut": "nul",
     "Nusu": "nuf",
     "Nutabe": "cba-nut",
+    "Nuxalk": "blc",
     "Nyabwa": "nwb",
     "Nyagrong Minyag": "ero-nya",
     "Nyah Kur": "cbn",
@@ -13796,6 +13801,7 @@ ALL_LANGS = {
     "Patagón": "sai-ptg",
     "Patamona": "pbc",
     "Patani": "ptn",
+    "Pataxó": "sai-ptx",
     "Pataxó Hã-Hã-Hãe": "pth",
     "Patep": "ptp",
     "Pathiya": "pty",
@@ -13979,8 +13985,8 @@ ALL_LANGS = {
     "Proto-Anatolian": "ine-ana-pro",
     "Proto-Andian": "cau-and-pro",
     "Proto-Apachean": "apa-pro",
-    "Proto-Arawa": "auf-pro",
     "Proto-Arawak": "awd-pro",
+    "Proto-Arawan": "auf-pro",
     "Proto-Armenian": "hyx-pro",
     "Proto-Arnhem": "aus-arn-pro",
     "Proto-Aroid": "omv-aro-pro",
@@ -14134,7 +14140,7 @@ ALL_LANGS = {
     "Proto-Micronesian": "poz-mic-pro",
     "Proto-Mienic": "hmx-mie-pro",
     "Proto-Min": "zhx-min-pro",
-    "Proto-Mixe-Zoque": "nai-miz-pro",
+    "Proto-Mixe-Zoquean": "nai-miz-pro",
     "Proto-Mixtec": "omq-mxt-pro",
     "Proto-Mixtecan": "omq-mix-pro",
     "Proto-Mon-Khmer": "mkh-pro",
@@ -14201,7 +14207,7 @@ ALL_LANGS = {
     "Proto-Saka": "xsc-sak-pro",
     "Proto-Saka-Wakhi": "xsc-skw-pro",
     "Proto-Salish": "sal-pro",
-    "Proto-Samic": "smi-pro",
+    "Proto-Sami": "smi-pro",
     "Proto-Samoyedic": "syd-pro",
     "Proto-Sanglechi-Ishkashimi": "ira-sgi-pro",
     "Proto-Sara": "csu-sar-pro",
@@ -17569,6 +17575,9 @@ ALT_LANGS = {
     "Belizean Kriol": [
         "Belizean Creole"
     ],
+    "Bella Coola": [
+        "Nuxalk"
+    ],
     "Belorussian": [
         "Belarusian"
     ],
@@ -18027,11 +18036,20 @@ ALT_LANGS = {
     "Caravare": [
         "Kuruáya"
     ],
+    "Cargese Greek": [
+        "Cargesian Greek"
+    ],
     "Caribbean Bhojpuri": [
         "Caribbean Hindustani"
     ],
     "Carihiahy": [
         "Cariay"
+    ],
+    "Caripuna": [
+        "Karipuna (Panoan)"
+    ],
+    "Caripuná": [
+        "Karipuna (Panoan)"
     ],
     "Caritiana": [
         "Karitiâna"
@@ -19302,6 +19320,9 @@ ALT_LANGS = {
     "Greco-Bactrian": [
         "Bactrian"
     ],
+    "Greco-Corsican": [
+        "Cargesian Greek"
+    ],
     "Green Miao": [
         "Green Hmong"
     ],
@@ -19930,11 +19951,17 @@ ALT_LANGS = {
     "Jatvingian": [
         "Sudovian"
     ],
+    "Jau-Navo": [
+        "Karipuna (Panoan)"
+    ],
     "Jauari": [
         "Ỹaroamë"
     ],
     "Jawari": [
         "Ỹaroamë"
+    ],
+    "Jaũn Àvo": [
+        "Karipuna (Panoan)"
     ],
     "Jeico": [
         "Jeikó"
@@ -20121,6 +20148,12 @@ ALT_LANGS = {
     ],
     "Kaguru": [
         "Kagulu"
+    ],
+    "Kagwahib": [
+        "Kawahiva"
+    ],
+    "Kagwahíb": [
+        "Kawahiva"
     ],
     "Kaibara": [
         "Vinitiri"
@@ -20421,6 +20454,18 @@ ALT_LANGS = {
     ],
     "Kaure-Narau": [
         "Kaure"
+    ],
+    "Kawahib": [
+        "Kawahiva"
+    ],
+    "Kawahiba": [
+        "Kawahiva"
+    ],
+    "Kawahíb": [
+        "Kawahiva"
+    ],
+    "Kawahíva": [
+        "Kawahiva"
     ],
     "Kawi": [
         "Old Javanese"
@@ -22508,11 +22553,8 @@ ALT_LANGS = {
     "Nuosu Yi": [
         "Nuosu"
     ],
-    "Nuxalk": [
-        "Bella Coola"
-    ],
     "Nuxálk": [
-        "Bella Coola"
+        "Nuxalk"
     ],
     "Nyahkur": [
         "Nyah Kur"
@@ -22985,6 +23027,15 @@ ALT_LANGS = {
     "Passé": [
         "Pasé"
     ],
+    "Patachó": [
+        "Pataxó"
+    ],
+    "Patashó": [
+        "Pataxó"
+    ],
+    "Pataxo": [
+        "Pataxó"
+    ],
     "Patois": [
         "Picard"
     ],
@@ -23176,10 +23227,10 @@ ALT_LANGS = {
         "Proto-Apachean"
     ],
     "Proto-Arauan": [
-        "Proto-Arawa"
+        "Proto-Arawan"
     ],
-    "Proto-Arawan": [
-        "Proto-Arawa"
+    "Proto-Arawa": [
+        "Proto-Arawan"
     ],
     "Proto-Avar-Andi": [
         "Proto-Avaro-Andian"
@@ -23262,8 +23313,8 @@ ALT_LANGS = {
     "Proto-Mazatecan": [
         "Proto-Mazatec"
     ],
-    "Proto-Mixe-Zoquean": [
-        "Proto-Mixe-Zoque"
+    "Proto-Mixe-Zoque": [
+        "Proto-Mixe-Zoquean"
     ],
     "Proto-Mundan": [
         "Proto-Munda"
@@ -23313,8 +23364,8 @@ ALT_LANGS = {
     "Proto-Sam": [
         "Proto-Somaloid"
     ],
-    "Proto-Sami": [
-        "Proto-Samic"
+    "Proto-Samic": [
+        "Proto-Sami"
     ],
     "Proto-Scandinavian": [
         "Proto-Norse"
@@ -24203,6 +24254,9 @@ ALT_LANGS = {
     ],
     "Southern Olonetsian": [
         "Livvi"
+    ],
+    "Southern Pataxó": [
+        "Pataxó"
     ],
     "Southern Pimi": [
         "Southern Pumi"
