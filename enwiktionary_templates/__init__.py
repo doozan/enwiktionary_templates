@@ -1043,6 +1043,8 @@ class Template():
     def synonyms(t, title):
         return "; ".join(Template._qualified_list(t, title))
 
+    nsyn = synonyms
+
     @staticmethod
     def suffix(t, title):
         base = t.get(2, "")
