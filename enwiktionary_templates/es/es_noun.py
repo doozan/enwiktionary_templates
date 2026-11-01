@@ -25,6 +25,12 @@ import sys
 def es_noun(t, title):
     args = convert_template_params(t)
 
+    # sloppy bug workaround
+    # pl=+ doesn't do anything, but causes a crash
+    for p in ["mpl", "fpl"]:
+        if args.get(p) == "+":
+            del args[p]
+
     fix_forms = {'p': 'pl'}
     form_types = {
         "masculine": "m",
