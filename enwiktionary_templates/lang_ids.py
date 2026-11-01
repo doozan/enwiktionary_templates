@@ -216,6 +216,7 @@ ALL_LANG_IDS = {
     "ale": "Aleut",
     "alf": "Alege",
     "alg-aga": "Agawam",
+    "alg-eas-pro": "Proto-Eastern Algonquian",
     "alg-pro": "Proto-Algonquian",
     "alh": "Alawa",
     "ali": "Amaimon",
@@ -259,7 +260,7 @@ ALL_LANG_IDS = {
     "amb": "Ambo",
     "amc": "Amahuaca",
     "ame": "Yanesha'",
-    "amf": "Hamer-Banna",
+    "amf": "Hamar",
     "amg": "Amurdag",
     "ami": "Amis",
     "amj": "Amdang",
@@ -10570,8 +10571,8 @@ ALL_LANGS = {
     "Halia": "hla",
     "Halkomelem": "hur",
     "Hamap": "hmu",
+    "Hamar": "amf",
     "Hamba": "hba",
-    "Hamer-Banna": "amf",
     "Hamtai": "hmt",
     "Hanga": "hag",
     "Hanga Hundi": "wos",
@@ -14048,6 +14049,7 @@ ALL_LANGS = {
     "Proto-Dargwa": "cau-drg-pro",
     "Proto-Dizoid": "omv-diz-pro",
     "Proto-Dravidian": "dra-pro",
+    "Proto-Eastern Algonquian": "alg-eas-pro",
     "Proto-Eastern Jebel": "sdv-eje-pro",
     "Proto-Eastern Malayo-Polynesian": "pqe-pro",
     "Proto-Eastern Oti-Volta": "nic-eov-pro",
@@ -19537,11 +19539,29 @@ ALT_LANGS = {
     "Haitian": [
         "Haitian Creole"
     ],
+    "Haka": [
+        "Lai"
+    ],
+    "Haka Chin": [
+        "Lai"
+    ],
+    "Hakha": [
+        "Lai"
+    ],
+    "Hakha Chin": [
+        "Lai"
+    ],
     "Halegannada": [
         "Old Kannada"
     ],
     "Hamday": [
         "Hamtai"
+    ],
+    "Hamer": [
+        "Hamar"
+    ],
+    "Hamer-Banna": [
+        "Hamar"
     ],
     "Hamito-Semitic": [
         "Proto-Afroasiatic"
@@ -23050,6 +23070,9 @@ ALT_LANGS = {
     ],
     "Paviotso": [
         "Northern Paiute"
+    ],
+    "Pawi": [
+        "Lai"
     ],
     "Payagua": [
         "Payaguá"
